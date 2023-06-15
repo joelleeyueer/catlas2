@@ -7,10 +7,13 @@ import { Observable } from 'rxjs';
 })
 export class CatService {
 
+  private apiURI = 'http://localhost:8080';
+
+
   constructor(private http: HttpClient) { }
 
   sendCoordinates( latitude: number, longitude: number): Observable<any> {
-    const url = `/search?long=${longitude}&lat=${latitude}`;
+    const url = `${this.apiURI}/search?long=${longitude}&lat=${latitude}`;
     return this.http.get(url);
 
   }
