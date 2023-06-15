@@ -19,15 +19,23 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.json.JsonObject;
+import nus.iss.server.Repositories.CatRepository;
+
 @RestController
 public class CatController {
+
+    @Autowired
+    private CatRepository catRepository;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> searchCats(@RequestParam("long") Double longitude, @RequestParam("lat") Double latitude) {
         System.out.println("longitude is " + longitude);
         System.out.println("latitude is " + latitude);
-        return new ResponseEntity<String>("received", HttpStatus.OK);
+
+        JsonObject incomingJson = catRepository.getCats();
+        return new ResponseEntity<String>(incomingJson.toString(), HttpStatus.OK);
     }
     
 }
