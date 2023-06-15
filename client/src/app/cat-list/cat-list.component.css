@@ -1,0 +1,31 @@
+.container {
+    width: 50%;
+  }
+  
+  input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .cat-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    overflow-y: auto;
+    max-height: 70vh;
+  }
+  
+  .cat-item {
+    flex-basis: 45%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+  }
+  
+  .cat-item img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
