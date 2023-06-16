@@ -1,5 +1,5 @@
 <div class="home-container">
-    <app-cat-list></app-cat-list>
-    <app-cat-map></app-cat-map>
-  </div>
+  <app-cat-list (catsUpdated)="onCatsUpdated($event)"></app-cat-list>
+  <app-cat-map [cats]="cats"></app-cat-map>  
+</div>
   

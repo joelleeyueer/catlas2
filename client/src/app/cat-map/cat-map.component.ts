@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Loader } from '@googlemaps/js-api-loader';
+import { Cat } from '../model/model';
 
 @Component({
   selector: 'app-cat-map',
@@ -11,7 +12,9 @@ export class CatMapComponent implements OnInit {
   title = 'google-maps';
   private map: google.maps.Map | undefined;
 
-  
+  @Input()
+  cats: Cat[] = [];
+
 
   ngOnInit(): void {
     const loader = new Loader({
@@ -31,41 +34,24 @@ export class CatMapComponent implements OnInit {
         zoom: 16
       });
 
-      const catLocations = [
-        { lat: 1.3538, lng: 103.7191 },
-        { lat: 1.3539, lng: 103.7192 },
-        { lat: 1.3540, lng: 103.7193 },
-      ];
-
-      catLocations.forEach((catLocation) => {
-        new google.maps.Marker({
-          position: catLocation,
-          map: this.map,
-        });
-      });
-
-
-      
+      this.updateMarkers()
     });
   }
 
-  // getCurrentLocation(): void {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const latitude = position.coords.latitude;
-  //         const longitude = position.coords.longitude;
-  //         console.log("Latitude: " + latitude);
-  //         console.log("Longitude: " + longitude);
-  //         // Do something with the latitude and longitude values
-  //       },
-  //       (error) => {
-  //         console.log("Error occurred while retrieving location: ", error);
-  //       }
-  //     );
-  //   } else {
-  //     console.log("Geolocation is not supported by this browser.");
-  //   }
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['cats'] && !changes['cats'].isFirstChange() && this.map) {
+      this.updateMarkers();
+    }
+  }
 
+  updateMarkers(): void {
+    this.cats.forEach(cat => {
+      cat.frequentLocations.forEach(loc => {
+        new google.maps.Marker({
+          position: { lat: loc.lat, lng: loc.long },
+          map: this.map,
+        });
+      });
+    });
+  }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Cat } from '../model/model';
 
 @Component({
   selector: 'app-homepage',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent {
+
+  cats!: Cat[];
+
+  onCatsUpdated(cats: Cat[]): void {
+    this.cats = cats;
+  }
 
 }

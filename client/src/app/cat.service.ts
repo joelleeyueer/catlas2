@@ -13,7 +13,7 @@ export class CatService {
 
   constructor(private http: HttpClient) { }
 
-  sendCoordinates( latitude: number, longitude: number): Observable<CatList> {
+  getCats(latitude: number, longitude: number): Observable<CatList> {
     const url = `${this.apiURI}/search?long=${longitude}&lat=${latitude}`;
     return this.http.get<CatList>(url);
 

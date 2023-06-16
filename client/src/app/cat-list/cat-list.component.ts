@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CatService } from '../cat.service';
 import { CatList, Cat } from '../model/model';
+import { Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -14,6 +15,10 @@ export class CatListComponent {
 
   searchForm!: FormGroup;
   cats: Cat[] = [];
+
+  @Output() 
+  catsUpdated: EventEmitter<Cat[]> = new EventEmitter<Cat[]>();
+
 
   // cats = [
   //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 1', latestUpdate: 'Fed by @walnads - 6 hours ago'},
@@ -36,7 +41,7 @@ export class CatListComponent {
     console.log('printing lat and lng' + lat, lng);
   
     if (!isNaN(lat) && !isNaN(lng)) {
-      this.catService.sendCoordinates(lat, lng).subscribe(
+      this.catService.getCats(lat, lng).subscribe(
         (response: CatList) => {
           // Map the response to the format of the cats array
           this.cats = response.cats.map((cat) => {
@@ -48,11 +53,14 @@ export class CatListComponent {
               imageUrl: '/assets/images/nala.jpg',
             }
           });
+          this.catsUpdated.emit(this.cats);
+
         },
         error => {
           console.error('Error occurred while searching for cats:', error);
         }
       );
+      
     } else {
       console.error('Invalid latitude or longitude values');
     }
