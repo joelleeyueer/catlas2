@@ -34,8 +34,13 @@ public class CatController {
         System.out.println("longitude is " + longitude);
         System.out.println("latitude is " + latitude);
 
-        JsonObject incomingJson = catRepository.getCats();
-        return new ResponseEntity<String>(incomingJson.toString(), HttpStatus.OK);
+        JsonObject catJson = catRepository.getCats();
+
+        if (catJson != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(catJson.toString());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No cats found");
+        }
     }
     
 }

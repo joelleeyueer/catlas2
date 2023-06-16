@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
+import { CatList } from './model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ export class CatService {
 
   constructor(private http: HttpClient) { }
 
-  sendCoordinates( latitude: number, longitude: number): Observable<any> {
+  sendCoordinates( latitude: number, longitude: number): Observable<CatList> {
     const url = `${this.apiURI}/search?long=${longitude}&lat=${latitude}`;
-    return this.http.get(url);
+    return this.http.get<CatList>(url);
 
   }
 }
