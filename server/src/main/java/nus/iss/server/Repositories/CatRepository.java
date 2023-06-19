@@ -68,38 +68,5 @@ public class CatRepository {
         }
 
         return catResult;
-    }
-
-    public Update getFedUpdateByCatId(String id) throws Exception {
-        System.out.println("in getFedUpdateByCatId");
-
-        Query latestFedQuery = new Query(Criteria.where("cat").is(id).and("type").is("feed"))
-                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
-                .limit(1);
-        Update fedResult = mongoTemplate.findOne(latestFedQuery, Update.class, "updatecol");
-
-        if (fedResult == null) {
-            System.out.println("fedResult is null");
-            throw new Exception("Cannot find feed updates for cat in database with the cat id: " + id);
-        }
-
-        return fedResult;
-    }
-
-    public Update getSeenUpdateByCatId(String id) throws Exception {
-        System.out.println("in getSeenUpdateByCatId");
-
-        Query latestSeenQuery = new Query(Criteria.where("cat").is(id).and("type").is("seen"))
-                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
-                .limit(1);
-        Update seenResult = mongoTemplate.findOne(latestSeenQuery, Update.class, "updatecol");
-
-        if (seenResult == null) {
-            System.out.println("seenResult is null");
-            throw new Exception("Cannot find seen updates for cat in database with the cat id: " + id);
-        }
-
-        return seenResult;
-    }
-    
+    }   
 }

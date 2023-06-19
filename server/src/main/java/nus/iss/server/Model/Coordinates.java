@@ -1,7 +1,6 @@
 package nus.iss.server.Model;
 
-import java.util.Date;
-
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,12 +9,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Document(collection="updatecol")
-public class Update {
+@Document(collection="coordinatesncol")
+public class Coordinates {
     @Indexed
     private String id;
-    private String type; // i.e. update type like seen or fed
     private String catId;
-    private String username;
-    private Date datetime;
+    private GeoJsonPoint location;
 }

@@ -13,6 +13,7 @@ import lombok.Setter;
 @Document(collection="catcol")
 public class Cat {
     @Indexed
+    private String id;
     private String catId;
     private String name;
     private Integer age;
