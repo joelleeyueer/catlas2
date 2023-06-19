@@ -6,12 +6,17 @@ import java.util.List;
 import org.bson.Document;
 import org.bson.json.JsonWriterSettings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import jakarta.json.*;
+import nus.iss.server.Model.Cat;
+import nus.iss.server.Model.Update;
 
 @Repository
 public class CatRepository {
@@ -27,7 +32,6 @@ public class CatRepository {
 
         // Query query = new Query();
         // query.fields().exclude("_id");
-
     
         List<Document> catlist = mongoTemplate.findAll( Document.class, COLLECTION_NAME);
 
@@ -45,13 +49,57 @@ public class CatRepository {
         }
 
         JsonArray jsonArray = jsonArrayBuilder.build();
-
         JsonObject jsonObject = Json.createObjectBuilder()
                 .add("cats", jsonArray)
                 .build();
 
-
         return jsonObject;
+    }
+
+    public Cat getCatByCatId(String id) throws Exception {
+        System.out.println("in getCatByCatId");
+
+        Query query = new Query(Criteria.where("catId").is(id));
+        Cat catResult = mongoTemplate.findOne(query, Cat.class, COLLECTION_NAME);
+
+        if (catResult == null) {
+            System.out.println("catResult is null");
+            throw new Exception("Cannot find cat in database with the id: " + id);
+        }
+
+        return catResult;
+    }
+
+    public Update getFedUpdateByCatId(String id) throws Exception {
+        System.out.println("in getFedUpdateByCatId");
+
+        Query latestFedQuery = new Query(Criteria.where("cat").is(id).and("type").is("feed"))
+                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
+                .limit(1);
+        Update fedResult = mongoTemplate.findOne(latestFedQuery, Update.class, "updatecol");
+
+        if (fedResult == null) {
+            System.out.println("fedResult is null");
+            throw new Exception("Cannot find feed updates for cat in database with the cat id: " + id);
+        }
+
+        return fedResult;
+    }
+
+    public Update getSeenUpdateByCatId(String id) throws Exception {
+        System.out.println("in getSeenUpdateByCatId");
+
+        Query latestSeenQuery = new Query(Criteria.where("cat").is(id).and("type").is("seen"))
+                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
+                .limit(1);
+        Update seenResult = mongoTemplate.findOne(latestSeenQuery, Update.class, "updatecol");
+
+        if (seenResult == null) {
+            System.out.println("seenResult is null");
+            throw new Exception("Cannot find seen updates for cat in database with the cat id: " + id);
+        }
+
+        return seenResult;
     }
     
 }
