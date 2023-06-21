@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Document(collection="coordinatesncol")
 public class Coordinates {
-    @Indexed
     // private String id;
     private String catId;
+    @Indexed
     private GeoJsonPoint location;
 }

@@ -3,6 +3,7 @@ package nus.iss.server.Controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,12 @@ public class CatController {
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> searchCats(@RequestParam("address") String incomingAddress) {
         System.out.println("Incoming address: " + incomingAddress);
-        SearchCoordinates searchCoordinates = geocodingService.getGeocoding(incomingAddress).get();
-
+        Optional<SearchCoordinates> coordinates = geocodingService.getGeocoding(incomingAddress);
+                    System.out.println("Coordinates: " + coordinates);
+                    if (!coordinates.isPresent()) {
+                        System.out.println("Coordinates not found");
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                    }
         JsonObject catJson = catRepository.getCats();
 
         if (catJson != null) {
@@ -95,19 +100,19 @@ public class CatController {
         }
     }
 
-    @CrossOrigin(origins = "*")
-    @GetMapping(value = "/getAllCatsWithinRadius", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllCatsWithinRadius(@PathParam("catId") String catId, 
-        @PathParam("longitude") Double longitude, @PathParam("latitude") Double latitude, @PathParam("radius") Double radius) {
+    // @CrossOrigin(origins = "*")
+    // @GetMapping(value = "/getAllCatsWithinRadius", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity<String> getAllCatsWithinRadius(@PathParam("catId") String catId, 
+    //     @PathParam("longitude") Double longitude, @PathParam("latitude") Double latitude, @PathParam("radius") Double radius) {
 
-        try {
-            List<Coordinates> coordinates = coordinatesRepository.getAllCatsWithinRadius(catId, longitude, latitude, radius);
-            String coordinatesJson = objectMapper.writeValueAsString(coordinates);
-            return ResponseEntity.status(HttpStatus.OK).body(coordinatesJson.toString());
+    //     try {
+    //         List<Coordinates> coordinates = coordinatesRepository.getAllCatsWithinRadius(catId, longitude, latitude, radius);
+    //         String coordinatesJson = objectMapper.writeValueAsString(coordinates);
+    //         return ResponseEntity.status(HttpStatus.OK).body(coordinatesJson.toString());
 
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cats within radius");
-        }
-    }
+    //     } catch (Exception e) {
+    //         System.out.println(e.toString());
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cats within radius");
+    //     }
+    // }
 }

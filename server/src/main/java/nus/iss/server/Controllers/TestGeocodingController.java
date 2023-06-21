@@ -27,7 +27,9 @@ public class TestGeocodingController {
     public ResponseEntity<String> getGeocoding(@PathVariable String address) {
         try {
             Optional<SearchCoordinates> coordinates = geocodingService.getGeocoding(address);
+            System.out.println("Coordinates: " + coordinates);
             if (!coordinates.isPresent()) {
+                System.out.println("Coordinates not found");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 

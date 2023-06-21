@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import nus.iss.server.Model.Coordinates;
+import nus.iss.server.Model.SearchCoordinates;
 
 @Repository
 public class CoordinatesRepository {
@@ -19,11 +20,11 @@ public class CoordinatesRepository {
 
     private static final String COLLECTION_NAME = "coordinatescol";
     
-    public List<Coordinates> getAllCatsWithinRadius(String catId, Double longitude, Double latitude, Double radius) {
+    public List<Coordinates> getAllCatsWithinRadius(SearchCoordinates coordinates, Double radiusMetres) {
        
         Query query = new Query();
-        query.addCriteria(Criteria.where("catId").is(catId));
-        query.addCriteria(Criteria.where("location").withinSphere(new Circle(longitude, latitude, radius)));
+        query.addCriteria(Criteria.where("location")
+            .withinSphere(new Circle(coordinates.getLongitude(), coordinates.getLatitude(), radiusMetres)));
 
         List<Coordinates> result = mongoTemplate.find(query, Coordinates.class, COLLECTION_NAME);
 

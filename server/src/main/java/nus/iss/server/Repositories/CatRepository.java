@@ -41,7 +41,6 @@ public class CatRepository {
 
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
         for (Document currentCat : catlist) {
-            System.out.println("in here");
             currentCat.remove("_id");
             // System.out.println(currentCat.toString());
             jsonArrayBuilder.add(Json.createReader(new StringReader(currentCat.toJson())).readObject());
@@ -68,5 +67,18 @@ public class CatRepository {
         }
 
         return catResult;
-    }   
+    }
+
+    public List<Cat> getAllCatsByCatId(List<String> catIdsList){
+
+        Query query = new Query(Criteria.where("catId").in(catIdsList));
+        List<Cat> catResults = mongoTemplate.find(query, Cat.class, COLLECTION_NAME);
+
+        if (catResults.isEmpty()) {
+            System.out.println("catResults is empty");
+            return null;
+        }
+
+        return catResults;
+    }
 }

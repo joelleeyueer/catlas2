@@ -49,7 +49,7 @@ public class GoogleGeocodingService {
             JsonArray results = obj.getJsonArray("results");
 
             if (results.isEmpty()) {
-                System.out.println("No results found");
+                System.out.println("No results found first if");
                 return Optional.empty();
             }
 
@@ -62,17 +62,15 @@ public class GoogleGeocodingService {
             System.out.println("lat: " + lat + " lng: " + lng);
 
             if (lat == null || lng == null) {
-                System.out.println("No results found");
+                System.out.println("No results found second if");
                 return Optional.empty();
             }
 
             return Optional.of(new SearchCoordinates(lat, lng));
 
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            System.out.println("Error in url: " + url);
-            
-            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block   
+            System.out.println("in catch");
             return Optional.empty();
         }
         
