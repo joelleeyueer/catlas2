@@ -1,7 +1,9 @@
 package nus.iss.server.Services;
 
+import java.io.StringReader;
 import java.net.URI;
-import java.util.List;
+import java.net.URISyntaxException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import nus.iss.server.Model.SearchCoordinates;
 
 @Service
@@ -22,7 +28,7 @@ public class GoogleGeocodingService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public SearchCoordinates getGeocoding(String address) {
+    public Optional<SearchCoordinates> getGeocoding(String address) {
         String googleapi = "https://maps.googleapis.com/maps/api/geocode/json";
 
         String url = UriComponentsBuilder
@@ -32,19 +38,44 @@ public class GoogleGeocodingService {
                 .toUriString();
 
         // ResponseEntity<String> response = restTemplate.getForEntity(builder.toUriString(), String.class);
-        RequestEntity<Void> request = RequestEntity.get(new URI(url)).build();
+        try {
+            RequestEntity<Void> request;
+            request = RequestEntity.get(new URI(url)).build();
+            ResponseEntity<String> response = restTemplate.exchange(request, String.class);
+            String body = response.getBody();
+            System.out.println(body);
+            JsonReader reader = Json.createReader(new StringReader(body));
+            JsonObject obj = reader.readObject();
+            JsonArray results = obj.getJsonArray("results");
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            if (results.isEmpty()) {
+                System.out.println("No results found");
+                return Optional.empty();
+            }
+
+            JsonObject locationObj = results.getJsonObject(0)
+                                    .getJsonObject("geometry")
+                                    .getJsonObject("location");
+
+            Double lat = locationObj.getJsonNumber("lat").doubleValue();
+            Double lng = locationObj.getJsonNumber("lng").doubleValue();
+            System.out.println("lat: " + lat + " lng: " + lng);
+
+            if (lat == null || lng == null) {
+                System.out.println("No results found");
+                return Optional.empty();
+            }
+
+            return Optional.of(new SearchCoordinates(lat, lng));
+
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            System.out.println("Error in url: " + url);
+            
+            e.printStackTrace();
+            return Optional.empty();
+        }
         
-        // List<String> results = response.getBody().getResults();
-        // if (results != null && !results.isEmpty()) {
-        //     Double lat = results.get(0).getGeometry().getLocation().getLat();
-        //     Double lng = results.get(0).getGeometry().getLocation().getLng();
-        //     return new SearchCoordinates(lat, lng);
-        // }
-
-        return null;
     }
     
 }
