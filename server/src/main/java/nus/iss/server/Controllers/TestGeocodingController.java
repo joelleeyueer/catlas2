@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.Json;
+import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Services.GoogleGeocodingService;
@@ -31,14 +32,28 @@ public class TestGeocodingController {
             }
 
             SearchCoordinates searchCoordinates = coordinates.get();
-            JsonObject searchCoordinatesJson = Json.createObjectBuilder()
-            .add("lat", searchCoordinates.getLatitude())
-            .add("lng", searchCoordinates.getLongitude())
-            .build();
+            
+            JsonObject resultJson = createJsonObject(searchCoordinates);
 
-            return ResponseEntity.status(HttpStatus.OK).body(searchCoordinatesJson.toString());
+
+
+            return ResponseEntity.status(HttpStatus.OK).body(resultJson.toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    private JsonObject createJsonObject(SearchCoordinates searchCoordinates) {
+        JsonObject searchCoordinatesJson = Json.createObjectBuilder()
+        .add("lat", searchCoordinates.getLatitude())
+        .add("lng", searchCoordinates.getLongitude())
+        .build();
+        JsonArray arrayJson = Json.createArrayBuilder()
+        .add(searchCoordinatesJson)
+        .build();
+        JsonObject resultJson = Json.createObjectBuilder()
+        .add("searchCoordinates", arrayJson)
+        .build();
+        return resultJson;
     }
 }

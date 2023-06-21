@@ -14,8 +14,8 @@ export class CatService {
   constructor(private http: HttpClient) { }
 
   //TODO: change to get cats by location with place autocomplete
-  getCats(latitude: number, longitude: number): Observable<CatList> {
-    const url = `${this.apiURI}/search?long=${longitude}&lat=${latitude}`;
+  getCats(address: String): Observable<CatList> {
+    const url = `${this.apiURI}/search?address=${address}`;
     return this.http.get<CatList>(url);
 
   }

@@ -20,15 +20,6 @@ export class CatListComponent {
   catsUpdated: EventEmitter<Cat[]> = new EventEmitter<Cat[]>();
 
 
-  // cats = [
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 1', latestUpdate: 'Fed by @walnads - 6 hours ago'},
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 2', latestUpdate: 'Fed by @illeeterate - 2 hours ago'},
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 3', latestUpdate: 'Fed by @anotheruser - 1 day ago'},
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 4', latestUpdate: 'Fed by @walnads - 6 hours ago'},
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 5', latestUpdate: 'Fed by @username - 2 hours ago'},
-  //   {imageUrl: '/assets/images/nala.jpg', name: 'Cat 6', latestUpdate: 'Fed by @anotheruser - 1 day ago'},
-  // ];
-
   constructor(private fb: FormBuilder, private router: Router, private catService: CatService) { }
 
   ngOnInit(): void {
@@ -37,11 +28,10 @@ export class CatListComponent {
 
   catSearch() {
     const address = this.searchForm.get('addressSearch')?.value;
-    const [lat, lng] = address.split(',').map((coord: string) => parseFloat(coord.trim()));
-    console.log('printing lat and lng' + lat, lng);
+    
   
-    if (!isNaN(lat) && !isNaN(lng)) {
-      this.catService.getCats(lat, lng).subscribe(
+    if (!isNaN(address)) {
+      this.catService.getCats(address).subscribe(
         (response: CatList) => {
           // Map the response to the format of the cats array
           this.cats = response.cats.map((cat) => {
@@ -62,7 +52,7 @@ export class CatListComponent {
       );
       
     } else {
-      console.error('Invalid latitude or longitude values');
+      console.error('Invalid address values');
     }
   }
   
