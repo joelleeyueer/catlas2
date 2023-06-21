@@ -13,3 +13,5 @@ public class SearchCoordinates {
     private Double longitude;
     
 }
+
+
