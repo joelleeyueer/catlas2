@@ -42,7 +42,10 @@ public class CatSearchService {
             System.out.println("Coordinates: " + coordinates);
             if (!coordinates.isPresent()) {
                 System.out.println("Coordinates not found");
-                return null;
+                JsonObject errorJson = Json.createObjectBuilder()
+                    .add("error", "address is invalid")
+                    .build();
+                return errorJson;
             }
 
         SearchCoordinates newCoordinates = coordinates.get();
@@ -52,7 +55,10 @@ public class CatSearchService {
 
         if (incomingCatLocations.isEmpty()) {
             System.out.println("No cats found at " + incomingAddress);
-            return null;
+            JsonObject errorJson = Json.createObjectBuilder()
+                    .add("error", "Address is valid, but no cats found at" + incomingAddress)
+                    .build();
+                return errorJson;
         }
 
         List<String> catIdsList = new LinkedList<>();
@@ -99,11 +105,8 @@ public class CatSearchService {
                 .build();
                 catListJsonArrayBuilder.add(catJson);
             }
-            JsonArray catListJson = Json.createArrayBuilder()
-            .add(catListJsonArrayBuilder)
-            .build();
 
-            resultJsonBuilder.add("catList", catListJson);
+            resultJsonBuilder.add("catList", catListJsonArrayBuilder);
             JsonObject resultJson = resultJsonBuilder.build();
             
             return resultJson;
@@ -115,8 +118,8 @@ public class CatSearchService {
             if (catLocation.getCatId().equals(catId)) {
                 GeoJsonPoint location = catLocation.getLocation();
                 JsonObject catLocationJson = Json.createObjectBuilder()
-                .add("lat", location.getX())
-                .add("lng", location.getY())
+                .add("lat", location.getY())
+                .add("lng", location.getX())
                 .build();
                 JsonArray catLocationJsonArray = Json.createArrayBuilder()
                 .add(catLocationJson)

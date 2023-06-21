@@ -26,9 +26,11 @@ import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;
 import nus.iss.server.Repositories.CoordinatesRepository;
 import nus.iss.server.Repositories.UpdateRepository;
+import nus.iss.server.Services.CatSearchService;
 import nus.iss.server.Services.GoogleGeocodingService;
 
 @RestController
+//TODO: change this to requestmapping /api
 public class CatController {
 
     @Autowired
@@ -46,22 +48,28 @@ public class CatController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private CatSearchService catSearchService;
+
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> searchCats(@RequestParam("address") String incomingAddress) {
         System.out.println("Incoming address: " + incomingAddress);
-        Optional<SearchCoordinates> coordinates = geocodingService.getGeocoding(incomingAddress);
-                    System.out.println("Coordinates: " + coordinates);
-                    if (!coordinates.isPresent()) {
-                        System.out.println("Coordinates not found");
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-                    }
-        JsonObject catJson = catRepository.getCats();
+        // Optional<SearchCoordinates> coordinates = geocodingService.getGeocoding(incomingAddress);
+        //             System.out.println("Coordinates: " + coordinates);
+        //             if (!coordinates.isPresent()) {
+        //                 System.out.println("Coordinates not found");
+        //                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        //             }
+        JsonObject catJson = catSearchService.getCatsByLocation(incomingAddress);
+        String catJsonString = catJson.toString();
 
-        if (catJson != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(catJson.toString());
+        if (catJsonString.contains("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(catJsonString);
+        } else if (catJsonString.contains("No cats found")) {
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No cats found");
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
         }
     }
 

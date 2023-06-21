@@ -28,32 +28,27 @@ export class CatListComponent {
 
   catSearch() {
     const address = this.searchForm.get('addressSearch')?.value;
-    
-  
-    if (!isNaN(address)) {
-      this.catService.getCats(address).subscribe(
-        (response: CatList) => {
-          // Map the response to the format of the cats array
-          this.cats = response.cats.map((cat) => {
-            return {
-              name: cat.name,
-              feedingnotes: cat.feedingnotes,
-              frequentLocations: cat.frequentLocations,
-              // Use a default image URL for now
-              imageUrl: '/assets/images/nala.jpg',
-            }
-          });
-          this.catsUpdated.emit(this.cats);
+    this.catService.getCats(address).subscribe(
+      (response: CatList) => {
+        // Map the response to the format of the cats array
+        this.cats = response.cats.map((cat) => {
+          return {
+            name: cat.name,
+            feedingnotes: cat.feedingnotes,
+            frequentLocations: cat.frequentLocations,
+            // Use a default image URL for now
+            imageUrl: '/assets/images/nala.jpg',
+          }
+        });
+        this.catsUpdated.emit(this.cats);
 
-        },
-        error => {
-          console.error('Error occurred while searching for cats:', error);
-        }
-      );
+      },
+      error => {
+        console.error('Error occurred while searching for cats:', error);
+      }
+    );
       
-    } else {
-      console.error('Invalid address values');
-    }
+    
   }
   
 
