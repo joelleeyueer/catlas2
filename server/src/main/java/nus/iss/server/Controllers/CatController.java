@@ -20,10 +20,12 @@ import jakarta.json.JsonObject;
 import jakarta.websocket.server.PathParam;
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Coordinates;
+import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;
 import nus.iss.server.Repositories.CoordinatesRepository;
 import nus.iss.server.Repositories.UpdateRepository;
+import nus.iss.server.Services.GoogleGeocodingService;
 
 @RestController
 public class CatController {
@@ -38,13 +40,16 @@ public class CatController {
     private CoordinatesRepository coordinatesRepository;
 
     @Autowired
+    private GoogleGeocodingService geocodingService;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> searchCats(@RequestParam("long") Double longitude, @RequestParam("lat") Double latitude) {
-        System.out.println("longitude is " + longitude);
-        System.out.println("latitude is " + latitude);
+    public ResponseEntity<String> searchCats(@RequestParam("address") String incomingAddress) {
+        System.out.println("Incoming address: " + incomingAddress);
+        SearchCoordinates searchCoordinates = geocodingService.getGeocoding(incomingAddress).get();
 
         JsonObject catJson = catRepository.getCats();
 
