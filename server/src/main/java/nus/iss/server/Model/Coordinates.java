@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection="coordinatesncol")
+@Document(collection="coordinatescol")
 public class Coordinates {
     // private String id;
     private String catId;

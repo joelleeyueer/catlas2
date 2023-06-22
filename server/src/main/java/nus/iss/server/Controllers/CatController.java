@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -88,12 +89,13 @@ public class CatController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/updates/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getUpdateByCatId(@PathVariable("id") String id) {
+    @GetMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getLatestUpdateByCatId(@PathVariable("id") String id) {
 
         try {
             Update seenUpdate = updateRepository.getSeenUpdateByCatId(id);
             Update fedUpdate = updateRepository.getFedUpdateByCatId(id);
+            // fundraiser
 
             Map<String, Object> combinedJson = new HashMap<>();
             combinedJson.put("seen", seenUpdate);
@@ -106,6 +108,30 @@ public class CatController {
             System.out.println(e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching updates for cat");
         }
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateStatusByCatId(@PathVariable("id") String id) {
+        return null;
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
+        return null;
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/cat/{cat_id}/fundraiser/{fundraiser_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getFundraiserDetailsByFundraiserId(@PathVariable("id") String id) {
+        return null;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "/cat/{cat_id}/fundraiser/{fundraiser_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateFundraiserByFundraiserId(@PathVariable("id") String id) {
+        return null;
     }
 
     // @CrossOrigin(origins = "*")
