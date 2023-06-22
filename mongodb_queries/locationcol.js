@@ -9,7 +9,7 @@ db.locationcol.find({
     $nearSphere: {
       $geometry: {
         type: "Point",
-        coordinates: [103.70441629356324, 1.3432444376383024] // Specify the longitude and latitude of the center point
+        coordinates: [103.719046, 1.353747] // Specify the longitude and latitude of the center point
       },
       $maxDistance: 1000 // Specify the radius in meters
     }

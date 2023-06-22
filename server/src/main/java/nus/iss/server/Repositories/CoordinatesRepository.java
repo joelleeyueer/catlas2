@@ -30,4 +30,10 @@ public class CoordinatesRepository {
         Query query = new Query(criteria);
         return mongoTemplate.find(query, Coordinates.class, COLLECTION_NAME);
     }
+
+    public List<Coordinates> frequentLocationForOneCat(String catId) {
+        System.out.println("in frequentLocationForOneCat");
+        Query query = new Query(Criteria.where("catId").is(catId));
+        return mongoTemplate.find(query, Coordinates.class, COLLECTION_NAME);
+    }
 }

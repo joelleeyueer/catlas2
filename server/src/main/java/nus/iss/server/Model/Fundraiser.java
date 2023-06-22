@@ -1,6 +1,7 @@
 package nus.iss.server.Model;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class Fundraiser {
     private String description;
     private Double goalAmount;
     private Double currentAmount;
+    private List<String> donorIds;
 }

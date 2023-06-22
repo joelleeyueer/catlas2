@@ -1,10 +1,5 @@
 package nus.iss.server.Controllers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,38 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.json.JsonObject;
-import jakarta.websocket.server.PathParam;
-import nus.iss.server.Model.Cat;
-import nus.iss.server.Model.Coordinates;
-import nus.iss.server.Model.SearchCoordinates;
-import nus.iss.server.Model.Update;
-import nus.iss.server.Repositories.CatRepository;
-import nus.iss.server.Repositories.CoordinatesRepository;
-import nus.iss.server.Repositories.UpdateRepository;
 import nus.iss.server.Services.CatSearchService;
-import nus.iss.server.Services.GoogleGeocodingService;
 
 @RestController
 //TODO: change this to requestmapping /api
 public class CatController {
 
-    @Autowired
-    private CatRepository catRepository;
-
-    @Autowired
-    private UpdateRepository updateRepository;
-
-    @Autowired
-    private CoordinatesRepository coordinatesRepository;
-
-    @Autowired
-    private GoogleGeocodingService geocodingService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private CatSearchService catSearchService;
@@ -77,10 +47,12 @@ public class CatController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/cats/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCatByCatId(@PathVariable("id") String id) {
+
+        
         try {
-            Cat cat = catRepository.getCatByCatId(id);
-            String catJson = objectMapper.writeValueAsString(cat);
-            return ResponseEntity.status(HttpStatus.OK).body(catJson);
+            JsonObject catJson = catSearchService.getSingleCatInfo(id);
+            String catJsonString = catJson.toString();
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
 
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -88,27 +60,27 @@ public class CatController {
         }        
     }
 
-    @CrossOrigin(origins = "*")
-    @GetMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getLatestUpdateByCatId(@PathVariable("id") String id) {
+    // @CrossOrigin(origins = "*")
+    // @GetMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public ResponseEntity<String> getLatestUpdateByCatId(@PathVariable("id") String id) {
 
-        try {
-            Update seenUpdate = updateRepository.getSeenUpdateByCatId(id);
-            Update fedUpdate = updateRepository.getFedUpdateByCatId(id);
-            // fundraiser
+    //     try {
+    //         Update seenUpdate = updateRepository.getSeenUpdateByCatId(id);
+    //         Update fedUpdate = updateRepository.getFedUpdateByCatId(id);
+    //         // fundraiser
 
-            Map<String, Object> combinedJson = new HashMap<>();
-            combinedJson.put("seen", seenUpdate);
-            combinedJson.put("fed", fedUpdate);
+    //         Map<String, Object> combinedJson = new HashMap<>();
+    //         combinedJson.put("seen", seenUpdate);
+    //         combinedJson.put("fed", fedUpdate);
 
-            String updateJson = objectMapper.writeValueAsString(combinedJson);
-            return ResponseEntity.status(HttpStatus.OK).body(updateJson.toString());
+    //         String updateJson = objectMapper.writeValueAsString(combinedJson);
+    //         return ResponseEntity.status(HttpStatus.OK).body(updateJson.toString());
 
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching updates for cat");
-        }
-    }
+    //     } catch (Exception e) {
+    //         System.out.println(e.toString());
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching updates for cat");
+    //     }
+    // }
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)

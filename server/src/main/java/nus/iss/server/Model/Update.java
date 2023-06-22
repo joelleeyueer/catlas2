@@ -1,6 +1,7 @@
 package nus.iss.server.Model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,8 +17,11 @@ import lombok.NoArgsConstructor;
 public class Update {
     @Indexed
     private String id;
-    private String type; // i.e. update type like seen or fed
+    private String type; // i.e. update type like seen or feed
     private String catId;
     private String username;
-    private Date datetime;
+    private String location;
+    private LocalDateTime datetime;
+    private String comments;
+    private List<String> photos;
 }

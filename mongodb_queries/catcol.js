@@ -1,53 +1,5 @@
 use catDb
 
-
-var cats = [
-  {
-    "name": "Sophie",
-    "feedingnotes": "Enjoys interactive feeding toys.",
-    "frequentLocations": [
-      {"lat": 1.3527, "long": 103.7178}
-    ]
-  },
-  {
-    "name": "Max",
-    "feedingnotes": "Needs a special diet.",
-    "frequentLocations": [
-      {"lat": 1.3540, "long": 103.7192}
-    ]
-  },
-  {
-    "name": "Luna",
-    "feedingnotes": "Prefers wet food.",
-    "frequentLocations": [
-      {"lat": 1.3539, "long": 103.7187}
-    ]
-  },
-  {
-    "name": "Charlie",
-    "feedingnotes": "Likes treats as rewards.",
-    "frequentLocations": [
-      {"lat": 1.3534, "long": 103.7199}
-    ]
-  },
-  {
-    "name": "Bella",
-    "feedingnotes": "Needs a quiet feeding area.",
-    "frequentLocations": [
-      {"lat": 1.3543, "long": 103.7186}
-    ]
-  },
-  {
-    "name": "Oliver",
-    "feedingnotes": "Requires medication with meals.",
-    "frequentLocations": [
-      {"lat": 1.3529, "long": 103.7195}
-    ]
-  }
-]
-
-db.catcol.insertMany(cats);
-
 db.catcol.find()
 
 db.catcol.find().forEach(function(doc) {
@@ -57,8 +9,17 @@ db.catcol.find().forEach(function(doc) {
 
 
 db.catcol.deleteMany({});
+db.catcol.deleteMany({
+  catId: {
+    $in: ["cat5", "cat6"]
+  }
+})
+
 
 db.createCollection("locationcol")
+
+db.createCollection("updatecol")
+
 
 db.catcol.find().forEach(function(cat) {
   cat.frequentLocationList.forEach(function(location) {
@@ -82,6 +43,7 @@ db.catcol.getIndexes()
 db.catcol.insertMany([
   {
     "catId": "cat1",
+    "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-profile.jpg",
     "name": "Fluffy",
     "birthday": new Date("2019-05-01"),
     "sterilization": true,
@@ -92,6 +54,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat2",
+    "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat2-profile.jpg",
     "name": "Whiskers",
     "birthday": new Date("2018-10-15"),
     "sterilization": false,
@@ -102,6 +65,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat3",
+    "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat3-profile.jpg",
     "name": "Mittens",
     "birthday": new Date("2020-02-28"),
     "sterilization": true,
@@ -112,6 +76,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat4",
+    "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat4-profile.jpg",
     "name": "Socks",
     "birthday": new Date("2019-09-10"),
     "sterilization": true,
@@ -119,25 +84,5 @@ db.catcol.insertMany([
     "dietLikes": ["Fish", "Turkey"],
     "dietDislikes": ["Peas"],
     "feedingNotes": ["Feed throughout the day"]
-  },
-  {
-    "catId": "cat5",
-    "name": "Oreo",
-    "birthday": new Date("2017-12-25"),
-    "sterilization": false,
-    "personalityTraits": ["Calm", "Playful"],
-    "dietLikes": ["Duck", "Venison"],
-    "dietDislikes": ["Cabbage"],
-    "feedingNotes": ["Feed at night"]
-  },
-  {
-    "catId": "cat6",
-    "name": "Simba",
-    "birthday": new Date("2018-07-03"),
-    "sterilization": true,
-    "personalityTraits": ["Adventurous", "Loving"],
-    "dietLikes": ["Beef", "Pork"],
-    "dietDislikes": ["Potato"],
-    "feedingNotes": ["Feed in the morning and evening"]
   }
 ]);

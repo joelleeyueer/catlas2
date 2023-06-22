@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @Document(collection="catcol")
 public class Cat {
     private String catId;
+    private String profilePhoto;
     private String name;
     private Date birthday; //days
     private Boolean sterilization;

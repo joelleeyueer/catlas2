@@ -2,21 +2,20 @@ package nus.iss.server.Repositories;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Optional;
 
 import org.bson.Document;
-import org.bson.json.JsonWriterSettings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import jakarta.json.*;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
 import nus.iss.server.Model.Cat;
-import nus.iss.server.Model.Update;
 
 @Repository
 public class CatRepository {
@@ -26,6 +25,7 @@ public class CatRepository {
 
     private static final String COLLECTION_NAME = "catcol";
 
+    //old method for testing http request
     public JsonObject getCats() {
 
         System.out.println("in getCats");
@@ -55,7 +55,7 @@ public class CatRepository {
         return jsonObject;
     }
 
-    public Cat getCatByCatId(String id) throws Exception {
+    public Cat getCatByCatId(String id) {
         System.out.println("in getCatByCatId");
 
         Query query = new Query(Criteria.where("catId").is(id));
@@ -63,13 +63,13 @@ public class CatRepository {
 
         if (catResult == null) {
             System.out.println("catResult is null");
-            throw new Exception("Cannot find cat in database with the id: " + id);
+            return null;
         }
 
         return catResult;
     }
 
-    public List<Cat> getAllCatsByCatId(List<String> catIdsList){
+    public List<Cat> getAllCats(List<String> catIdsList){
 
         Query query = new Query(Criteria.where("catId").in(catIdsList));
         List<Cat> catResults = mongoTemplate.find(query, Cat.class, COLLECTION_NAME);
