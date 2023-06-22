@@ -1,5 +1,7 @@
 <div class="home-container">
-  <app-cat-list (catsUpdated)="onCatsUpdated($event)"></app-cat-list>
-  <app-cat-map [cats]="cats"></app-cat-map>  
+  <app-cat-list 
+  (catsUpdated)="onCatsUpdated($event)" 
+  (searchCoordinatesUpdated)="onSearchCoordinatesUpdated($event)"></app-cat-list>
+  <app-cat-map [cats]="cats" [searchCoordinates]="searchCoordinates"></app-cat-map>  
 </div>
   

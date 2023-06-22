@@ -4,14 +4,16 @@
     <input type="text" placeholder="Blk 555 Jurong West St 64, or 640555, or Sheng Shiong Jurong West" formControlName="addressSearch">
     <button type="submit">Search</button>
   </form>
+  <div *ngIf="error" class="error-message">
+    {{error}}
+  </div>
 
-  <div class="cat-list">
-    <div class="cat-item" *ngFor="let cat of cats">
-      <img [src]="cat.imageUrl" alt="cat image">
-      <div class="cat-info">
-        <h3>{{cat.name}}</h3>
-        <p>{{cat.feedingnotes}}</p>
-      </div>
+  <div class="cat-item" *ngFor="let cat of cats">
+    <img [src]="cat.profilePhoto" alt="cat image">
+    <div class="cat-info">
+      <h3>{{cat.name}}</h3>
+      <h3>Latest updates</h3>
+      <p>Fed by {{cat.fed.username ? cat.fed.username : 'Unknown'}} - {{cat.fed.time ? cat.fed.time : 'Not fed recently.'}}</p>
     </div>
   </div>
 </div>

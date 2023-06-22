@@ -1,6 +1,5 @@
 package nus.iss.server.Services;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -11,9 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.Hours;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
@@ -54,7 +50,7 @@ public class CatSearchService {
             if (!coordinates.isPresent()) {
                 System.out.println("Coordinates not found");
                 JsonObject errorJson = Json.createObjectBuilder()
-                    .add("error", "address is invalid")
+                    .add("error", "Address is invalid. Please try another location. For better results, use a postal code.")
                     .build();
                 return errorJson;
             }
@@ -67,7 +63,7 @@ public class CatSearchService {
         if (incomingCatLocations.isEmpty()) {
             System.out.println("No cats found at " + incomingAddress);
             JsonObject errorJson = Json.createObjectBuilder()
-                    .add("error", "Address is valid, but no cats found at" + incomingAddress)
+                    .add("error", "No cats found in " + incomingAddress + ". Please try another location.")
                     .build();
                 return errorJson;
         }
@@ -87,11 +83,8 @@ public class CatSearchService {
         .add("lat", searchCoordinates.getLatitude())
         .add("lng", searchCoordinates.getLongitude())
         .build();
-        JsonArray arrayJsonCoordinates = Json.createArrayBuilder()
-        .add(searchCoordinatesJson)
-        .build();
         JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
-            resultJsonBuilder.add("searchCoordinates", arrayJsonCoordinates);
+            resultJsonBuilder.add("searchCoordinates", searchCoordinatesJson);
         if (catList.isEmpty()) {
             JsonObject emptyCatListJson = Json.createObjectBuilder()
             .add("searchCoordinates", resultJsonBuilder)
@@ -102,20 +95,22 @@ public class CatSearchService {
             JsonArrayBuilder catListJsonArrayBuilder = Json.createArrayBuilder();
             for (Cat cat : catList) {
                 //get one location
-                JsonArray catLocation = findCatsCoordinate(incomingCatLocations, cat.getCatId());
+                JsonObject catLocation = findCatsCoordinate(incomingCatLocations, cat.getCatId());
                 //get one fed update
                 Update fedUpdate = updateRepository.getOneFedUpdate(cat.getCatId());
                 JsonObject fedJson = null;
-                JsonArrayBuilder fedJsonArrayBuilder = Json.createArrayBuilder();
 
                 if (fedUpdate != null) {
                     JsonObjectBuilder fedBuilder = Json.createObjectBuilder()
                             .add("time",timeElapsed(fedUpdate.getDatetime()))
                                 .add("username", fedUpdate.getUsername());
                     fedJson = fedBuilder.build();
-                    fedJsonArrayBuilder.add(fedJson);
+                } else {
+                    fedJson = Json.createObjectBuilder()
+                            .addNull("time")
+                            .addNull("username")
+                            .build();
                 }
-                JsonArray fedJsonArray = fedJsonArrayBuilder.build();
 
                 //start building Json
                 JsonObject catJson = Json.createObjectBuilder()
@@ -123,7 +118,7 @@ public class CatSearchService {
                 .add("profilePhoto", cat.getProfilePhoto())
                 .add("name", cat.getName())
                 .add("coordinates", catLocation)
-                .add("fed", fedJsonArray)
+                .add("fed", fedJson)
                 .build();
                 catListJsonArrayBuilder.add(catJson);
             }
@@ -208,7 +203,7 @@ public class CatSearchService {
     
     
     //returns only one coordinate to be populated on the map
-    private JsonArray findCatsCoordinate(List<Coordinates> incomingCatLocations, String catId) {
+    private JsonObject findCatsCoordinate(List<Coordinates> incomingCatLocations, String catId) {
         for (Coordinates catLocation : incomingCatLocations) {
             if (catLocation.getCatId().equals(catId)) {
                 GeoJsonPoint location = catLocation.getLocation();
@@ -216,10 +211,7 @@ public class CatSearchService {
                 .add("lat", location.getY())
                 .add("lng", location.getX())
                 .build();
-                JsonArray catLocationJsonArray = Json.createArrayBuilder()
-                .add(catLocationJson)
-                .build();
-                return catLocationJsonArray;
+                return catLocationJson;
             }
         }
         return null;

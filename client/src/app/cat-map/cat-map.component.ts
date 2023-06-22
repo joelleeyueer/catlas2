@@ -11,32 +11,14 @@ export class CatMapComponent implements OnInit {
 
   title = 'google-maps';
   private map: google.maps.Map | undefined;
+  private markers: google.maps.Marker[] = [];
+
 
   @Input()
   cats: Cat[] = [];
 
-
-  // ngOnInit(): void {
-  //   const loader = new Loader({
-  //     apiKey: 'AIzaSyDXy7SLzzZRQJyDba-z8DGqWXD-8xHQVhQ',
-  //     version: "weekly",
-  //   });
-
-  //   loader.load().then(() => {
-  //     console.log("Google Maps loaded");
-  //     const location = {
-  //       lat: 1.3537,
-  //       lng: 103.7190
-  //     }
-
-  //     this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-  //       center: location,
-  //       zoom: 16
-  //     });
-
-  //     this.updateMarkers()
-  //   });
-  // }
+  @Input()
+  searchCoordinates: { lat: number; lng: number } | null = null;
 
   ngOnInit(): void {
     const loader = new Loader({
@@ -77,9 +59,9 @@ export class CatMapComponent implements OnInit {
 
   handleLocationError(browserHasGeolocation: boolean, pos: google.maps.LatLngLiteral) {
     if (!this.map) return;
-  
+
     this.map.setCenter(pos);
-  
+
     // You can also show an info window with the error message
     const infoWindow = new google.maps.InfoWindow({
       content: browserHasGeolocation
@@ -87,26 +69,34 @@ export class CatMapComponent implements OnInit {
         : "Error: Your browser doesn't support geolocation.",
       position: pos,
     });
-  
-    infoWindow.open(this.map);
-}
 
-  
+    infoWindow.open(this.map);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cats'] && !changes['cats'].isFirstChange() && this.map) {
+    if (changes['cats'] && !changes['cats'].isFirstChange()) {
       this.updateMarkers();
     }
+
+    if (changes['searchCoordinates'] && this.map && changes['searchCoordinates'].currentValue) {
+      this.map.setCenter(changes['searchCoordinates'].currentValue);
+    }
   }
+  
 
   updateMarkers(): void {
+
+    this.markers.forEach(marker => marker.setMap(null));
+    this.markers = [];
+
     this.cats.forEach(cat => {
-      cat.frequentLocations.forEach(loc => {
-        new google.maps.Marker({
-          position: { lat: loc.lat, lng: loc.long },
-          map: this.map,
-        });
+      const marker = new google.maps.Marker({
+        position: { lat: cat.coordinates.lat, lng: cat.coordinates.lng },
+        map: this.map,
       });
+      this.markers.push(marker);
+      
     });
   }
+
 }

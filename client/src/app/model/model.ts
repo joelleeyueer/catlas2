@@ -1,16 +1,22 @@
+export interface Coordinates {
+    lat: number;
+    lng: number;
+}
+
+export interface Fed {
+    time: string | null;
+    username: string | null;
+}
+
 export interface Cat {
+    catId: string;
+    profilePhoto: string;
     name: string;
-    feedingnotes: string;
-    frequentLocations: Location[];
-    imageUrl: string;
-  }
-  
-export interface Location {
-lat: number;
-long: number;
+    coordinates: Coordinates;
+    fed: Fed;
 }
-  
+
 export interface CatList {
-cats: Cat[];
+    searchCoordinates: Coordinates;
+    catList: Cat[];
 }
-  

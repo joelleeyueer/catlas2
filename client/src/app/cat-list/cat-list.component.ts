@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CatService } from '../cat.service';
 import { CatList, Cat } from '../model/model';
 import { Output, EventEmitter } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -13,14 +14,17 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class CatListComponent {
 
+  error: string = '';
   searchForm!: FormGroup;
   cats: Cat[] = [];
 
   @Output() 
   catsUpdated: EventEmitter<Cat[]> = new EventEmitter<Cat[]>();
 
+  @Output()
+  searchCoordinatesUpdated: EventEmitter<{ lat: number; lng: number }> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private router: Router, private catService: CatService) { }
+  constructor(private fb: FormBuilder, private router: Router, private catService: CatService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.searchForm = this.createForm();
@@ -28,29 +32,22 @@ export class CatListComponent {
 
   catSearch() {
     const address = this.searchForm.get('addressSearch')?.value;
+    this.cats=[]
     this.catService.getCats(address).subscribe(
       (response: CatList) => {
-        // Map the response to the format of the cats array
-        this.cats = response.cats.map((cat) => {
-          return {
-            name: cat.name,
-            feedingnotes: cat.feedingnotes,
-            frequentLocations: cat.frequentLocations,
-            // Use a default image URL for now
-            imageUrl: '/assets/images/nala.jpg',
-          }
-        });
-        this.catsUpdated.emit(this.cats);
-
+        this.cats = response.catList; // directly assign catList from response to cats
+          this.catsUpdated.emit(this.cats);
+          this.searchCoordinatesUpdated.emit(response.searchCoordinates);
       },
       error => {
-        console.error('Error occurred while searching for cats:', error);
+        const errorMessage = error.error?.error || 'An error occurred'; // access the error property from error's body.
+        this.snackBar.open(errorMessage, 'Close', {
+        duration: 6000,
+      });
       }
     );
-      
-    
   }
-  
+
 
   private createForm() {
     return new FormBuilder().group({
