@@ -23,8 +23,7 @@ public class UpdateRepository {
         System.out.println("in getFedUpdateByCatId, id is " + id);
 
         Query latestFedQuery = new Query(Criteria.where("catId").is(id).and("type").is("feed"))
-                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
-                .limit(1);
+                .with(Sort.by(Sort.Direction.DESC, "timestamp"));
         List<Update> fedResult = mongoTemplate.find(latestFedQuery, Update.class, COLLECTION_NAME);
 
         if (fedResult == null) {
@@ -39,14 +38,15 @@ public class UpdateRepository {
         System.out.println("in getSeenUpdateByCatId, id is " + id);
 
         Query latestSeenQuery = new Query(Criteria.where("catId").is(id).and("type").is("seen"))
-                .with(Sort.by(Sort.Direction.DESC, "timestamp"))
-                .limit(1);
+                .with(Sort.by(Sort.Direction.DESC, "timestamp"));
         List<Update> seenResult = mongoTemplate.find(latestSeenQuery, Update.class, COLLECTION_NAME);
 
         if (seenResult == null) {
             System.out.println("seenResult is null");
             return null;
         }
+
+        System.out.println("seenResult is " + seenResult.toString());
 
         return seenResult;
     }
@@ -91,6 +91,8 @@ public class UpdateRepository {
                 System.out.println("result is null");
                 return null;
             }
+
+
 
             return result;
 
