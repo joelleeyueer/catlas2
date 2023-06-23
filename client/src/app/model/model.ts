@@ -25,10 +25,12 @@ export interface Update {
     location: string;
     time: string;
     username: string;
+    photoUrl?: string;
   }
   
   export interface CatInfo {
     catId: string;
+    photoUrls: string[];
     name: string;
     age: string;
     sterilization: boolean;

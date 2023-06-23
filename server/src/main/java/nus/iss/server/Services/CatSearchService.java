@@ -42,6 +42,9 @@ public class CatSearchService {
     @Autowired
     private GoogleGeocodingService geocodingService;
 
+    /////////////
+    ///API//////
+    ///////////
     //get searchCoordinates and catList
     public JsonObject getCatsByLocation(String incomingAddress) {
 
@@ -127,7 +130,10 @@ public class CatSearchService {
         }
     }
 
-    //displaying one cat
+    /////////////
+    ///API//////
+    ///////////
+    // displaying one cat
     public JsonObject getSingleCatInfo(String catId){
         Cat cat = catRepository.getCatByCatId(catId);
         if (cat == null) {
@@ -168,10 +174,17 @@ public class CatSearchService {
         }
         JsonArray seenJsonArray = seenJsonArrayBuilder.build();
 
+        //construct url list
+        Optional<Update> fedUpdateOptional = Optional.ofNullable(fedUpdate);
+        Optional<Update> seenUpdateOptional = Optional.ofNullable(seenUpdate);
+        JsonArray catPhotoUrls = compileCatPhotoUrls(cat, fedUpdateOptional, seenUpdateOptional);
+
 
         //get frequent locations for cat
         List<Coordinates> coordinatesList = coordinatesRepository.frequentLocationForOneCat(catId);
         // System.out.println("coordinatesList: " + coordinatesList);
+
+        //construct the Json Payload
         JsonArrayBuilder catLocationJsonArrayBuilder = Json.createArrayBuilder();
         for (Coordinates coordinates : coordinatesList){
             GeoJsonPoint location = coordinates.getLocation();
@@ -185,6 +198,7 @@ public class CatSearchService {
 
         JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
         resultJsonBuilder.add("catId", cat.getCatId())
+                        .add("photoUrls", catPhotoUrls)
                         .add("name", cat.getName())
                         .add("age", convertBirthdayToAge(cat.getBirthday()))
                         .add("sterilization", cat.getSterilization())
@@ -202,7 +216,7 @@ public class CatSearchService {
 
     
     
-    //returns only one coordinate to be populated on the map
+    //returns only one coordinate to be populated on the map (for cat-map)
     private JsonObject findCatsCoordinate(List<Coordinates> incomingCatLocations, String catId) {
         for (Coordinates catLocation : incomingCatLocations) {
             if (catLocation.getCatId().equals(catId)) {
@@ -254,6 +268,30 @@ public class CatSearchService {
 
         JsonArray resultJson = arrayJson.build();
         return resultJson;
+    }
+
+    private JsonArray compileCatPhotoUrls(Cat cat, Optional<Update> fedUpdate, Optional<Update> seenUpdate){
+        JsonArrayBuilder arrayJson = Json.createArrayBuilder();
+        arrayJson.add(cat.getProfilePhoto());
+
+        if (fedUpdate.isPresent()) {
+            List<String> fedPhotoUrls = fedUpdate.get().getPhotos();
+            for (String url : fedPhotoUrls) {
+                arrayJson.add(url);
+            }
+        }
+
+        if (seenUpdate.isPresent()) {
+            List<String> seenPhotoUrls = seenUpdate.get().getPhotos();
+            for (String url : seenPhotoUrls) {
+                arrayJson.add(url);
+            }
+        }
+
+        JsonArray resultJson = arrayJson.build();
+        return resultJson;
+
+
     }
         
     
