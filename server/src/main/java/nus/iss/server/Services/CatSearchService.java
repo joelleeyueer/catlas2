@@ -42,6 +42,7 @@ public class CatSearchService {
     @Autowired
     private GoogleGeocodingService geocodingService;
 
+    //get searchCoordinates and catList
     public JsonObject getCatsByLocation(String incomingAddress) {
 
         //convert address to coordinates
@@ -75,13 +76,9 @@ public class CatSearchService {
         }
 
         List<Cat> catList = catRepository.getAllCats(catIdsList);
-        return constructJsonObjectgetCatsByLocation(newCoordinates, catList, incomingCatLocations);
-    }
-
-    private JsonObject constructJsonObjectgetCatsByLocation(SearchCoordinates searchCoordinates, List<Cat> catList, List<Coordinates> incomingCatLocations) {
         JsonObject searchCoordinatesJson = Json.createObjectBuilder()
-        .add("lat", searchCoordinates.getLatitude())
-        .add("lng", searchCoordinates.getLongitude())
+        .add("lat", newCoordinates.getLatitude())
+        .add("lng", newCoordinates.getLongitude())
         .build();
         JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
             resultJsonBuilder.add("searchCoordinates", searchCoordinatesJson);

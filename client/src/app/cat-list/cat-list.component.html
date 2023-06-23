@@ -1,30 +1,36 @@
-<div class="search-container">
-  <mat-card-header>
-    <mat-card-title>Viewing community cats in:</mat-card-title>
-  </mat-card-header>
-  <form [formGroup]="searchForm" (ngSubmit)="catSearch()" class="search-form">
-    <mat-form-field class="full-width">
-      <mat-label>Search cats here</mat-label>
-      <input matInput type="text" matInput placeholder="E.g. 640555, or Sheng Shiong Jurong West" formControlName="addressSearch">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!searchForm.valid" class="search-button">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-  </form>
-  <mat-card-content *ngIf="error" class="error-message">
-    {{error}}
-  </mat-card-content>
-</div>
-<mat-card class="container">
-  <mat-card *ngFor="let cat of cats" class="cat-item">
-    <img mat-card-image [src]="cat.profilePhoto" alt="cat image" class="cat-image">
-    <mat-card-content class="cat-info">
-      <h3>{{cat.name}}</h3>
-      <h3>Latest updates</h3>
-      <p *ngIf="cat.fed.username; else notFed">Fed by {{cat.fed.username}} - {{cat.fed.time}}</p>
-      <ng-template #notFed>
-          <p>Not fed recently.</p>
-      </ng-template>
+
+
+<div class="container">
+  <div class="search-container">
+    <mat-card-header>
+      <mat-card-title>Viewing community cats in:</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="searchForm" (ngSubmit)="catSearch()" class="search-form">
+      <mat-form-field class="full-width">
+        <mat-label>Search cats here</mat-label>
+        <input matInput type="text" matInput placeholder="E.g. 640555, or Sheng Shiong Jurong West" formControlName="addressSearch">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!searchForm.valid" class="search-button">
+          <mat-icon>search</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+    <mat-card-content *ngIf="error" class="error-message">
+      {{error}}
     </mat-card-content>
-  </mat-card>
-</mat-card>
+  </div>
+
+  <div class="cat-list">
+    <mat-card *ngFor="let cat of cats" class="cat-item">
+      <img mat-card-image [src]="cat.profilePhoto" alt="cat image" class="cat-image">
+      <mat-card-content class="cat-info">
+        <h3>{{cat.name}}</h3>
+        <h3>Latest updates</h3>
+        <p *ngIf="cat.fed.username; else notFed">Fed by {{cat.fed.username}} - {{cat.fed.time}}</p>
+        <ng-template #notFed>
+            <p>Not fed recently.</p>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

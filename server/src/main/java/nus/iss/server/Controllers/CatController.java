@@ -15,7 +15,6 @@ import jakarta.json.JsonObject;
 import nus.iss.server.Services.CatSearchService;
 
 @RestController
-//TODO: change this to requestmapping /api
 public class CatController {
 
 
