@@ -36,6 +36,19 @@ db.catcol.updateMany({}, { $unset: { frequentLocationList: "" } })
 
 db.catcol.createIndex({"frequentLocationList.$**": "2dsphere"})
 
+db.catcol.insertOne(
+  {
+    "catId": "cat5",
+    "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat5-profile.jpg",
+    "name": "Mika",
+    "birthday": new Date("2022-05-01"),
+    "sterilization": true,
+    "personalityTraits": ["Weird", "Zoomies"],
+    "dietLikes": ["Tuna", "Chicken"],
+    "dietDislikes": ["Cheap food"],
+    "feedingNotes": ["Irregular feeding time"]
+  })
+
 
 
 db.catcol.getIndexes()

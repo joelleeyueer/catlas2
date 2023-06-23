@@ -1,4 +1,4 @@
-db.getCollection("updatecol").find({})
+db.updatecol.find({})
 db.updatecol.deleteMany({});
 
 db.updatecol.insertMany([
@@ -27,10 +27,20 @@ db.updatecol.insertMany([
     id: "3",
     type: "seen",
     catId: "cat2",
-    username: "jane_smith",
-    datetime: ISODate("2022-06-03T00:00:00Z"),
+    username: "@jane_smith",
+    datetime: ISODate("2023-06-03T00:00:00Z"),
     location: "mamashop",
     comments: "saw him chasing another cat",
+    photos: []
+  },
+  {
+    id: "4",
+    type: "feed",
+    catId: "cat4",
+    username: "@zendaya",
+    datetime: ISODate("2023-06-22T00:00:00Z"),
+    location: "near the playground",
+    comments: "he ate",
     photos: []
   }
 ])

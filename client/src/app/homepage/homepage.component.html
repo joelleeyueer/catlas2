@@ -1,7 +1,20 @@
+<!-- <div class="home-container">
+  <app-cat-list 
+    (catsUpdated)="onCatsUpdated($event)" 
+    (searchCoordinatesUpdated)="onSearchCoordinatesUpdated($event)"
+  ></app-cat-list>
+  <app-cat-map [cats]="cats" [searchCoordinates]="searchCoordinates"></app-cat-map>  
+</div> -->
+
 <div class="home-container">
   <app-cat-list 
   (catsUpdated)="onCatsUpdated($event)" 
-  (searchCoordinatesUpdated)="onSearchCoordinatesUpdated($event)"></app-cat-list>
-  <app-cat-map [cats]="cats" [searchCoordinates]="searchCoordinates"></app-cat-map>  
-</div>
+  (searchCoordinatesUpdated)="onSearchCoordinatesUpdated($event)" 
+  class="list-container"></app-cat-list>
   
+  <app-cat-map 
+  [cats]="cats" 
+  [searchCoordinates]="searchCoordinates"
+  class="map-container"></app-cat-map>  
+</div>
+

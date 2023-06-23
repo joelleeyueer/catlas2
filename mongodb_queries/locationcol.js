@@ -16,6 +16,11 @@ db.locationcol.find({
   }
 })
 
+db.locationcol.insertOne({
+    "catId": "cat5",
+    "location": { "type": "Point", "coordinates": [103.7204, 1.3525] }
+})
+
 db.locationcol.insertMany([
   {
     "catId": "cat1",

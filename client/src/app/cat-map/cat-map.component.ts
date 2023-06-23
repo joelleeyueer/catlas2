@@ -93,6 +93,7 @@ export class CatMapComponent implements OnInit {
       const marker = new google.maps.Marker({
         position: { lat: cat.coordinates.lat, lng: cat.coordinates.lng },
         map: this.map,
+        icon: 'assets/images/catMarker.png'
       });
       this.markers.push(marker);
       
