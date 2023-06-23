@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CatService } from '../cat.service';
-import { CatList, Cat } from '../model/model';
+import { CatList, Cat, CatInfo } from '../model/model';
 import { Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { CatInfoComponent } from '../cat-info/cat-info.component';
 
 
 @Component({
@@ -24,7 +26,7 @@ export class CatListComponent {
   @Output()
   searchCoordinatesUpdated: EventEmitter<{ lat: number; lng: number }> = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private router: Router, private catService: CatService, private snackBar: MatSnackBar) { }
+  constructor(private fb: FormBuilder, private router: Router, private catService: CatService, private snackBar: MatSnackBar, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.searchForm = this.createForm();
@@ -47,6 +49,20 @@ export class CatListComponent {
       }
     );
   }
+
+  navigateToDetail(catId: string) {
+    this.router.navigate(['/cat', catId]);
+  }
+
+  openCatInfo(catId: string) {
+    const dialogRef = this.dialog.open(CatInfoComponent, {
+      data: { catId: catId },
+      width: '80%',
+      height: '80%'
+    });
+  }
+  
+  
 
 
   private createForm() {

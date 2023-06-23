@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, firstValueFrom } from 'rxjs';
-import { CatList } from './model/model';
+import { CatInfo, CatList } from './model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,15 @@ export class CatService {
 
   constructor(private http: HttpClient) { }
 
-  //TODO: change to get cats by location with place autocomplete
   getCats(address: String): Observable<CatList> {
     const url = `${this.apiURI}/search?address=${address}`;
     return this.http.get<CatList>(url);
 
   }
+
+  getCatDetails(id: string): Observable<CatInfo> {
+    const url = `${this.apiURI}/cat/${id}`;
+    return this.http.get<CatInfo>(url);
+  }
+  
 }

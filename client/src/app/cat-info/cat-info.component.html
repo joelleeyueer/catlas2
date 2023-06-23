@@ -1,1 +1,37 @@
-<p>cat-info works!</p>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ cat?.name }}</mat-card-title>
+      <mat-card-subtitle>{{ cat?.age }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Sterilization: {{ cat?.sterilization ? 'Yes' : 'No' }}</p>
+      <p><strong>Personality Traits:</strong></p>
+      <mat-chip-set>
+        <mat-chip *ngFor="let trait of cat?.personalityTraits">{{ trait }}</mat-chip>
+      </mat-chip-set>
+      <p><strong>Diet Likes:</strong></p>
+      <mat-chip-set>
+        <mat-chip *ngFor="let like of cat?.dietLikes">{{ like }}</mat-chip>
+      </mat-chip-set>
+      <p><strong>Diet Dislikes:</strong></p>
+      <mat-chip-set>
+        <mat-chip *ngFor="let dislike of cat?.dietDislikes">{{ dislike }}</mat-chip>
+      </mat-chip-set>
+      <p><strong>Feeding Notes:</strong></p>
+      <mat-chip-set>
+        <mat-chip *ngFor="let note of cat?.feedingNotes">{{ note }}</mat-chip>
+      </mat-chip-set>
+      <p><strong>Frequent Locations:</strong></p>
+      <div *ngFor="let location of cat?.frequentLocations">
+        <p>Lat: {{ location?.lat }}, Lng: {{ location?.lng }}</p>
+      </div>
+      <p><strong>Fed Updates:</strong></p>
+      <div *ngFor="let update of cat?.fedUpdates">
+        <p>{{ update.username }} fed at {{ update.location }} {{ update.time }} ago.</p>
+      </div>
+      <p><strong>Seen Updates:</strong></p>
+      <div *ngFor="let update of cat?.seenUpdates">
+        <p>{{ update.username }} saw at {{ update.location }} {{ update.time }} ago.</p>
+      </div>
+    </mat-card-content>
+</mat-card>
