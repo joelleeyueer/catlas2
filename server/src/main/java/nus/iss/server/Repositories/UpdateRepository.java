@@ -20,7 +20,7 @@ public class UpdateRepository {
     private static final String COLLECTION_NAME = "updatecol";
 
     public List<Update> getFedUpdateByCatId(String id){
-        System.out.println("in getFedUpdateByCatId");
+        System.out.println("in getFedUpdateByCatId, id is " + id);
 
         Query latestFedQuery = new Query(Criteria.where("catId").is(id).and("type").is("feed"))
                 .with(Sort.by(Sort.Direction.DESC, "timestamp"))
@@ -36,7 +36,7 @@ public class UpdateRepository {
     }
 
     public List<Update> getSeenUpdateByCatId(String id){
-        System.out.println("in getSeenUpdateByCatId");
+        System.out.println("in getSeenUpdateByCatId, id is " + id);
 
         Query latestSeenQuery = new Query(Criteria.where("catId").is(id).and("type").is("seen"))
                 .with(Sort.by(Sort.Direction.DESC, "timestamp"))
@@ -62,7 +62,7 @@ public class UpdateRepository {
             Update result = mongoTemplate.findOne(latestUpdateQuery, Update.class, COLLECTION_NAME);
 
             if (result == null) {
-                System.out.println("result is null");
+                System.out.println("fedResult is null");
                 return null;
             }
 

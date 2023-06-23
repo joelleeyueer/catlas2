@@ -44,19 +44,17 @@ public class CatController {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/cats/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/cat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCatByCatId(@PathVariable("id") String id) {
-
+        JsonObject catJson = catSearchService.getSingleCatInfo(id);
+        String catJsonString = catJson.toString();
+        // System.out.println("printing catJsonString "+ catJsonString);
         
-        try {
-            JsonObject catJson = catSearchService.getSingleCatInfo(id);
-            String catJsonString = catJson.toString();
+        if (catJsonString.contains("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(catJsonString);
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
-
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error finding cat");
-        }        
+        }       
     }
 
     // @CrossOrigin(origins = "*")
@@ -105,19 +103,5 @@ public class CatController {
         return null;
     }
 
-    // @CrossOrigin(origins = "*")
-    // @GetMapping(value = "/getAllCatsWithinRadius", produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<String> getAllCatsWithinRadius(@PathParam("catId") String catId, 
-    //     @PathParam("longitude") Double longitude, @PathParam("latitude") Double latitude, @PathParam("radius") Double radius) {
-
-    //     try {
-    //         List<Coordinates> coordinates = coordinatesRepository.getAllCatsWithinRadius(catId, longitude, latitude, radius);
-    //         String coordinatesJson = objectMapper.writeValueAsString(coordinates);
-    //         return ResponseEntity.status(HttpStatus.OK).body(coordinatesJson.toString());
-
-    //     } catch (Exception e) {
-    //         System.out.println(e.toString());
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cats within radius");
-    //     }
-    // }
+    
 }

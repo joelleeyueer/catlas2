@@ -34,6 +34,11 @@ public class CoordinatesRepository {
     public List<Coordinates> frequentLocationForOneCat(String catId) {
         System.out.println("in frequentLocationForOneCat");
         Query query = new Query(Criteria.where("catId").is(catId));
-        return mongoTemplate.find(query, Coordinates.class, COLLECTION_NAME);
+        List<Coordinates> incomingCoordinates = mongoTemplate.find(query, Coordinates.class, COLLECTION_NAME);
+        if (incomingCoordinates == null) {
+            System.out.println("incomingCoordinates is null");
+            return null;
+        }
+        return incomingCoordinates;
     }
 }

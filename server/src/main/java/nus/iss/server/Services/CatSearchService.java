@@ -139,6 +139,7 @@ public class CatSearchService {
         }
         //get one fed update
         Update fedUpdate = updateRepository.getOneFedUpdate(catId);
+        // System.out.println("fedUpdate: " + fedUpdate);
         JsonArrayBuilder fedJsonArrayBuilder = Json.createArrayBuilder();
         JsonObject fedJson = null;
         if (fedUpdate != null) {
@@ -154,6 +155,7 @@ public class CatSearchService {
             
         //get one seen update
         Update seenUpdate = updateRepository.getOneSeenUpdate(catId);
+        // System.out.println("seenUpdate: " + seenUpdate);
         JsonArrayBuilder seenJsonArrayBuilder = Json.createArrayBuilder();
         JsonObject seenJson = null;
         if (seenUpdate != null)  {
@@ -162,13 +164,14 @@ public class CatSearchService {
                         .add("time",timeElapsed(seenUpdate.getDatetime()))
                         .add("username", seenUpdate.getUsername());
             seenJson = seenBuilder.build();
-            seenJsonArrayBuilder.add(fedJson);
+            seenJsonArrayBuilder.add(seenJson);
         }
         JsonArray seenJsonArray = seenJsonArrayBuilder.build();
 
 
-
+        //get frequent locations for cat
         List<Coordinates> coordinatesList = coordinatesRepository.frequentLocationForOneCat(catId);
+        // System.out.println("coordinatesList: " + coordinatesList);
         JsonArrayBuilder catLocationJsonArrayBuilder = Json.createArrayBuilder();
         for (Coordinates coordinates : coordinatesList){
             GeoJsonPoint location = coordinates.getLocation();
@@ -191,9 +194,9 @@ public class CatSearchService {
                         .add("feedingNotes", convertListToJsonArray(cat.getFeedingNotes()))
                         .add("frequentLocations", catLocationJsonArray)
                         .add("fedUpdates", fedJsonArray)
-                        .add("seenUpdates", seenJsonArray)
-                        .build();
+                        .add("seenUpdates", seenJsonArray);
         JsonObject resultJson = resultJsonBuilder.build();
+        // System.out.println("resultJson: " + resultJson);
         return resultJson;
     }
 
