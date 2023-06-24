@@ -18,6 +18,7 @@
   </div>
 
   <div class="cat-list">
+    <!-- <mat-card *ngFor="let cat of cats" class="cat-item" (click)="navigateToDetail(cat.catId)"> -->
     <mat-card *ngFor="let cat of cats" class="cat-item" (click)="openCatInfo(cat.catId)">
       <img mat-card-image [src]="cat.profilePhoto" alt="cat image" class="cat-image">
       <mat-card-content class="cat-info">

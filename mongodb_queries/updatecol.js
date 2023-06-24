@@ -1,6 +1,8 @@
 db.updatecol.find({})
 db.updatecol.deleteMany({});
 
+
+
 db.updatecol.insertMany([
   {
     id: "1",
@@ -42,5 +44,16 @@ db.updatecol.insertMany([
     location: "near the playground",
     comments: "he ate",
     photos: []
+  },
+  {
+    id: "1",
+    type: "seen",
+    catId: "cat1",
+    username: "@joel",
+    datetime: ISODate("2023-01-04T00:00:00Z"),
+    location: "Block 684B",
+    comments: "sleeping again",
+    photos: ["https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-feedupdate.jpg", "https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-profile.jpg"]
+    
   }
 ])

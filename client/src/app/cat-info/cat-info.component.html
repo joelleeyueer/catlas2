@@ -4,7 +4,7 @@
       <mat-card-subtitle>{{ cat?.age }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <mat-grid-list cols="3" rowHeight="1:1" gutterSize="4px">
+        <mat-grid-list cols="3" rowHeight="1:1">
             <mat-grid-tile *ngFor="let photoUrl of cat?.photoUrls">
                 <img [src]="photoUrl" alt="Cat photo" mat-card-image/> 
             </mat-grid-tile>

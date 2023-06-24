@@ -61,9 +61,6 @@ export class CatListComponent {
       height: '80%'
     });
   }
-  
-  
-
 
   private createForm() {
     return new FormBuilder().group({
