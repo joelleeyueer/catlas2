@@ -10,6 +10,7 @@ hr {
 
 p {
     font-size: 1.2rem;
+    font-weight: 400;
 }
 
 .container {
@@ -41,6 +42,10 @@ p {
     margin: 2rem 0;
 }
 
+.cat-title h1 {
+    font-size: xx-large;
+}
+
 .cat-update {
     display: grid;
     column-gap: 2rem;
@@ -60,6 +65,7 @@ mat-card-header p {
 
 .update-items p:first-child {
     font-size: 1.5rem;
+    font-weight: 300;
 }
   
 .update-items p:nth-child(2) {
@@ -69,6 +75,7 @@ mat-card-header p {
 .update-items p:nth-child(3) {
     margin-top: 1rem;
     color: #3F3E3E;
+    font-weight: 300;
 }
 
 .cat-details {
@@ -88,4 +95,5 @@ mat-chip {
 .cat-diet {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    column-gap: 1.5rem;
 }
