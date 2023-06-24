@@ -175,9 +175,16 @@ public class CatSearchService {
         JsonArray seenJsonArray = seenJsonArrayBuilder.build();
 
         //construct url list
-        Optional<Update> fedUpdateOptional = Optional.ofNullable(fedUpdate);
-        Optional<Update> seenUpdateOptional = Optional.ofNullable(seenUpdate);
-        JsonArray catPhotoUrls = compileCatPhotoUrls(cat, fedUpdateOptional, seenUpdateOptional);
+        List<String> catPhotoUrls = updateRepository.getPhotoUrlsByCatId(catId);
+        JsonArrayBuilder catPhotoUrlsJsonArrayBuilder = Json.createArrayBuilder();
+        catPhotoUrlsJsonArrayBuilder.add(cat.getProfilePhoto());
+        if (catPhotoUrls != null) {
+            for (String url : catPhotoUrls){
+                catPhotoUrlsJsonArrayBuilder.add(url);
+            }
+        }
+        JsonArray catPhotoUrlsArray = catPhotoUrlsJsonArrayBuilder.build();
+
 
 
         //get frequent locations for cat
@@ -198,7 +205,7 @@ public class CatSearchService {
 
         JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
         resultJsonBuilder.add("catId", cat.getCatId())
-                        .add("photoUrls", catPhotoUrls)
+                        .add("photoUrls", catPhotoUrlsArray)
                         .add("name", cat.getName())
                         .add("age", convertBirthdayToAge(cat.getBirthday()))
                         .add("sterilization", cat.getSterilization())
@@ -270,29 +277,7 @@ public class CatSearchService {
         return resultJson;
     }
 
-    private JsonArray compileCatPhotoUrls(Cat cat, Optional<Update> fedUpdate, Optional<Update> seenUpdate){
-        JsonArrayBuilder arrayJson = Json.createArrayBuilder();
-        arrayJson.add(cat.getProfilePhoto());
-
-        if (fedUpdate.isPresent()) {
-            List<String> fedPhotoUrls = fedUpdate.get().getPhotos();
-            for (String url : fedPhotoUrls) {
-                arrayJson.add(url);
-            }
-        }
-
-        if (seenUpdate.isPresent()) {
-            List<String> seenPhotoUrls = seenUpdate.get().getPhotos();
-            for (String url : seenPhotoUrls) {
-                arrayJson.add(url);
-            }
-        }
-
-        JsonArray resultJson = arrayJson.build();
-        return resultJson;
-
-
-    }
+    
         
     
 }

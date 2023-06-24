@@ -1,7 +1,9 @@
 package nus.iss.server.Repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,6 +20,25 @@ public class UpdateRepository {
     private MongoTemplate mongoTemplate;
 
     private static final String COLLECTION_NAME = "updatecol";
+
+    public List<String> getPhotoUrlsByCatId(String catId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("catId").is(catId));
+
+        // Fetch all matching documents
+        List<Document> documents = mongoTemplate.find(query, Document.class, COLLECTION_NAME);
+
+        List<String> photoUrls = new ArrayList<>();
+        for (Document document : documents) {
+            // Check if the document contains the 'photos' field
+            if (document.containsKey("photos")) {
+                List<String> urls = (List<String>) document.get("photos");
+                photoUrls.addAll(urls);
+            }
+        }
+
+        return photoUrls;
+    }
 
     public List<Update> getFedUpdateByCatId(String id){
         System.out.println("in getFedUpdateByCatId, id is " + id);
