@@ -58,7 +58,10 @@ public class CatRepository {
     public Cat getCatByCatId(String id) {
         System.out.println("in getCatByCatId");
 
-        Query query = new Query(Criteria.where("catId").is(id));
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("catId").is(id), Criteria.where("approved").is("approved"));
+
+        Query query = new Query(criteria);
         Cat catResult = mongoTemplate.findOne(query, Cat.class, COLLECTION_NAME);
 
         if (catResult == null) {
@@ -71,7 +74,11 @@ public class CatRepository {
 
     public List<Cat> getAllCats(List<String> catIdsList){
 
-        Query query = new Query(Criteria.where("catId").in(catIdsList));
+        
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("catId").in(catIdsList), Criteria.where("approved").is("approved"));
+
+        Query query = new Query(criteria);
         List<Cat> catResults = mongoTemplate.find(query, Cat.class, COLLECTION_NAME);
 
         if (catResults.isEmpty()) {
