@@ -1,6 +1,6 @@
 package nus.iss.server.Model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -11,13 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Fundraiser {
+    private String id;
     private String catId;
-    private String userId;
-    private Date endDate;
-    private Date startDate;
+    private String username;
+    private String photoUrl;
     private String title;
     private String description;
-    private Double goalAmount;
-    private Double currentAmount;
-    private List<String> donorIds;
+    private boolean active;
+    private double donationGoal;
+    private LocalDateTime deadline;
+    private List<Donor> donations;
 }

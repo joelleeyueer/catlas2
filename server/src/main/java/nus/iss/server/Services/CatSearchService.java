@@ -21,10 +21,12 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Coordinates;
+import nus.iss.server.Model.Fundraiser;
 import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;
 import nus.iss.server.Repositories.CoordinatesRepository;
+import nus.iss.server.Repositories.FundraiserRepository;
 import nus.iss.server.Repositories.UpdateRepository;
 
 @Service
@@ -38,6 +40,9 @@ public class CatSearchService {
 
     @Autowired
     private UpdateRepository updateRepository;
+
+    @Autowired
+    private FundraiserRepository fundraiserRepository;
     
     @Autowired
     private GoogleGeocodingService geocodingService;
@@ -222,8 +227,50 @@ public class CatSearchService {
         return resultJson;
     }
 
-    
-    
+    /////////////
+    ///API//////
+    ///////////
+    // public JsonObject getFundraiser(String catId){
+
+    //     Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId);
+    //     //if empty, return error
+    //     if (fundraiser == null) {
+    //         System.out.println("Fundraiser not found");
+    //         JsonObject errorJson = Json.createObjectBuilder()
+    //                 .add("error", "Fundraiser not found")
+    //                 .build();
+    //             return errorJson;
+    //     }
+
+    //     //if not active, return error
+    //     if (!fundraiser.isActive()){
+    //         System.out.println("Fundraiser is not active");
+    //         JsonObject errorJson = Json.createObjectBuilder()
+    //                 .add("error", "Fundraiser is not active")
+    //                 .build();
+    //             return errorJson;
+    //     }
+
+    //     JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
+    //     resultJsonBuilder.add("fundId", fundraiser.getId())
+    //                     .add("catId", fundraiser.getCatId())
+    //                     .add("username", fundraiser.getUsername())
+    //                     .add("photoUrl", fundraiser.getPhotoUrl())
+    //                     .add("title", fundraiser.getTitle())
+    //                     .add("description", fundraiser.getDescription())
+    //                     .add("active", fundraiser.isActive())
+    //                     .add("donationGoal", fundraiser.getDonationGoal())
+    //                     .add("deadline", )
+
+
+
+
+    // }
+
+
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
     //returns only one coordinate to be populated on the map (for cat-map)
     private JsonObject findCatsCoordinate(List<Coordinates> incomingCatLocations, String catId) {
         for (Coordinates catLocation : incomingCatLocations) {
@@ -241,6 +288,9 @@ public class CatSearchService {
 
     
 
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
     private String convertBirthdayToAge(Date birthday) {
         //date to localdate
         LocalDate birthdayLD = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -251,6 +301,9 @@ public class CatSearchService {
         return String.valueOf(years.toString() + " years " + months.toString() + " months");
     }
 
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
     private String timeElapsed(LocalDateTime incomingDateTime){
         LocalDateTime currentTime = LocalDateTime.now();
 
@@ -267,7 +320,9 @@ public class CatSearchService {
         return result;
     }
 
-
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
     private JsonArray convertListToJsonArray(List<String> list) {
         JsonArrayBuilder arrayJson = Json.createArrayBuilder();
         for (String item : list) {
