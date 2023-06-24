@@ -3,3 +3,89 @@ mat-grid-tile img {
     height: 100%;
     object-fit: contain;
 }
+
+hr {
+    margin: 2rem 0;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+.container {
+    margin: 5rem 8rem;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* changes from contain to cover */
+    flex-grow: 1;
+}
+
+.scrollable-container {
+    overflow-x: auto;
+    overflow-y: hidden; /* hide the vertical scrollbar */
+    white-space: nowrap;
+    display: flex;
+}
+
+.image-container {
+    flex: 0 0 auto;
+    width: 400px;  /* Or however wide you want each image to be */
+    height: 400px;  /* Adjust as needed */
+    margin-right: 10px;  /* Some spacing between images */
+}
+
+.cat-title {
+    margin: 2rem 0;
+}
+
+.cat-update {
+    display: grid;
+    column-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+mat-card {
+    background-color: #D8DCF7;
+    padding: 1rem;
+    flex: 1;
+    font-size: 1.1rem;
+}
+
+mat-card-header p {
+    margin-bottom: 2rem;
+}
+
+.update-items p:first-child {
+    font-size: 1.5rem;
+}
+  
+.update-items p:nth-child(2) {
+    color: #3F3E3E;
+}
+  
+.update-items p:nth-child(3) {
+    margin-top: 1rem;
+    color: #3F3E3E;
+}
+
+.cat-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+mat-chip-set {
+    margin-bottom: 2rem;
+}
+
+mat-chip {
+    font-size: 1.2rem;
+    padding: 0.3rem;
+}
+
+.cat-diet {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}

@@ -1,42 +1,85 @@
-<mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ cat?.name }}</mat-card-title>
-      <mat-card-subtitle>{{ cat?.age }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <mat-grid-list cols="3" rowHeight="1:1">
-            <mat-grid-tile *ngFor="let photoUrl of cat?.photoUrls">
-                <img [src]="photoUrl" alt="Cat photo" mat-card-image/> 
-            </mat-grid-tile>
-        </mat-grid-list>
-      <p>Sterilization: {{ cat?.sterilization ? 'Yes' : 'No' }}</p>
-      <p><strong>Personality Traits:</strong></p>
+<div class="container">
+  <div class="scrollable-container">
+    <div *ngFor="let photoUrl of cat?.photoUrls" class="image-container">
+        <img [src]="photoUrl" alt="Cat photo" /> 
+    </div>
+  </div>
+  <div class="cat-title">
+    <h1>{{ cat?.name }}</h1>
+    <h2>{{ cat?.gender }} • {{ cat?.age }} {{ cat?.sterilization ? ' • Sterilized' : '' }}</h2>
+  </div>
+  <hr>
+  <h1>Latest updates</h1>
+  <div class="cat-update">   
+    <mat-card>     
+      <mat-card-header><p>Last fed</p></mat-card-header>
+      <mat-card-content>
+        <ng-container *ngIf="cat?.fedUpdates == 0; else hasFedItems">
+          <p>{{ cat?.name }} has not been fed recently</p>
+        </ng-container>
+        <ng-template #hasFedItems>
+          <div class="update-items" *ngFor="let update of cat?.fedUpdates">
+            <p>{{ update.location }}</p>
+            <p>{{ update.time }}</p>
+            <p>@{{ update.username }}</p>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-header><p>Last seen</p></mat-card-header>
+      <mat-card-content>
+        <ng-container *ngIf="cat?.seenUpdates == 0; else hasSeenItems">
+          <p>{{ cat?.name }} has not been fed recently</p>
+        </ng-container>
+        <ng-template #hasSeenItems>
+          <div class="update-items" *ngFor="let update of cat?.seenUpdates">
+            <p>{{ update.location }}</p>
+            <p>{{ update.time }}</p>
+            <p>{{ update.username }}</p>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>
+        <p>Fundraiser</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <hr>
+  <h1>About me</h1>
+  <div class="cat-details">
+    <div class="cat-attributes">
+      <p><strong>Personality traits</strong></p>
       <mat-chip-set>
         <mat-chip *ngFor="let trait of cat?.personalityTraits">{{ trait }}</mat-chip>
       </mat-chip-set>
-      <p><strong>Diet Likes:</strong></p>
-      <mat-chip-set>
-        <mat-chip *ngFor="let like of cat?.dietLikes">{{ like }}</mat-chip>
-      </mat-chip-set>
-      <p><strong>Diet Dislikes:</strong></p>
-      <mat-chip-set>
-        <mat-chip *ngFor="let dislike of cat?.dietDislikes">{{ dislike }}</mat-chip>
-      </mat-chip-set>
-      <p><strong>Feeding Notes:</strong></p>
+      <p><strong>Diet preferences</strong></p>
+      <div class="cat-diet">
+        <div class="cat-diet-likes">
+        <p><strong>Likes</strong></p>
+          <mat-chip-set>
+            <mat-chip *ngFor="let like of cat?.dietLikes">{{ like }}</mat-chip>
+          </mat-chip-set>
+        </div>
+        <div class="cat-diet-dislikes">
+          <p><strong>Dislikes</strong></p>
+          <mat-chip-set>
+            <mat-chip *ngFor="let dislike of cat?.dietDislikes">{{ dislike }}</mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+      <p><strong>Feeding notes</strong></p>
       <mat-chip-set>
         <mat-chip *ngFor="let note of cat?.feedingNotes">{{ note }}</mat-chip>
       </mat-chip-set>
-      <p><strong>Frequent Locations:</strong></p>
+    </div>
+    <div class="cat-locations">
+      <p><strong>Frequently seen locations</strong></p>
       <div *ngFor="let location of cat?.frequentLocations">
         <p>Lat: {{ location?.lat }}, Lng: {{ location?.lng }}</p>
       </div>
-      <p><strong>Fed Updates:</strong></p>
-      <div *ngFor="let update of cat?.fedUpdates">
-        <p>{{ update.username }} fed at {{ update.location }} {{ update.time }}</p>
-      </div>
-      <p><strong>Seen Updates:</strong></p>
-      <div *ngFor="let update of cat?.seenUpdates">
-        <p>{{ update.username }} saw at {{ update.location }} {{ update.time }}</p>
-      </div>
-    </mat-card-content>
-</mat-card>
+    </div>
+  </div>
+</div>
