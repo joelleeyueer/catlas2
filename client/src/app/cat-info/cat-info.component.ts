@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CatService } from '../cat.service';
 import { CatInfo } from '../model/model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -13,17 +14,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class CatInfoComponent {
 
   cat: any;
+  notFound: boolean = false;
 
-  constructor(private route: ActivatedRoute, private catService: CatService) {}
+  constructor(private route: ActivatedRoute, private catService: CatService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     const catId = this.route.snapshot.paramMap.get('id');
     this.catService.getCatDetails(catId!).subscribe(
       (response: any) => {
+        this.notFound = false;
         this.cat = response;
       },
       error => {
         console.log(error);
+        const errorMessage = error.error?.error || 'An error occurred';
+        // If the error message is "Cat not found", set notFound to true
+        if (errorMessage === 'Cat not found') {
+          this.notFound = true;
+        }
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 6000,
+        });
       }
     );
   }
