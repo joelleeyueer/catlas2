@@ -24,12 +24,14 @@ export class CatMapComponent implements OnInit {
     const loader = new Loader({
       apiKey: 'AIzaSyDXy7SLzzZRQJyDba-z8DGqWXD-8xHQVhQ',
       version: "weekly",
+      
     });
   
     loader.load().then(() => {
       console.log("Google Maps loaded");
       this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
-        zoom: 16
+        zoom: 16,
+        mapId: 'bc32e652a4b92901'
       });
   
       // Try HTML5 geolocation
