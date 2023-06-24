@@ -33,7 +33,10 @@ export class CatMapComponent implements OnInit {
       });
   
       // Try HTML5 geolocation
-      if (navigator.geolocation) {
+      if (this.searchCoordinates) {
+        this.map.setCenter(this.searchCoordinates);
+      } else {
+        if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position: GeolocationPosition) => {
             const pos = {
@@ -53,7 +56,7 @@ export class CatMapComponent implements OnInit {
       } else {
         // Browser doesn't support Geolocation, set the center to a default location
         this.handleLocationError(false, {lat: 1.3537, lng: 103.7190});
-      }
+      }}
     });
   }
 

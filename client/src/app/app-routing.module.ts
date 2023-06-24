@@ -6,7 +6,8 @@ import { CatInfoComponent } from './cat-info/cat-info.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
-  { path: 'cat/:id', component: CatInfoComponent } // Add this route
+  { path: 'search', component: HomepageComponent },
+  { path: 'cat/:id', component: CatInfoComponent }
 
 ];
 
