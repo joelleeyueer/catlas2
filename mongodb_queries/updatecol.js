@@ -1,6 +1,22 @@
 db.updatecol.find({})
 db.updatecol.deleteMany({});
 
+db.updatecol.remove({ _id: ObjectId('6496b6096ee6549f62d03380') });
+
+
+db.updatecol.insert({
+    id: "6",
+    type: "seen",
+    catId: "cat1",
+    username: "@joel",
+    datetime: ISODate("2023-01-04T00:00:00Z"),
+    location: "Block 684B",
+    comments: "sleeping again",
+    photos: [
+      "https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-feedupdate.jpg",
+      "https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-profile.jpg"
+    ]
+})
 
 
 db.updatecol.insertMany([

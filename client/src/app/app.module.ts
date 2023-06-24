@@ -27,9 +27,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     AppComponent,
     CatListComponent,
     CatMapComponent,
+    CatInfoComponent,
     HomepageComponent,
-    DashboardComponent,
-    CatInfoComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
