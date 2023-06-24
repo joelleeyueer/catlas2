@@ -1,0 +1,37 @@
+ul {
+	list-style: none;
+}
+
+li {
+    display: block;
+}
+
+a {
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    border-bottom: 2px solid #c4c4c4;
+    padding: 0 2rem;
+    font-size: 1rem;
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.logo p {
+    margin: 0px !important;
+}
