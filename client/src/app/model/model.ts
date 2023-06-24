@@ -32,6 +32,7 @@ export interface Update {
     catId: string;
     photoUrls: string[];
     name: string;
+    gender: string;
     age: string;
     sterilization: boolean;
     personalityTraits: string[];
