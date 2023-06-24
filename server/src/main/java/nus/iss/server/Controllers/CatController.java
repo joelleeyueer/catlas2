@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.json.JsonObject;
 import nus.iss.server.Services.CatSearchService;
+import nus.iss.server.Services.FundraiserService;
 
 @RestController
 public class CatController {
@@ -20,6 +21,9 @@ public class CatController {
 
     @Autowired
     private CatSearchService catSearchService;
+
+    @Autowired
+    private FundraiserService fundraiserService;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +41,7 @@ public class CatController {
         if (catJsonString.contains("error")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(catJsonString);
         } else if (catJsonString.contains("No cats found")) {
-            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(catJsonString);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
         }
@@ -88,8 +92,22 @@ public class CatController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
-        return null;
+
+        JsonObject fundraiserJson = fundraiserService.getFundraiser(id);
+        String fundraiserJsonString = fundraiserJson.toString();
+        if (fundraiserJsonString.contains("error")) {
+            if (fundraiserJsonString.contains("Fundraiser not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fundraiserJsonString);
+            } else if (fundraiserJsonString.contains("Fundraiser is not active")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(fundraiserJsonString);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(fundraiserJsonString);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(fundraiserJsonString);
+
     }
+    
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/cat/{cat_id}/fundraiser/{fundraiser_id}", produces = MediaType.APPLICATION_JSON_VALUE)

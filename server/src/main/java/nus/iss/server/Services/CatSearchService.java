@@ -21,7 +21,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Coordinates;
-import nus.iss.server.Model.Fundraiser;
 import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;

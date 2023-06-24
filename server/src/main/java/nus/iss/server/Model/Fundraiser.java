@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Fundraiser {
-    private String id;
+    private String fundId;
     private String catId;
     private String username;
     private String photoUrl;

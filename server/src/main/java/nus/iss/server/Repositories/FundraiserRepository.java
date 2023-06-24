@@ -18,8 +18,10 @@ public class FundraiserRepository {
 
     //get fundraiser by catId (max only 1 fundraiser per cat)
     public Fundraiser getFundraiserByCatId(String catId) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("catId").is(catId));
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("catId").is(catId), Criteria.where("approved").is("approved"));
+
+        Query query = new Query(criteria);
         Fundraiser incomingFundraiser = mongoTemplate.findOne(query, Fundraiser.class, COLLECTION_NAME);
         if (incomingFundraiser == null) {
             System.out.println("incomingFundraiser is null");
