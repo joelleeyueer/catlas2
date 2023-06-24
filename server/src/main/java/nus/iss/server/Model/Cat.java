@@ -17,6 +17,7 @@ public class Cat {
     private String catId;
     private String profilePhoto;
     private String name;
+    private String gender;
     private Date birthday; //days
     private Boolean sterilization;
     private List<String> personalityTraits;

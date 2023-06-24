@@ -207,6 +207,7 @@ public class CatSearchService {
         resultJsonBuilder.add("catId", cat.getCatId())
                         .add("photoUrls", catPhotoUrlsArray)
                         .add("name", cat.getName())
+                        .add("gender", cat.getGender())
                         .add("age", convertBirthdayToAge(cat.getBirthday()))
                         .add("sterilization", cat.getSterilization())
                         .add("personalityTraits", convertListToJsonArray(cat.getPersonalityTraits()))
