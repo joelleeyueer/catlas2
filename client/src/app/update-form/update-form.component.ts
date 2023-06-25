@@ -60,7 +60,11 @@ export class UpdateFormComponent implements OnInit{
       this.updateService.updateCat(updateForm).then(
         (response) => {
           console.log(response);
-          this.snackBar.open('Update submitted successfully!', '', { duration: 2000 }); // <-- Show snackbar here
+          if (response.success) {
+            this.snackBar.open(response.success, '', { duration: 2000 }); // Show snackbar here
+          } else if (response.error) {
+            alert(response.error);
+          }
           this.router.navigate(['/cat', updateForm.catId]);
         },
         (error) => {
@@ -76,6 +80,7 @@ export class UpdateFormComponent implements OnInit{
   onFileSelected(event: any) {
       if (event.target.files.length > 0) {
           this.selectedFile = event.target.files[0];
+          this.form.get('photo')?.setValue(this.selectedFile);
       }
   }
 

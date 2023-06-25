@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Document(collection="updatecol")
 public class Update {
-    @Indexed
     private String id;
     private String type; // i.e. update type like seen or feed or fundraiser
     private String catId;

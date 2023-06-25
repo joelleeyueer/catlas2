@@ -4,7 +4,7 @@
         <label>Type</label>
         <select id="type" formControlName="type">
           <option value="seen">Seen</option>
-          <option value="fed">Fed</option>
+          <option value="feed">Fed</option>
         </select>
       </div>
       <br>
@@ -28,7 +28,7 @@
         <input type="file" id="photo" (change)="onFileSelected($event)">
       </div>
       <br>
-      <div *ngIf="form.get('type')?.value === 'fed'">
+      <div *ngIf="form.get('type')?.value === 'feed'">
         <label>Type of Food Given</label>
         <div>
           <input type="checkbox" id="treats" formControlName="treats" value="treats">
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div *ngIf="form.get('type')?.value === 'fed'">
+      <div *ngIf="form.get('type')?.value === 'feed'">
         <label>Water Bowl Status</label>
         <div>
           <input type="radio" id="notrefilled" name="waterStatus" formControlName="waterStatus" value="not refilled">

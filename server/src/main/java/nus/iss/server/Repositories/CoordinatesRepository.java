@@ -40,4 +40,16 @@ public class CoordinatesRepository {
         }
         return incomingCoordinates;
     }
+
+    //insert coordinates for one cat
+    public Boolean insertCoordinates(Coordinates coordinates) {
+        System.out.println("in insertCoordinates");
+        Coordinates result = mongoTemplate.insert(coordinates, COLLECTION_NAME);
+        if (result == null) {
+            System.out.println("insertCoordinates is null");
+            return false;
+        }
+        System.out.println("insertCoordinates is added successfully");
+        return true;
+    }
 }

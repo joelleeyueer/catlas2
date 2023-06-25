@@ -19,13 +19,13 @@ db.updatecol.insert({
 })
 
 db.updatecol.insert({
-    id: "7",
+    id: "8",
     type: "fundraiser",
-    catId: "cat1",
-    username: "@user1",
+    catId: "cat2",
+    username: "@user2",
     datetime: ISODate("2023-12-31T00:00:00Z"),
     location: null,
-    comments: "fund1",
+    comments: "fund2",
     photos: []
 })
 

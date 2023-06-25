@@ -25,6 +25,7 @@ export interface Update {
     location: string;
     time: string;
     username: string;
+    comments: string;
     photoUrl?: string;
   }
 

@@ -78,7 +78,7 @@ public class UpdateRepository {
         try {
 
             Query latestUpdateQuery = new Query(Criteria.where("catId").is(id).and("type").is("feed"))
-                    .with(Sort.by(Sort.Direction.DESC, "timestamp"))
+                    .with(Sort.by(Sort.Direction.DESC, "datetime"))
                     .limit(1);
             Update result = mongoTemplate.findOne(latestUpdateQuery, Update.class, COLLECTION_NAME);
 
@@ -104,7 +104,7 @@ public class UpdateRepository {
             System.out.println("in getOneSeenUpdate, id is " + id);
 
             Query latestUpdateQuery = new Query(Criteria.where("catId").is(id).and("type").is("seen"))
-                    .with(Sort.by(Sort.Direction.DESC, "timestamp"))
+                    .with(Sort.by(Sort.Direction.DESC, "datetime"))
                     .limit(1);
             Update result = mongoTemplate.findOne(latestUpdateQuery, Update.class, COLLECTION_NAME);
 
