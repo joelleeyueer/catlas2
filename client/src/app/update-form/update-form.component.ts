@@ -4,6 +4,7 @@ import { UpdateService } from '../update.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateForm } from '../model/model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-update-form',
@@ -19,7 +20,7 @@ export class UpdateFormComponent implements OnInit{
 
   constructor(private fb: FormBuilder, private router: Router, 
             private route: ActivatedRoute, private updateService: UpdateService,
-            private snackBar: MatSnackBar) {}
+            private snackBar: MatSnackBar, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -97,6 +98,10 @@ export class UpdateFormComponent implements OnInit{
       dryFood: [false],
       waterStatus: ['']
     });
+  }
+
+  goBack() {
+    this.navigationService.goBack();
   }
   
 
