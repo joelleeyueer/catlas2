@@ -1,7 +1,7 @@
 db.updatecol.find({})
 db.updatecol.deleteMany({});
 
-db.updatecol.remove({ _id: ObjectId('6496b6096ee6549f62d03380') });
+db.updatecol.remove({ _id: ObjectId('6497cff9a420bc67e2708f03') });
 
 
 db.updatecol.insert({
@@ -16,6 +16,17 @@ db.updatecol.insert({
       "https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-feedupdate.jpg",
       "https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-profile.jpg"
     ]
+})
+
+db.updatecol.insert({
+    id: "7",
+    type: "fundraiser",
+    catId: "cat1",
+    username: "@user1",
+    datetime: ISODate("2023-12-31T00:00:00Z"),
+    location: null,
+    comments: "fund1",
+    photos: []
 })
 
 

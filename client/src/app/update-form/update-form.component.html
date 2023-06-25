@@ -1,0 +1,63 @@
+<div class="container">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+      <div>
+        <label>Type</label>
+        <select id="type" formControlName="type">
+          <option value="seen">Seen</option>
+          <option value="fed">Fed</option>
+        </select>
+      </div>
+      <br>
+      <div>
+        <label>Location</label>
+        <input id="location" formControlName="location">
+      </div>
+      <br>
+      <div>
+        <label>Date and Time</label>
+        <input type="datetime-local" id="datetime" formControlName="datetime">
+      </div>
+      <br>
+      <div>
+        <label>Comments</label>
+        <textarea id="comments" formControlName="comments"></textarea>
+      </div>
+      <br>
+      <div>
+        <label>Photo</label>
+        <input type="file" id="photo" (change)="onFileSelected($event)">
+      </div>
+      <br>
+      <div *ngIf="form.get('type')?.value === 'fed'">
+        <label>Type of Food Given</label>
+        <div>
+          <input type="checkbox" id="treats" formControlName="treats" value="treats">
+          <label for="treats">Treats</label>
+        </div>
+        <div>
+          <input type="checkbox" id="wetfood" formControlName="wetFood" value="wet food">
+          <label for="wetfood">Wet Food</label>
+        </div>
+        <div>
+          <input type="checkbox" id="dryfood" formControlName="dryFood" value="dry food">
+          <label for="dryfood">Dry Food</label>
+        </div>
+      </div>
+
+      <div *ngIf="form.get('type')?.value === 'fed'">
+        <label>Water Bowl Status</label>
+        <div>
+          <input type="radio" id="notrefilled" name="waterStatus" formControlName="waterStatus" value="not refilled">
+          <label for="notrefilled">Not Refilled</label>
+        </div>
+        <div>
+          <input type="radio" id="refilled" name="waterStatus" formControlName="waterStatus" value="refilled">
+          <label for="refilled">Refilled</label>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="!form.valid">Submit</button>
+      </div>
+    </form>
+</div>

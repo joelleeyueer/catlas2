@@ -13,6 +13,8 @@
             <img [src]="photoUrl" alt="Cat photo" /> 
         </div>
       </div>
+      <button mat-button (click)="goToUpdateForm(cat?.catId)">Update Cat</button>
+
       <div class="cat-title">
         <h1>{{ cat?.name }}</h1>
         <h2>{{ cat?.gender }} • {{ cat?.age }} {{ cat?.sterilization ? ' • Sterilized' : '' }}</h2>

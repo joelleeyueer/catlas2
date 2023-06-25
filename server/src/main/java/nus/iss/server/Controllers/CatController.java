@@ -84,7 +84,7 @@ public class CatController {
     // }
 
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "cat/{id}/updated", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateStatusByCatId(@PathVariable("id") String id) {
         return null;
     }
