@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
 
 @Repository
@@ -28,6 +30,14 @@ public class FundraiserRepository {
             return null;
         }
         return incomingFundraiser;
+    }
+
+    public void updateDonorListByFundraiserId(String fundId, Donor donor) throws Exception {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("fundId").is(fundId));
+        Update update = new Update();
+        update.push("donations", donor);
+        mongoTemplate.findAndModify(query, update, Fundraiser.class);
     }
 
 

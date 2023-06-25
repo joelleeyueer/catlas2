@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Fundraiser {
-    private String fundId;
+    private String fundId; // to use Stripe product id
     private String catId;
-    private String username;
+    private String username; // to use user email
     private String photoUrl;
     private String title;
     private String description;
