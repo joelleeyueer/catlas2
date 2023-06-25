@@ -8,6 +8,7 @@ import { Cat } from '../model/model';
   styleUrls: ['./cat-map.component.css']
 })
 export class CatMapComponent implements OnInit {
+  
 
   title = 'google-maps';
   private map: google.maps.Map | undefined;

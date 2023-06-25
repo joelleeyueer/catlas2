@@ -1,4 +1,5 @@
 <app-dashboard></app-dashboard>
+<button mat-button (click)="goBack()">Back</button>
 <div *ngIf="notFound; else catInfo" class="error-container">
   <img src="assets/images/404error2.jpg" alt="404 Error - Cat not found" />
 </div>
@@ -55,7 +56,7 @@
             <p>{{ cat?.fundraiserUpdates?.timeLeft }}</p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="goToFundraiser()">View Fundraiser</button>
+            <button mat-button (click)="goToFundraiser(cat.catId)">View Fundraiser</button>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -89,9 +90,7 @@
         </div>
         <div class="cat-locations">
           <p><strong>Frequently seen locations</strong></p>
-          <div *ngFor="let location of cat?.frequentLocations">
-            <p>Lat: {{ location?.lat }}, Lng: {{ location?.lng }}</p>
-          </div>
+          <div id="map" style="height: 500px; width: 500px"></div> 
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FundraiserComponent } from './fundraiser/fundraiser.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FundraiserComponent } from './fundraiser/fundraiser.component';
     MatIconModule,
     MatChipsModule,
     MatDialogModule,
-    MatGridListModule
+    MatGridListModule,
+    MatProgressBarModule
   ],
   entryComponents: [CatInfoComponent],
   providers: [],
