@@ -90,9 +90,7 @@
         </div>
         <div class="cat-locations">
           <p><strong>Frequently seen locations</strong></p>
-          <div *ngFor="let location of cat?.frequentLocations">
-            <p>Lat: {{ location?.lat }}, Lng: {{ location?.lng }}</p>
-          </div>
+          <div id="map" style="height: 500px; width: 500px"></div> 
         </div>
       </div>
     </div>

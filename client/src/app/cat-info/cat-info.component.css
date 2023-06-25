@@ -98,3 +98,5 @@ mat-chip {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     column-gap: 1.5rem;
 }
+
+
