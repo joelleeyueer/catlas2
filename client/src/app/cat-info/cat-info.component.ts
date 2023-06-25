@@ -87,5 +87,10 @@ export class CatInfoComponent {
   goBack() {
     this.navigationService.goBack();
   }
+
+    openPhotoUrl(url: string) {
+      window.open(url, "_blank");
+  }
+
   
 }

@@ -21,4 +21,6 @@ public class Fundraiser {
     private double donationGoal;
     private LocalDateTime deadline;
     private List<Donor> donations;
+    private String stripePaymentUrl;
+    private String stripeProductId;
 }

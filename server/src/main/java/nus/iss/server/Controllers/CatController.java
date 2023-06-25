@@ -1,5 +1,11 @@
 package nus.iss.server.Controllers;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,10 +16,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import nus.iss.server.Model.Update;
 import nus.iss.server.Services.CatSearchService;
 import nus.iss.server.Services.FundraiserService;
+import nus.iss.server.Services.UpdateService;
+import nus.iss.server.Services.UploadToS3Service;
 
 @RestController
 public class CatController {
@@ -24,6 +36,12 @@ public class CatController {
 
     @Autowired
     private FundraiserService fundraiserService;
+
+    @Autowired
+    private UploadToS3Service uploadToS3Service;
+
+    @Autowired
+    private UpdateService updateService;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,32 +79,59 @@ public class CatController {
         }       
     }
 
-    // @CrossOrigin(origins = "*")
-    // @GetMapping(value = "cat/{id}/updates", produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<String> getLatestUpdateByCatId(@PathVariable("id") String id) {
-
-    //     try {
-    //         Update seenUpdate = updateRepository.getSeenUpdateByCatId(id);
-    //         Update fedUpdate = updateRepository.getFedUpdateByCatId(id);
-    //         // fundraiser
-
-    //         Map<String, Object> combinedJson = new HashMap<>();
-    //         combinedJson.put("seen", seenUpdate);
-    //         combinedJson.put("fed", fedUpdate);
-
-    //         String updateJson = objectMapper.writeValueAsString(combinedJson);
-    //         return ResponseEntity.status(HttpStatus.OK).body(updateJson.toString());
-
-    //     } catch (Exception e) {
-    //         System.out.println(e.toString());
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching updates for cat");
-    //     }
-    // }
-
     @CrossOrigin(origins = "*")
-    @PostMapping(value = "cat/{id}/updated", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateStatusByCatId(@PathVariable("id") String id) {
-        return null;
+    @PostMapping(value = "cat/{id}/updated", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> addStatusByCatId(
+                            @RequestParam("type") String type,
+                            @RequestParam("catId") String catId,
+                            @RequestParam("location") String location,
+                            @RequestParam("datetime") String datetime,
+                            @RequestParam("comments") String comments,
+                            @RequestParam(value = "foodType", required = false) String foodType,
+                            @RequestParam(value = "waterStatus", required = false) String waterStatus,
+                            @RequestParam(value = "photo", required = false) MultipartFile file) {
+        
+        //create update object
+        Update update = new Update();
+        update.setCatId(catId);
+        update.setType(type);
+        update.setUsername("unknown");
+        update.setLocation(location);
+        update.setDatetime(LocalDateTime.parse(datetime));
+        update.setComments(constructComment(comments, foodType, waterStatus));
+
+        if (file != null){
+            //take jpg and upload to s3
+            List<String> imageUrls = new ArrayList<>();
+            try {
+                String imageUrl = uploadToS3Service.uploadSingleFile(file);
+                imageUrls.add(imageUrl);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+
+            update.setPhotos(imageUrls);
+        }
+
+        int updateSuccess = updateService.insertCatUpdate(update);
+
+        JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
+        JsonObject resultJson = null;
+
+
+        if (updateSuccess == 2) {
+            resultJsonBuilder.add("success", "Update successfully added, and location added to frequent location");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.OK).body(resultJson.toString());
+        } else if (updateSuccess == 1) {
+            resultJsonBuilder.add("success", "Update successfully added, and location added to frequent location");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.OK).body(resultJson.toString());
+        } else {
+            resultJsonBuilder.add("error", "Error adding update");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultJson.toString());
+        }
     }
 
     @CrossOrigin(origins = "*")
@@ -120,6 +165,48 @@ public class CatController {
     public ResponseEntity<String> updateFundraiserByFundraiserId(@PathVariable("id") String id) {
         return null;
     }
+
+    private String constructComment(String comments, String foodType, String waterStatus) {
+        StringBuilder result = new StringBuilder();
+
+        if (comments != null && !comments.isEmpty()) {
+            result.append(comments);
+        }
+
+        if (foodType != null && !foodType.isEmpty()) {
+            if (result.length() > 0) {
+                result.append(" ");
+            }
+            result.append("I've fed the cat with ");
+            
+            String[] foodTypes = foodType.split(" ");
+            
+            if (foodTypes.length == 1) {
+                result.append(foodType).append(" food.");
+            } else {
+                boolean isFirstType = true;
+                for (String type : foodTypes) {
+                    if (!isFirstType) {
+                        result.append(", ");
+                    }
+                    result.append(type);
+                    isFirstType = false;
+                }
+                result.append(" food.");
+            }
+        }
+        
+        if (waterStatus != null && !waterStatus.isEmpty()) {
+            if (result.length() > 0) {
+                result.append(" ");
+            }
+            result.append("Water bowl ").append(waterStatus).append(".");
+        }
+
+        return result.toString();
+    }
+
+
 
     
 }

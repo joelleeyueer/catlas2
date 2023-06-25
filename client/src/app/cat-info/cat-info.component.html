@@ -33,6 +33,8 @@
                 <p>{{ update.location }}</p>
                 <p>{{ update.time }}</p>
                 <p>@{{ update.username }}</p>
+                <p>{{ update.comments }}</p>
+                <button mat-button (click)="openPhotoUrl(update.photoUrls)">View photo</button>
               </div>
             </ng-template>
           </mat-card-content>
@@ -48,6 +50,8 @@
                 <p>{{ update.location }}</p>
                 <p>{{ update.time }}</p>
                 <p>@{{ update.username }}</p>
+                <p>{{ update.comments }}</p>
+                <button mat-button (click)="openPhotoUrl(update.photoUrls)">View photo</button>
               </div>
             </ng-template>
           </mat-card-content>

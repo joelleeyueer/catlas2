@@ -160,7 +160,9 @@ public class CatSearchService {
             JsonObjectBuilder fedBuilder = Json.createObjectBuilder();
             fedBuilder.add("location",fedUpdate.getLocation())
                     .add("time",timeElapsed(fedUpdate.getDatetime()))
-                    .add("username", fedUpdate.getUsername());
+                    .add("username", fedUpdate.getUsername())
+                    .add("comments", fedUpdate.getComments())
+                    .add("photoUrls", fedUpdate.getPhotos().get(0));
             fedJson = fedBuilder.build();
             fedJsonArrayBuilder.add(fedJson);
         }
@@ -176,7 +178,9 @@ public class CatSearchService {
             JsonObjectBuilder seenBuilder = Json.createObjectBuilder();
             seenBuilder.add("location",seenUpdate.getLocation())
                         .add("time",timeElapsed(seenUpdate.getDatetime()))
-                        .add("username", seenUpdate.getUsername());
+                        .add("username", seenUpdate.getUsername())
+                        .add("comments", seenUpdate.getComments())
+                        .add("photoUrls", seenUpdate.getPhotos().get(0));
             seenJson = seenBuilder.build();
             seenJsonArrayBuilder.add(seenJson);
         }
@@ -243,7 +247,7 @@ public class CatSearchService {
         if (fundJson != null){
             resultJsonBuilder.add("fundraiserUpdates", fundJson);
         }
-        
+
         JsonObject resultJson = resultJsonBuilder.build();
         // System.out.println("resultJson: " + resultJson);
         return resultJson;
