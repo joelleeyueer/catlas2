@@ -40,8 +40,8 @@ export class CatInfoComponent {
     );
   }
 
-  goToFundraiser() {
-    this.router.navigate(['/cat', this.cat._id, 'fundraiser']);
+  goToFundraiser(catId: string) {
+    this.router.navigate(['/cat', catId, 'fundraiser']);
   }
   
 }

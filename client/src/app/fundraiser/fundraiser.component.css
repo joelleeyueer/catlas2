@@ -1,0 +1,5 @@
+.fundraiser-image {
+    max-width: 100%; /* This will make sure image width does not exceed its container width */
+    height: auto; /* This will maintain the aspect ratio */
+  }
+  

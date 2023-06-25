@@ -1,1 +1,23 @@
-<p>fundraiser works!</p>
+<div fxLayout="row" fxLayoutGap="10px" *ngIf="fundraiser$ | async as fundraiser">
+    <mat-card fxFlex="50">
+        <mat-card-header>
+          <mat-card-title>{{ fundraiser.title }}</mat-card-title>
+          <mat-card-subtitle>{{ fundraiser.username }}</mat-card-subtitle>
+        </mat-card-header>
+        <img [src]="fundraiser.photoUrl" alt="Fundraiser image" class="fundraiser-image">
+        <mat-card-content>
+          <p>{{ fundraiser.description }}</p>
+        </mat-card-content>
+    </mat-card>
+      
+  
+    <mat-card fxFlex="50">
+      <mat-card-content>
+        <h2>${{ getTotalDonation(fundraiser.donations) }} raised out of ${{ fundraiser.donationGoal }}</h2>
+        <mat-progress-bar mode="determinate" [value]="getDonationPercentage(fundraiser.donations, fundraiser.donationGoal)"></mat-progress-bar>
+        <p>{{ fundraiser.timeRemaining }}</p>
+        <button mat-raised-button color="accent">Donate to Fundraiser</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

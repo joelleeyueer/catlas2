@@ -55,7 +55,7 @@
             <p>{{ cat?.fundraiserUpdates?.timeLeft }}</p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button (click)="goToFundraiser()">View Fundraiser</button>
+            <button mat-button (click)="goToFundraiser(cat.catId)">View Fundraiser</button>
           </mat-card-actions>
         </mat-card>
       </div>
