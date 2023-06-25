@@ -18,7 +18,6 @@ import nus.iss.server.Services.FundraiserService;
 @RestController
 public class CatController {
 
-
     @Autowired
     private CatSearchService catSearchService;
 
@@ -120,6 +119,4 @@ public class CatController {
     public ResponseEntity<String> updateFundraiserByFundraiserId(@PathVariable("id") String id) {
         return null;
     }
-
-    
 }

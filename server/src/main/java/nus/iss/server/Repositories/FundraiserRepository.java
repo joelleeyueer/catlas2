@@ -1,11 +1,14 @@
 package nus.iss.server.Repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
@@ -38,8 +41,50 @@ public class FundraiserRepository {
         Update update = new Update();
         update.push("donations", donor);
         mongoTemplate.findAndModify(query, update, Fundraiser.class);
+    } 
+
+    public Fundraiser getFundraiserByFundraiserId(String fundId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("fundId").is(fundId));
+        
+        Fundraiser incomingFundraiser = mongoTemplate.findOne(query, Fundraiser.class, COLLECTION_NAME);
+        if (incomingFundraiser == null) {
+            System.out.println("incomingFundraiser is null");
+            return null;
+        }
+        return incomingFundraiser;
     }
 
+    public void approveFundraiserByFundraiserId(String fundId, String productId, String paymentLinkUrl) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("fundId").is(fundId));
 
- 
+        Update update = new Update();
+        update.set("approved", "approved");
+        update.set("stripeProductId", productId);
+        update.set("stripePaymentUrl", paymentLinkUrl);
+
+        FindAndModifyOptions findAndModifyOptions = FindAndModifyOptions.options().returnNew(true);
+        Fundraiser updated = mongoTemplate.findAndModify(query, update, findAndModifyOptions, Fundraiser.class);
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            System.out.println(objectMapper.writeValueAsString(updated));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+
+    public void rejectFundraiserByFundraiserId(String fundId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("fundId").is(fundId));
+
+        Update update = new Update();
+        update.set("approved", "rejected");
+
+        FindAndModifyOptions findAndModifyOptions = FindAndModifyOptions.options().returnNew(true);
+        mongoTemplate.findAndModify(query, update, findAndModifyOptions, Fundraiser.class);
+    }
 }
