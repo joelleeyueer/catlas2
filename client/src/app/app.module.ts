@@ -28,6 +28,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 
 
 
@@ -40,7 +41,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     HomepageComponent,
     DashboardComponent,
     FundraiserComponent,
-    UpdateFormComponent
+    UpdateFormComponent,
+    AddCatFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,60 @@
+<app-dashboard></app-dashboard>
+<div class="back-navigation">
+  <button mat-button (click)="goBack()"> Back</button>
+</div>
+<div class="container">
+    <mat-card-header><h1>Add New Cat Request</h1></mat-card-header>
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Birthday</mat-label>
+            <input matInput type="date" formControlName="birthday">
+        </mat-form-field>
+
+        <mat-checkbox formControlName="sterilization">Sterilized?</mat-checkbox>
+        <br>
+        <mat-form-field appearance="fill">
+            <mat-label>Personality Traits</mat-label>
+            <input matInput formControlName="personalityTraits" matInput placeholder="Playful, Affectionate, etc (Please seperate each input with a comma)">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Diet Likes</mat-label>
+            <input matInput formControlName="dietLikes" matInput placeholder="Fish, Chicken, Wet food, Tuna, Kibbles (Please seperate each input with a comma)">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Diet Dislikes</mat-label>
+            <input matInput formControlName="dietDislikes" matInput placeholder="Dairy, Vegetables, Red meat (Please seperate each input with a comma)">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Feeding Notes</mat-label>
+            <input matInput formControlName="feedingNotes" matInput placeholder="Feed twice a day, morning around 7-8am and evening 9-10pm">
+        </mat-form-field>
+
+        <div>
+            <mat-label>Upload Profile Photo</mat-label>
+            <br>
+            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+        </div>
+        
+        <br>
+        <div>
+            <button type="submit" [disabled]="!form.valid" class="large-button">Submit</button>
+        </div>
+    </form>
+</div>

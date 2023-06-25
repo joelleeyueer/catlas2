@@ -81,3 +81,18 @@ export interface Update {
     photo: File;
 }
 
+export interface AddCatForm {
+    profilePhoto: File;
+    location: Coordinates;
+    locationAddress: string;
+    name: string;
+    gender: string;
+    birthday: Date;
+    sterilization: boolean;
+    personalityTraits: string[];
+    dietLikes: string[];
+    dietDislikes: string[];
+    feedingNotes: string[];
+}
+
+

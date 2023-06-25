@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
-import { CatInfo, CatList, Fundraiser } from './model/model';
+import { CatInfo, CatList, Fundraiser , AddCatForm} from './model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +28,22 @@ export class CatService {
     const url = `${this.apiURI}/cat/${id}/fundraiser`;
     return this.http.get<Fundraiser>(url);
   }
+
+
+  addCatRequest(addCatForm: AddCatForm) {
+      
+    return firstValueFrom(
+      this.http.post<any>(`${this.apiURI}/newcat`, addCatForm)
+    )
+    .then(response => {
+        console.log('Cat added successfully');
+        return response;
+    })
+    .catch(err => {
+        console.error('Error occurred while adding cat: ' + err);
+        throw err; // Re-throw the error so it can be caught by the caller
+    });
+}
+
   
 }

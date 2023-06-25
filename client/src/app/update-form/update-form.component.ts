@@ -16,6 +16,8 @@ export class UpdateFormComponent implements OnInit{
   form!: FormGroup;
   updateForm: UpdateForm[] = [];
   private catId!: string | null;
+  selectedFile: File | null = null;
+
   
 
   constructor(private fb: FormBuilder, private router: Router, 
@@ -75,7 +77,6 @@ export class UpdateFormComponent implements OnInit{
     }
   }
 
-  selectedFile: File | null = null;
 
   onFileSelected(event: any) {
       if (event.target.files.length > 0) {
