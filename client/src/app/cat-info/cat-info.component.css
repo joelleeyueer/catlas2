@@ -15,7 +15,15 @@ p {
 }
 
 .container {
-    margin: 5rem 8rem;
+    padding: 5rem 8rem;
+}
+
+.back-navigation {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.back-navigation button {
+    font-size: 1rem;
 }
 
 .image-container img {
@@ -44,7 +52,7 @@ p {
 }
 
 .cat-title h1 {
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 .cat-update {
@@ -57,7 +65,7 @@ mat-card {
     background-color: #D8DCF7;
     padding: 1rem;
     flex: 1;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 mat-card-header p {
@@ -65,18 +73,28 @@ mat-card-header p {
 }
 
 .update-items p:first-child {
-    font-size: 1.5rem;
-    font-weight: 300;
+    font-size: 1.2rem;
 }
   
 .update-items p:nth-child(2) {
-    color: #3F3E3E;
+    font-weight: 300;
 }
   
 .update-items p:nth-child(3) {
-    margin-top: 1rem;
-    color: #3F3E3E;
+    padding-top: 1.5rem;
     font-weight: 300;
+}
+
+.cat-fundraiser {
+    background-color: #FFDDDD;
+}
+
+.cat-fundraiser mat-card-content p:nth-child(2) {
+    font-weight: 300;
+}
+
+.cat-fundraiser mat-card-actions {
+    margin-top: 1rem;
 }
 
 .cat-details {
@@ -89,7 +107,7 @@ mat-chip-set {
 }
 
 mat-chip {
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 0.3rem;
 }
 
@@ -97,6 +115,10 @@ mat-chip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     column-gap: 1.5rem;
+}
+
+.cat-locations {
+    margin-bottom: 2rem;
 }
 
 

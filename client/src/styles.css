@@ -19,5 +19,11 @@ h2 {
     font-style: normal;
 }
 
+button {
+    font-family: "Inter", "Helvetica Neue", sans-serif !important;
+    background-color: transparent !important;
+}
+
+
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 

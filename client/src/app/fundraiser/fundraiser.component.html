@@ -1,24 +1,31 @@
-<button mat-button (click)="goBack()">Back</button>
-<div fxLayout="row" fxLayoutGap="10px" *ngIf="fundraiser$ | async as fundraiser">
-    <mat-card fxFlex="50">
-        <mat-card-header>
-          <mat-card-title>{{ fundraiser.title }}</mat-card-title>
-          <mat-card-subtitle>{{ fundraiser.username }}</mat-card-subtitle>
-        </mat-card-header>
+<div><app-dashboard></app-dashboard></div>
+<div class="back-navigation">
+  <button mat-button (click)="goBack()">< Back</button>
+</div>
+<div *ngIf="fundraiser$ | async as fundraiser" class="container">
+    <div class="fundraiser-header">
+      <h1>{{ fundraiser.title }}</h1>
+      <h2>fundraiser organised by: @{{ fundraiser.username }}</h2>
+    </div>
+    <div class="inner-container">
+    <div class="fundraiser-details">
+      <div id="image-box">
         <img [src]="fundraiser.photoUrl" alt="Fundraiser image" class="fundraiser-image">
+      </div>
+      <p>{{ fundraiser.description }}</p>
+    </div>
+    <div class="fundraiser-donation">
+      <mat-card class="donation-card">
         <mat-card-content>
-          <p>{{ fundraiser.description }}</p>
+          <h1>${{ getTotalDonation(fundraiser.donations) }} raised out of ${{ fundraiser.donationGoal }}</h1>
+          <mat-progress-bar mode="determinate" [value]="getDonationPercentage(fundraiser.donations, fundraiser.donationGoal)"></mat-progress-bar>
+          <p>{{ fundraiser.timeRemaining }}</p>
+          <button mat-raised-button color="accent">Donate to fundraiser</button>
         </mat-card-content>
-    </mat-card>
-      
-  
-    <mat-card fxFlex="50">
-      <mat-card-content>
-        <h2>${{ getTotalDonation(fundraiser.donations) }} raised out of ${{ fundraiser.donationGoal }}</h2>
-        <mat-progress-bar mode="determinate" [value]="getDonationPercentage(fundraiser.donations, fundraiser.donationGoal)"></mat-progress-bar>
-        <p>{{ fundraiser.timeRemaining }}</p>
-        <button mat-raised-button color="accent">Donate to Fundraiser</button>
-      </mat-card-content>
-    </mat-card>
+      </mat-card>
+    </div>
   </div>
+</div>
+
+
   
