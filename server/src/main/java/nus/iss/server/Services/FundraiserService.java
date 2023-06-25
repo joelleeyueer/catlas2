@@ -73,7 +73,7 @@ public class FundraiserService {
     
     }
 
-    private String getTimeRemaining(LocalDateTime deadline) {
+    public String getTimeRemaining(LocalDateTime deadline) {
     LocalDateTime now = LocalDateTime.now();
     Duration duration = Duration.between(now, deadline);
     
@@ -101,7 +101,7 @@ public class FundraiserService {
     if (timeRemaining.isEmpty()) {
         timeRemaining = "Expired";
     } else {
-        timeRemaining += "left";
+        timeRemaining += " left";
     }
     
     return timeRemaining;

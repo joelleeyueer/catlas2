@@ -20,6 +20,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { FundraiserComponent } from './fundraiser/fundraiser.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     CatMapComponent,
     CatInfoComponent,
     HomepageComponent,
-    DashboardComponent
+    DashboardComponent,
+    FundraiserComponent
   ],
   imports: [
     BrowserModule,

@@ -48,9 +48,11 @@
             </ng-template>
           </mat-card-content>
         </mat-card>
-        <mat-card>
+        <mat-card *ngIf="cat?.fundraiserUpdates">
+          <mat-card-header><p>Fundraiser Notice</p></mat-card-header>
           <mat-card-content>
-            <p>Fundraiser</p>
+            <p>{{ cat?.fundraiserUpdates?.title }}</p>
+            <p>{{ cat?.fundraiserUpdates?.timeLeft }}</p>
           </mat-card-content>
         </mat-card>
       </div>

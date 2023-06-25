@@ -27,6 +27,11 @@ export interface Update {
     username: string;
     photoUrl?: string;
   }
+
+  export interface FundraiserUpdate {
+    title: string;
+    timeLeft: string;
+  }
   
   export interface CatInfo {
     catId: string;
@@ -42,4 +47,5 @@ export interface Update {
     frequentLocations: Coordinates[];
     fedUpdates: Update[];
     seenUpdates: Update[];
+    fundraiserUpdates: FundraiserUpdate;
   }

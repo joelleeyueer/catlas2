@@ -21,6 +21,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Coordinates;
+import nus.iss.server.Model.Fundraiser;
 import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;
@@ -45,6 +46,9 @@ public class CatSearchService {
     
     @Autowired
     private GoogleGeocodingService geocodingService;
+
+    @Autowired
+    private FundraiserService fundraiserService;
 
     /////////////
     ///API//////
@@ -178,6 +182,20 @@ public class CatSearchService {
         }
         JsonArray seenJsonArray = seenJsonArrayBuilder.build();
 
+        //get one fundraiser update
+        Update fundraiserUpdate = updateRepository.getOneFundraiserUpdate(catId);
+        
+        JsonObject fundJson = null;
+        if (fundraiserUpdate != null)  {
+            //get title
+            Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId);
+            JsonObjectBuilder fundBuilder = Json.createObjectBuilder();
+            fundBuilder.add("title", fundraiser.getTitle())
+            .add("timeLeft", fundraiserService.getTimeRemaining(fundraiserUpdate.getDatetime()));
+            fundJson = fundBuilder.build();
+        }
+
+
         //construct url list
         List<String> catPhotoUrls = updateRepository.getPhotoUrlsByCatId(catId);
         JsonArrayBuilder catPhotoUrlsJsonArrayBuilder = Json.createArrayBuilder();
@@ -221,6 +239,11 @@ public class CatSearchService {
                         .add("frequentLocations", catLocationJsonArray)
                         .add("fedUpdates", fedJsonArray)
                         .add("seenUpdates", seenJsonArray);
+
+        if (fundJson != null){
+            resultJsonBuilder.add("fundraiserUpdates", fundJson);
+        }
+        
         JsonObject resultJson = resultJsonBuilder.build();
         // System.out.println("resultJson: " + resultJson);
         return resultJson;

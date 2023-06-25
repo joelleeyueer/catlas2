@@ -109,7 +109,7 @@ public class UpdateRepository {
             Update result = mongoTemplate.findOne(latestUpdateQuery, Update.class, COLLECTION_NAME);
 
             if (result == null) {
-                System.out.println("result is null");
+                System.out.println("getOneSeenUpdate is null");
                 return null;
             }
 
@@ -119,6 +119,32 @@ public class UpdateRepository {
 
         } catch (Exception e) {
             System.out.println("exception in getOneSeenUpdate " + e.getMessage());
+            return null;
+        }
+        
+    }
+
+    public Update getOneFundraiserUpdate(String id){
+
+        try {
+            
+            System.out.println("in getOneFundraiserUpdate, id is " + id);
+
+            Query latestUpdateQuery = new Query(Criteria.where("catId").is(id).and("type").is("fundraiser"))
+                    .limit(1);
+            Update result = mongoTemplate.findOne(latestUpdateQuery, Update.class, COLLECTION_NAME);
+
+            if (result == null) {
+                System.out.println("getOneFundraiserUpdate is null");
+                return null;
+            }
+
+
+
+            return result;
+
+        } catch (Exception e) {
+            System.out.println("exception in getOneFundraiserUpdate " + e.getMessage());
             return null;
         }
         
