@@ -150,6 +150,20 @@ public class UpdateRepository {
         
     }
 
-    
-    
+    public Update insertCatUpdate(Update update){
+        System.out.println("in insertCatUpdate, update is " + update.toString());
+
+        try {
+            Update result = mongoTemplate.insert(update, COLLECTION_NAME);
+            return result;
+        } catch (Exception e) {
+            System.out.println("exception in insertCatUpdate " + e.getMessage());
+            return null;
+        }
+    }
+
 }
+
+    
+    
+

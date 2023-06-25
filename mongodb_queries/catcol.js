@@ -38,7 +38,8 @@ db.catcol.createIndex({"frequentLocationList.$**": "2dsphere"})
 
 db.catcol.insertOne(
   {
-    "catId": "cat5",
+    "catId": "cat6",
+    "approved":"rejected",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat5-profile.jpg",
     "name": "Mika",
     "gender": "Male",
@@ -57,6 +58,7 @@ db.catcol.getIndexes()
 db.catcol.insertMany([
   {
     "catId": "cat1",
+    "approved":"approved",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat1-profile.jpg",
     "name": "Fluffy",
     "gender": "Male",
@@ -69,6 +71,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat2",
+    "approved":"approved",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat2-profile.jpg",
     "name": "Whiskers",
     "gender": "Female",
@@ -81,6 +84,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat3",
+    "approved":"approved",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat3-profile.jpg",
     "name": "Mittens",
     "gender": "Female",
@@ -93,6 +97,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat4",
+    "approved":"approved",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat4-profile.jpg",
     "name": "Socks",
     "gender": "Male",
@@ -105,6 +110,7 @@ db.catcol.insertMany([
   },
   {
     "catId": "cat5",
+    "approved":"approved",
     "profilePhoto":"https://catlas-bucket.sgp1.digitaloceanspaces.com/cat5-profile.jpg",
     "name": "Mika",
     "gender": "Male",

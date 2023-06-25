@@ -22,6 +22,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { FundraiserComponent } from './fundraiser/fundraiser.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { UpdateFormComponent } from './update-form/update-form.component';
+import { MatOptionModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -32,7 +36,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     CatInfoComponent,
     HomepageComponent,
     DashboardComponent,
-    FundraiserComponent
+    FundraiserComponent,
+    UpdateFormComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +54,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatChipsModule,
     MatDialogModule,
     MatGridListModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatOptionModule,
+    MatRadioModule,
+    FlexLayoutModule
   ],
   entryComponents: [CatInfoComponent],
   providers: [],

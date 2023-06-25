@@ -68,3 +68,15 @@ export interface Update {
     timeRemaining: string;
     donations: Donation[];
   }
+
+  export interface UpdateForm {
+    type: string;
+    catId: string;
+    foodType: string[]; // for food type checkboxes
+    waterStatus: string; // for water bowl status radio buttons
+    location: string;
+    datetime: Date;
+    comments: string;
+    photo: File;
+}
+
