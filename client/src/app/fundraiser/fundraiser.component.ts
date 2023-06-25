@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CatService } from '../cat.service';
 import { Observable } from 'rxjs';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-fundraiser',
@@ -13,7 +14,7 @@ export class FundraiserComponent implements OnInit{
   fundraiser$: Observable<any> | undefined;
   catId: string;
 
-  constructor(private route: ActivatedRoute, private catService: CatService) {
+  constructor(private route: ActivatedRoute, private catService: CatService, private navigationService: NavigationService) {
     this.catId = this.route.snapshot.paramMap.get('id')!;
   }
 
@@ -29,6 +30,11 @@ export class FundraiserComponent implements OnInit{
     const totalDonation = this.getTotalDonation(donations);
     return (totalDonation / goal) * 100;
   }
+
+  goBack() {
+    this.navigationService.goBack();
+  }
+  
   
 
 }

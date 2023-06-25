@@ -5,6 +5,7 @@ import { CatInfo } from '../model/model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { NavigationService } from '../navigation.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class CatInfoComponent {
   cat: any;
   notFound: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private catService: CatService, private snackBar: MatSnackBar) {}
+  constructor(private route: ActivatedRoute, private router: Router, private catService: CatService, private snackBar: MatSnackBar, private navigationService: NavigationService) {}
 
   ngOnInit(): void {
     const catId = this.route.snapshot.paramMap.get('id');
@@ -42,6 +43,10 @@ export class CatInfoComponent {
 
   goToFundraiser(catId: string) {
     this.router.navigate(['/cat', catId, 'fundraiser']);
+  }
+
+  goBack() {
+    this.navigationService.goBack();
   }
   
 }
