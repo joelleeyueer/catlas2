@@ -4,6 +4,7 @@ import { CatService } from '../cat.service';
 import { CatInfo } from '../model/model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class CatInfoComponent {
   cat: any;
   notFound: boolean = false;
 
-  constructor(private route: ActivatedRoute, private catService: CatService, private snackBar: MatSnackBar) {}
+  constructor(private route: ActivatedRoute, private router: Router, private catService: CatService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     const catId = this.route.snapshot.paramMap.get('id');
@@ -38,6 +39,11 @@ export class CatInfoComponent {
       }
     );
   }
+
+  goToFundraiser() {
+    this.router.navigate(['/cat', this.cat._id, 'fundraiser']);
+  }
+  
 }
 
 // export class CatInfoComponent {

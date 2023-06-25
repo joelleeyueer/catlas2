@@ -49,3 +49,22 @@ export interface Update {
     seenUpdates: Update[];
     fundraiserUpdates: FundraiserUpdate;
   }
+
+  export interface Donation {
+    username: string;
+    amount: number;
+    donationDate: string;
+  }
+  
+  export interface Fundraiser {
+    fundId: string;
+    catId: string;
+    username: string;
+    photoUrl: string;
+    title: string;
+    description: string;
+    donationGoal: number;
+    deadline: string;
+    timeRemaining: string;
+    donations: Donation[];
+  }

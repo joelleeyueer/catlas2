@@ -54,6 +54,9 @@
             <p>{{ cat?.fundraiserUpdates?.title }}</p>
             <p>{{ cat?.fundraiserUpdates?.timeLeft }}</p>
           </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="goToFundraiser()">View Fundraiser</button>
+          </mat-card-actions>
         </mat-card>
       </div>
       <hr>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, firstValueFrom } from 'rxjs';
-import { CatInfo, CatList } from './model/model';
+import { CatInfo, CatList, Fundraiser } from './model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class CatService {
   getCatDetails(id: string): Observable<CatInfo> {
     const url = `${this.apiURI}/cat/${id}`;
     return this.http.get<CatInfo>(url);
+  }
+
+  getCatFundraiser(id: string): Observable<any> {
+    const url = `${this.apiURI}/cat/${id}/fundraiser`;
+    return this.http.get<Fundraiser>(url);
   }
   
 }
