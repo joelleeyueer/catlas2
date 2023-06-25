@@ -2,9 +2,7 @@ package nus.iss.server.Controllers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,15 +10,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import nus.iss.server.Model.AddCatForm;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Services.CatSearchService;
 import nus.iss.server.Services.FundraiserService;
@@ -136,6 +137,17 @@ public class CatController {
             resultJson = resultJsonBuilder.build();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultJson.toString());
         }
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(value = "newcat", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> addNewCatRequest(@ModelAttribute AddCatForm addCatForm,
+        @RequestPart(value = "profilePhoto") MultipartFile photo) {
+
+        System.out.println("printing addCatForm "+ addCatForm);
+
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+       
     }
 
     @CrossOrigin(origins = "*")

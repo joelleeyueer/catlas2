@@ -45,11 +45,16 @@
             <input matInput formControlName="feedingNotes" matInput placeholder="Feed twice a day, morning around 7-8am and evening 9-10pm">
         </mat-form-field>
 
+        <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="locationAddress" matInput placeholder="Block 760 Yishun Street 81, or postal code for better results">
+        </mat-form-field>
+
         <div>
             <mat-label>Upload Profile Photo</mat-label>
             <br>
             <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="profilePhoto">
         </div>
         
         <br>

@@ -83,7 +83,6 @@ export interface Update {
 
 export interface AddCatForm {
     profilePhoto: File;
-    location: Coordinates;
     locationAddress: string;
     name: string;
     gender: string;

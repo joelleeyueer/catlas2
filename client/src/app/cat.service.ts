@@ -31,9 +31,20 @@ export class CatService {
 
 
   addCatRequest(addCatForm: AddCatForm) {
+    const formData = new FormData();
+    formData.append('profilePhoto', addCatForm.profilePhoto, addCatForm.profilePhoto.name);
+    formData.append('locationAddress', addCatForm.locationAddress);
+    formData.append('name', addCatForm.name);
+    formData.append('gender', addCatForm.gender);
+    formData.append('birthday', addCatForm.birthday.toString());
+    formData.append('sterilization', addCatForm.sterilization.toString());
+    formData.append('personalityTraits', JSON.stringify(addCatForm.personalityTraits));
+    formData.append('dietLikes', JSON.stringify(addCatForm.dietLikes));
+    formData.append('dietDislikes', JSON.stringify(addCatForm.dietDislikes));
+    formData.append('feedingNotes', JSON.stringify(addCatForm.feedingNotes));
       
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/newcat`, addCatForm)
+      this.http.post<any>(`${this.apiURI}/newcat`, formData)
     )
     .then(response => {
         console.log('Cat added successfully');
