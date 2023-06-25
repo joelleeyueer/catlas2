@@ -32,18 +32,17 @@ export class UpdateFormComponent implements OnInit{
 
   submitForm(): void {
     if (this.form.valid) {
-      let foodTypes= ''; 
-      if (this.form.get('treats')?.value) {
-        foodTypes += 'treats'
-        foodTypes += ' '
+      let foodTypes = '';
+      if (this.form.get('treats')?.value === true) {
+        foodTypes += 'treats ';
       }
-      if (this.form.get('wetFood')?.value) {
-        foodTypes += 'wet'
-        foodTypes += ' '
+      
+      if (this.form.get('wetFood')?.value === true) {
+        foodTypes += 'wet ';
       }
-      if (this.form.get('dryFood')?.value) {
-        foodTypes += 'dry'
-
+      
+      if (this.form.get('dryFood')?.value === true) {
+        foodTypes += 'dry ';
       }
 
       const updateForm: UpdateForm = {
