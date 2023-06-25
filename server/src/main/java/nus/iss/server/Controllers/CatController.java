@@ -90,10 +90,15 @@ public class CatController {
                             @RequestParam(value = "waterStatus", required = false) String waterStatus,
                             @RequestParam(value = "photo", required = false) MultipartFile file) {
         
+        
         //create update object
         Update update = new Update();
+        String typeStr = type;
+        if (type.equalsIgnoreCase("fed")){
+            typeStr = "feed";
+        }
         update.setCatId(catId);
-        update.setType(type);
+        update.setType(typeStr);
         update.setUsername("unknown");
         update.setLocation(location);
         update.setDatetime(LocalDateTime.parse(datetime));
@@ -167,9 +172,11 @@ public class CatController {
 
     private String constructComment(String comments, String foodType, String waterStatus) {
         StringBuilder result = new StringBuilder();
+        System.out.println("in constructComment: " + comments + foodType + waterStatus);
 
         if (comments != null && !comments.isEmpty()) {
             result.append(comments);
+            result.append(". ");
         }
 
         if (foodType != null && !foodType.isEmpty()) {

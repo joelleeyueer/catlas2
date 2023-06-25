@@ -1,14 +1,20 @@
 db.updatecol.find({})
 db.updatecol.deleteMany({});
 
-db.updatecol.remove({ _id: ObjectId('6497cff9a420bc67e2708f03') });
+db.updatecol.remove({ _id: 'update-da699950' });
+
+db.updatecol.find(
+    { "catId": "cat1", "type": "seen" },
+    { sort: { "timestamp": -1 } }
+)
+
 
 
 db.updatecol.insert({
     id: "6",
     type: "seen",
     catId: "cat1",
-    username: "@joel",
+    username: "joel",
     datetime: ISODate("2023-01-04T00:00:00Z"),
     location: "Block 684B",
     comments: "sleeping again",
@@ -22,7 +28,7 @@ db.updatecol.insert({
     id: "8",
     type: "fundraiser",
     catId: "cat2",
-    username: "@user2",
+    username: "user2",
     datetime: ISODate("2023-12-31T00:00:00Z"),
     location: null,
     comments: "fund2",
@@ -35,7 +41,7 @@ db.updatecol.insertMany([
     id: "1",
     type: "seen",
     catId: "cat1",
-    username: "@bobby",
+    username: "bobby",
     datetime: ISODate("2023-01-01T00:00:00Z"),
     location: "Block 684B",
     comments: "hes playing with jake",
@@ -46,7 +52,7 @@ db.updatecol.insertMany([
     id: "2",
     type: "feed",
     catId: "cat2",
-    username: "@nadia",
+    username: "nadia",
     datetime: ISODate("2023-06-02T00:00:00Z"),
     location: "Block 555",
     comments: "eating well",
@@ -56,7 +62,7 @@ db.updatecol.insertMany([
     id: "3",
     type: "seen",
     catId: "cat2",
-    username: "@jane_smith",
+    username: "jane_smith",
     datetime: ISODate("2023-06-03T00:00:00Z"),
     location: "mamashop",
     comments: "saw him chasing another cat",
@@ -66,7 +72,7 @@ db.updatecol.insertMany([
     id: "4",
     type: "feed",
     catId: "cat4",
-    username: "@zendaya",
+    username: "zendaya",
     datetime: ISODate("2023-06-22T00:00:00Z"),
     location: "near the playground",
     comments: "he ate",
@@ -76,7 +82,7 @@ db.updatecol.insertMany([
     id: "1",
     type: "seen",
     catId: "cat1",
-    username: "@joel",
+    username: "joel",
     datetime: ISODate("2023-01-04T00:00:00Z"),
     location: "Block 684B",
     comments: "sleeping again",
