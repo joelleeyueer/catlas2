@@ -64,17 +64,7 @@ public class FundraiserRepository {
         update.set("stripeProductId", productId);
         update.set("stripePaymentUrl", paymentLinkUrl);
 
-        FindAndModifyOptions findAndModifyOptions = FindAndModifyOptions.options().returnNew(true);
-        Fundraiser updated = mongoTemplate.findAndModify(query, update, findAndModifyOptions, Fundraiser.class);
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            System.out.println(objectMapper.writeValueAsString(updated));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
+        mongoTemplate.findAndModify(query, update, Fundraiser.class);
     }
 
     public void rejectFundraiserByFundraiserId(String fundId) {
@@ -84,7 +74,6 @@ public class FundraiserRepository {
         Update update = new Update();
         update.set("approved", "rejected");
 
-        FindAndModifyOptions findAndModifyOptions = FindAndModifyOptions.options().returnNew(true);
-        mongoTemplate.findAndModify(query, update, findAndModifyOptions, Fundraiser.class);
+        mongoTemplate.findAndModify(query, update, Fundraiser.class);
     }
 }

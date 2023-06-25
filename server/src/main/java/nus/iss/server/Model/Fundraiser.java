@@ -3,6 +3,8 @@ package nus.iss.server.Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "fundraisercol")
 public class Fundraiser {
     private String fundId;
     private String catId;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import jakarta.json.Json;
@@ -72,9 +73,7 @@ public class CatRepository {
         return catResult;
     }
 
-    public List<Cat> getAllCats(List<String> catIdsList){
-
-        
+    public List<Cat> getAllCats(List<String> catIdsList){     
         Criteria criteria = new Criteria();
         criteria.andOperator(Criteria.where("catId").in(catIdsList), Criteria.where("approved").is("approved"));
 
@@ -87,5 +86,25 @@ public class CatRepository {
         }
 
         return catResults;
+    }
+
+    public void approveCatByCatId(String catId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("catId").is(catId));
+
+        Update update = new Update();
+        update.set("approved", "approved");
+
+        mongoTemplate.findAndModify(query, update, Cat.class);
+    }
+
+    public void rejectCatByCatId(String catId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("catId").is(catId));
+
+        Update update = new Update();
+        update.set("approved", "rejected");
+
+        mongoTemplate.findAndModify(query, update, Cat.class);
     }
 }
