@@ -31,15 +31,15 @@
       <div *ngIf="form.get('type')?.value === 'fed'">
         <label>Type of Food Given</label>
         <div>
-          <input type="checkbox" id="treats" formControlName="foodType" value="treats">
+          <input type="checkbox" id="treats" formControlName="treats" value="treats">
           <label for="treats">Treats</label>
         </div>
         <div>
-          <input type="checkbox" id="wetfood" formControlName="foodType" value="wet food">
+          <input type="checkbox" id="wetfood" formControlName="wetFood" value="wet food">
           <label for="wetfood">Wet Food</label>
         </div>
         <div>
-          <input type="checkbox" id="dryfood" formControlName="foodType" value="dry food">
+          <input type="checkbox" id="dryfood" formControlName="dryFood" value="dry food">
           <label for="dryfood">Dry Food</label>
         </div>
       </div>

@@ -26,7 +26,7 @@ export class UpdateService {
     }
 
     if (updateForm.type === 'fed') {
-      formData.append('foodType', updateForm.foodType.join(","));
+      formData.append('foodType', updateForm.foodType);
       formData.append('waterStatus', updateForm.waterStatus);
     }
 

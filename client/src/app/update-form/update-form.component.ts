@@ -15,6 +15,7 @@ export class UpdateFormComponent implements OnInit{
   form!: FormGroup;
   updateForm: UpdateForm[] = [];
   private catId!: string | null;
+  
 
   constructor(private fb: FormBuilder, private router: Router, 
             private route: ActivatedRoute, private updateService: UpdateService,
@@ -23,12 +24,28 @@ export class UpdateFormComponent implements OnInit{
   ngOnInit(): void {
     this.createForm();
     this.route.params.subscribe(params => {
-      this.catId = params['catId']; // <-- Change this line
+      this.catId = params['id']; // <-- Change this line
+      console.log('Received catId: ', this.catId); // <-- Log the catId here
     });
+    
   }
 
   submitForm(): void {
     if (this.form.valid) {
+      let foodTypes= ''; 
+      if (this.form.get('treats')?.value) {
+        foodTypes += 'treats'
+        foodTypes += ' '
+      }
+      if (this.form.get('wetFood')?.value) {
+        foodTypes += 'wet'
+        foodTypes += ' '
+      }
+      if (this.form.get('dryFood')?.value) {
+        foodTypes += 'dry'
+
+      }
+
       const updateForm: UpdateForm = {
         type: this.form.get('type')?.value,
         catId: this.catId!,
@@ -36,7 +53,7 @@ export class UpdateFormComponent implements OnInit{
         datetime: this.form.get('datetime')?.value,
         comments: this.form.get('comments')?.value,
         photo: this.form.get('photo')?.value,
-        foodType: this.form.get('foodType')?.value,
+        foodType: foodTypes,
         waterStatus: this.form.get('waterStatus')?.value
       };
   
@@ -71,6 +88,9 @@ export class UpdateFormComponent implements OnInit{
       comments: [''],
       photo: [''],
       foodType: this.fb.array([]),
+      treats: [false],
+      wetFood: [false],
+      dryFood: [false],
       waterStatus: ['']
     });
   }
