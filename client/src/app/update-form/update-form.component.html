@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <form [formGroup]="form" (ngSubmit)="submitForm()">
       <div>
         <label>Type</label>
@@ -60,4 +60,70 @@
         <button type="submit" [disabled]="!form.valid">Submit</button>
       </div>
     </form>
-</div>
+</div> -->
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Update Cat Status</h1>
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="p-5 border rounded shadow bg-light">
+      <div class="mb-3">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="type" formControlName="type">
+          <option value="seen">Seen</option>
+          <option value="fed">Fed</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Location</label>
+        <input class="form-control" id="location" formControlName="location">
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Date and Time</label>
+        <input type="datetime-local" class="form-control" id="datetime" formControlName="datetime">
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Comments</label>
+        <textarea class="form-control" id="comments" formControlName="comments"></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Photo</label>
+        <input type="file" id="photo" (change)="onFileSelected($event)">
+      </div>
+  
+      <div *ngIf="form.get('type')?.value === 'fed'">
+        <label class="form-label mb-2">Type of Food Given</label>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="treats" formControlName="treats">
+          <label class="form-check-label" for="treats">Treats</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="wetfood" formControlName="wetFood">
+          <label class="form-check-label" for="wetfood">Wet Food</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="dryfood" formControlName="dryFood">
+          <label class="form-check-label" for="dryfood">Dry Food</label>
+        </div>
+      </div>
+  
+      <div *ngIf="form.get('type')?.value === 'fed'" class="mt-4">
+        <label class="form-label mb-2">Water Bowl Status</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="notrefilled" name="waterStatus" formControlName="waterStatus" value="not refilled">
+          <label class="form-check-label" for="notrefilled">Not Refilled</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="refilled" name="waterStatus" formControlName="waterStatus" value="refilled">
+          <label class="form-check-label" for="refilled">Refilled</label>
+        </div>
+      </div>
+  
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      </div>
+    </form>
+  </div>
+  
