@@ -43,7 +43,7 @@ public class GoogleGeocodingService {
             request = RequestEntity.get(new URI(url)).build();
             ResponseEntity<String> response = restTemplate.exchange(request, String.class);
             String body = response.getBody();
-            System.out.println(body);
+            // System.out.println(body);
             JsonReader reader = Json.createReader(new StringReader(body));
             JsonObject obj = reader.readObject();
             JsonArray results = obj.getJsonArray("results");

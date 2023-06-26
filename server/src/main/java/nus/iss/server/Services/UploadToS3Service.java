@@ -46,6 +46,8 @@ public class UploadToS3Service {
             if (contentType == null) {
                 throw new IllegalArgumentException("File type not supported for " + fileName + ".");
             }
+
+            fileName = generateUUID(fileName);
             
             currentPhotoMetadata.setContentType(contentType);
             currentPhotoMetadata.addUserMetadata("FileName", fileName);
@@ -89,6 +91,12 @@ public class UploadToS3Service {
         String imageUrl = "https://" + bucketName + "." + s3Client.getRegionName() + ".digitaloceanspaces.com/" + fileName;
         System.out.println("UploadToS3Service, Image URL: " + imageUrl);
         return imageUrl;
+    }
+
+    private String generateUUID(String postfix){
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = uuid.toString().substring(0,4) + "-" + postfix;
+        return randomUUIDString;
     }
 
     

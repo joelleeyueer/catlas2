@@ -50,7 +50,7 @@ export class AddCatFormComponent implements OnInit{
         } else if (response.error) {
           alert(response.error);
         }
-        this.goBack();
+        this.router.navigate(['/']);
       })
       .catch((err) => {
         this.snackBar.open('Error occurred while adding cat: ' + err, 'Close', {

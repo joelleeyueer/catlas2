@@ -107,4 +107,14 @@ public class CatRepository {
 
         mongoTemplate.findAndModify(query, update, Cat.class);
     }
+
+    public Boolean insertPendingCat(Cat cat) {
+        Cat catInsert = mongoTemplate.insert(cat, COLLECTION_NAME);
+        if (catInsert == null) {
+            System.out.println("insertPendingCat is null");
+            return false;
+        }
+        return true;
+
+    }
 }

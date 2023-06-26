@@ -1,8 +1,13 @@
 package nus.iss.server.Controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +27,10 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.AddCatForm;
+import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Services.CatSearchService;
+import nus.iss.server.Services.CatService;
 import nus.iss.server.Services.FundraiserService;
 import nus.iss.server.Services.UpdateService;
 import nus.iss.server.Services.UploadToS3Service;
@@ -42,6 +49,9 @@ public class CatController {
 
     @Autowired
     private UpdateService updateService;
+
+    @Autowired
+    private CatService catService;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -135,7 +145,7 @@ public class CatController {
         } else {
             resultJsonBuilder.add("error", "Error adding update");
             resultJson = resultJsonBuilder.build();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resultJson.toString());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultJson.toString());
         }
     }
 
@@ -146,7 +156,39 @@ public class CatController {
 
         System.out.println("printing addCatForm "+ addCatForm);
 
-        return ResponseEntity.status(HttpStatus.OK).body("success");
+        JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
+        JsonObject resultJson = null;
+
+        if (photo == null){
+            resultJsonBuilder.add("error", "No photo received");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultJson.toString());
+        }
+
+        //create cat object
+        Cat cat = new Cat();
+        String concat = "cat-" + getCurrentDate() + "-";
+        cat.setCatId(generateUUID(concat));
+        cat.setApproved("pending");
+        cat.setName(addCatForm.getName());
+        cat.setGender(addCatForm.getGender());
+        cat.setBirthday(stringToDate(addCatForm.getBirthday()));
+        cat.setSterilization(addCatForm.isSterilization());
+        cat.setPersonalityTraits(addCatForm.getPersonalityTraits());
+        cat.setDietLikes(addCatForm.getDietLikes());
+        cat.setDietDislikes(addCatForm.getDietDislikes());
+        cat.setFeedingNotes(addCatForm.getFeedingNotes());
+
+        int insertStatus = catService.insertNewCatRequest(cat, photo, addCatForm.getLocationAddress());
+        if (insertStatus == 1) {
+            resultJsonBuilder.add("success", "New cat request submitted successfully");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.OK).body(resultJson.toString());
+        } else {
+            resultJsonBuilder.add("error", "Error submitting cat request, please try again");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultJson.toString());
+        }
        
     }
 
@@ -182,6 +224,9 @@ public class CatController {
         return null;
     }
 
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
     private String constructComment(String comments, String foodType, String waterStatus) {
         StringBuilder result = new StringBuilder();
         System.out.println("in constructComment: " + comments + foodType + waterStatus);
@@ -222,5 +267,37 @@ public class CatController {
         }
 
         return result.toString();
+    }
+
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
+    private Date stringToDate(String dateStr){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = formatter.parse(dateStr);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
+    private String generateUUID(String prefix){
+        UUID uuid = UUID.randomUUID();
+        String randomUUIDString = prefix + uuid.toString().substring(0,8);
+        return randomUUIDString;
+    }
+
+    ///////////////////////////
+    /////HELPER FUNCTIONS//////
+    ///////////////////////////
+    private String getCurrentDate(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+        return now.format(formatter);
     }
 }
