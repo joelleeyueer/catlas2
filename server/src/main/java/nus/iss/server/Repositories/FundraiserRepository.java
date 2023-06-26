@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.result.UpdateResult;
 
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Donor;
@@ -45,12 +46,18 @@ public class FundraiserRepository {
         return incomingFundraiser;
     }
 
-    public void updateDonorListByFundraiserId(String fundId, Donor donor) throws Exception {
+    public void updateDonorListByFundraiserId(String prodId, Donor donor) throws Exception {
         Query query = new Query();
-        query.addCriteria(Criteria.where("fundId").is(fundId));
+        query.addCriteria(Criteria.where("stripeProductId").is(prodId));
         Update update = new Update();
         update.push("donations", donor);
-        mongoTemplate.findAndModify(query, update, Fundraiser.class);
+
+        UpdateResult result = mongoTemplate.updateFirst(query, update, Fundraiser.class);
+        if (result.getModifiedCount() > 0) {
+            System.out.println("Updated donations");
+        } else {
+            System.out.println("Did not update donations");
+        }
     } 
 
     public Fundraiser getFundraiserByFundraiserId(String fundId) {

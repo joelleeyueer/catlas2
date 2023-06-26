@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.stripe.exception.StripeException;
@@ -28,6 +29,7 @@ public class StripeWebhookService {
     FundraiserRepository fundraiserRepository;
 
     public void processPaymentIntent(PaymentIntent paymentIntent) {
+        System.out.println("Attempting to process payment intent");
         try {
             Map<String, Object> sessionsParam = new HashMap<>();
             sessionsParam.put("payment_intent", paymentIntent.getId());
@@ -35,16 +37,22 @@ public class StripeWebhookService {
 
             SessionCollection sessions = Session.list(sessionsParam);
             String sessionId = sessions.getData().get(0).getId();
+            System.out.println("Retrieved session id:"+sessionId);
 
             Session session = Session.retrieve(sessionId);
             Map<String, Object> sessionParam = new HashMap<>();
             sessionParam.put("limit", 1);
             LineItemCollection lineItems = session.listLineItems(sessionParam);
-
             LineItem lineItem = lineItems.getData().get(0);
+            System.out.println("Retrieved lineItem id:"+lineItem.toString());
+
             String prodId = lineItem.getPrice().getProduct();
+            System.out.println("Retrieved product id:"+prodId);
             
-            Donor donor = new Donor(session.getCustomerEmail(), paymentIntent.getAmount().doubleValue(), LocalDateTime.now());
+            Double actualAmount = paymentIntent.getAmount().doubleValue() / 100; // Stripe works in zero decimal currencies
+            System.out.println(String.format("Attempting to create Donor with %s %.2f %s", session.getCustomerDetails().getEmail(),
+                actualAmount.doubleValue(), LocalDateTime.now().toString()));
+            Donor donor = new Donor(session.getCustomerDetails().getEmail(), actualAmount.doubleValue(), LocalDateTime.now());
             fundraiserRepository.updateDonorListByFundraiserId(prodId, donor);
 
         } catch (StripeException e) {
