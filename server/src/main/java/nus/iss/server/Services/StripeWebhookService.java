@@ -23,6 +23,7 @@ import nus.iss.server.Repositories.FundraiserRepository;
 
 @Service
 public class StripeWebhookService {
+    
     @Autowired
     FundraiserRepository fundraiserRepository;
 

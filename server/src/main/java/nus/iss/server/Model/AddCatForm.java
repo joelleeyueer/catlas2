@@ -1,9 +1,9 @@
 package nus.iss.server.Model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,16 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection="catcol")
-public class Cat {
-    private String catId;
-    private String approved;
-    private String username;
-    private String profilePhoto;
+public class AddCatForm {
+    private MultipartFile profilePhoto;
+    private String locationAddress;
     private String name;
+    private String username;
     private String gender;
-    private Date birthday; //days
-    private Boolean sterilization;
+    private String birthday;
+    private boolean sterilization;
     private List<String> personalityTraits;
     private List<String> dietLikes;
     private List<String> dietDislikes;

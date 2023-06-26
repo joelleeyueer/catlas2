@@ -26,6 +26,11 @@ import { UpdateFormComponent } from './update-form/update-form.component';
 import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
+import { PendingRequestsComponent } from './pending-requests/pending-requests.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -37,7 +42,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     HomepageComponent,
     DashboardComponent,
     FundraiserComponent,
-    UpdateFormComponent
+    UpdateFormComponent,
+    AddCatFormComponent,
+    PendingRequestsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +64,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatProgressBarModule,
     MatOptionModule,
     MatRadioModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatToolbarModule
   ],
   entryComponents: [CatInfoComponent],
   providers: [],

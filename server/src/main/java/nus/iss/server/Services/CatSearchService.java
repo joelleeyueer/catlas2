@@ -142,8 +142,8 @@ public class CatSearchService {
     ///API//////
     ///////////
     // displaying one cat
-    public JsonObject getSingleCatInfo(String catId){
-        Cat cat = catRepository.getCatByCatId(catId);
+    public JsonObject getSingleCatInfo(String catId, Boolean admin){
+        Cat cat = catRepository.getCatByCatId(catId, admin);
         if (cat == null) {
             System.out.println("Cat not found");
             JsonObject errorJson = Json.createObjectBuilder()
@@ -161,8 +161,10 @@ public class CatSearchService {
             fedBuilder.add("location",fedUpdate.getLocation())
                     .add("time",timeElapsed(fedUpdate.getDatetime()))
                     .add("username", fedUpdate.getUsername())
-                    .add("comments", fedUpdate.getComments())
-                    .add("photoUrls", fedUpdate.getPhotos().get(0));
+                    .add("comments", fedUpdate.getComments());
+            if (fedUpdate.getPhotos().size() > 0) {
+                    fedBuilder.add("photoUrls", fedUpdate.getPhotos().get(0));
+            }
             fedJson = fedBuilder.build();
             fedJsonArrayBuilder.add(fedJson);
         }
@@ -179,8 +181,10 @@ public class CatSearchService {
             seenBuilder.add("location",seenUpdate.getLocation())
                         .add("time",timeElapsed(seenUpdate.getDatetime()))
                         .add("username", seenUpdate.getUsername())
-                        .add("comments", seenUpdate.getComments())
-                        .add("photoUrls", seenUpdate.getPhotos().get(0));
+                        .add("comments", seenUpdate.getComments());
+            if (seenUpdate.getPhotos().size() > 0) {
+                    seenBuilder.add("photoUrls", seenUpdate.getPhotos().get(0));
+            }
             seenJson = seenBuilder.build();
             seenJsonArrayBuilder.add(seenJson);
         }
@@ -192,7 +196,7 @@ public class CatSearchService {
         JsonObject fundJson = null;
         if (fundraiserUpdate != null)  {
             //get title
-            Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId);
+            Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId, admin);
             JsonObjectBuilder fundBuilder = Json.createObjectBuilder();
             fundBuilder.add("title", fundraiser.getTitle())
             .add("timeLeft", fundraiserService.getTimeRemaining(fundraiserUpdate.getDatetime()));

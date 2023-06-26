@@ -1,11 +1,19 @@
 <div class="container">
-    <div class="logo">
-        <p>Catlas app</p>
-    </div>
-    <nav>
-        <ul>
-            <li><a routerLink="">Home</a></li>
+    <mat-toolbar>
+
+        <div class="logo">
+            <p>Catlas</p>
+        </div>
+    
+    <nav class="nav-container">
+        <ul class="nav-left">
+            <li><button mat-button routerLink="" class="nav-button">Home</button></li>
+        </ul>
+        <ul class="nav-right">
+            <button mat-button routerLink="/admin/requests" class="nav-button">Requests</button>
+            <button mat-button routerLink="/addcat" class="nav-button">Add Cat</button>
         </ul>
     </nav>
+</mat-toolbar>
+
 </div>
-  

@@ -35,9 +35,9 @@ public class FundraiserService {
     @Autowired
     private FundraiserRepository fundraiserRepository;
 
-    public JsonObject getFundraiser(String catId){
+    public JsonObject getFundraiser(String catId, Boolean admin){
 
-        Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId);
+        Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId, admin);
         //if empty, return error
         if (fundraiser == null) {
             System.out.println("Fundraiser not found");

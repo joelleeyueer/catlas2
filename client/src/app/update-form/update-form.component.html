@@ -1,63 +1,58 @@
+<app-dashboard></app-dashboard>
+<div class="back-navigation">
+  <button mat-button (click)="goBack()"> Back</button>
+</div>
 <div class="container">
-    <form [formGroup]="form" (ngSubmit)="submitForm()">
-      <div>
-        <label>Type</label>
-        <select id="type" formControlName="type">
-          <option value="seen">Seen</option>
-          <option value="fed">Fed</option>
-        </select>
-      </div>
-      <br>
-      <div>
-        <label>Location</label>
-        <input id="location" formControlName="location">
-      </div>
-      <br>
-      <div>
-        <label>Date and Time</label>
-        <input type="datetime-local" id="datetime" formControlName="datetime">
-      </div>
-      <br>
-      <div>
-        <label>Comments</label>
-        <textarea id="comments" formControlName="comments"></textarea>
-      </div>
-      <br>
-      <div>
-        <label>Photo</label>
-        <input type="file" id="photo" (change)="onFileSelected($event)">
-      </div>
-      <br>
-      <div *ngIf="form.get('type')?.value === 'fed'">
-        <label>Type of Food Given</label>
-        <div>
-          <input type="checkbox" id="treats" formControlName="treats" value="treats">
-          <label for="treats">Treats</label>
-        </div>
-        <div>
-          <input type="checkbox" id="wetfood" formControlName="wetFood" value="wet food">
-          <label for="wetfood">Wet Food</label>
-        </div>
-        <div>
-          <input type="checkbox" id="dryfood" formControlName="dryFood" value="dry food">
-          <label for="dryfood">Dry Food</label>
-        </div>
-      </div>
+    <mat-card-header><h1>Update Cat Status</h1></mat-card-header>
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
+        <mat-form-field appearance="fill">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option value="seen">Seen</mat-option>
+                <mat-option value="fed">Fed</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <input matInput formControlName="location">
+        </mat-form-field>
 
-      <div *ngIf="form.get('type')?.value === 'fed'">
-        <label>Water Bowl Status</label>
-        <div>
-          <input type="radio" id="notrefilled" name="waterStatus" formControlName="waterStatus" value="not refilled">
-          <label for="notrefilled">Not Refilled</label>
-        </div>
-        <div>
-          <input type="radio" id="refilled" name="waterStatus" formControlName="waterStatus" value="refilled">
-          <label for="refilled">Refilled</label>
-        </div>
-      </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Date and Time</mat-label>
+            <input matInput type="datetime-local" formControlName="datetime">
+        </mat-form-field>
 
-      <div>
-        <button type="submit" [disabled]="!form.valid">Submit</button>
-      </div>
+        <mat-form-field appearance="fill">
+            <mat-label>Comments</mat-label>
+            <textarea matInput formControlName="comments"></textarea>
+        </mat-form-field>
+
+        <div>
+            <mat-label>Upload Photo</mat-label>
+            <br>
+            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+        </div>
+
+        <div *ngIf="form.get('type')?.value === 'fed'" class="vertical-form-group">
+            <mat-label>Type of Food Given</mat-label>
+            <mat-checkbox formControlName="treats">Treats</mat-checkbox>
+            <mat-checkbox formControlName="wetFood">Wet Food</mat-checkbox>
+            <mat-checkbox formControlName="dryFood">Dry Food</mat-checkbox>
+        </div>
+
+        <div *ngIf="form.get('type')?.value === 'fed'" class="vertical-form-group">
+            <mat-label>Water Bowl Status</mat-label>
+            <mat-radio-group formControlName="waterStatus">
+                <mat-radio-button value="not refilled">Not Refilled</mat-radio-button>
+                <mat-radio-button value="refilled">Refilled</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <br>
+        <div>
+            <button type="submit" [disabled]="!form.valid" class="large-button">Submit</button>
+        </div>
+        
     </form>
 </div>

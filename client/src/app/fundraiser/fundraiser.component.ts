@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CatService } from '../cat.service';
 import { Observable } from 'rxjs';
 import { NavigationService } from '../navigation.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-fundraiser',
@@ -14,13 +15,16 @@ export class FundraiserComponent implements OnInit{
   fundraiser$: Observable<any> | undefined;
   catId: string;
 
-  constructor(private route: ActivatedRoute, private catService: CatService, private navigationService: NavigationService) {
+  constructor(private route: ActivatedRoute, private catService: CatService, private navigationService: NavigationService,
+    private router: Router, private snackBar: MatSnackBar) {
     this.catId = this.route.snapshot.paramMap.get('id')!;
   }
 
   ngOnInit(): void {
-    this.fundraiser$ = this.catService.getCatFundraiser(this.catId);
+    const isAdmin = this.router.url.includes('admin'); 
+    this.fundraiser$ = isAdmin ? this.catService.getCatFundraiserAdmin(this.catId) : this.catService.getCatFundraiser(this.catId);
   }
+  
 
   getTotalDonation(donations: {amount: number}[]) {
     return donations.reduce((total, donation) => total + donation.amount, 0);
@@ -34,7 +38,7 @@ export class FundraiserComponent implements OnInit{
   goBack() {
     this.navigationService.goBack();
   }
-  
+
   
 
 }

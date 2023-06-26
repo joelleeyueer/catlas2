@@ -17,6 +17,7 @@ public class Fundraiser {
     private String fundId;
     private String catId;
     private String username; // to use user email
+    private String approved;
     private String photoUrl;
     private String title;
     private String description;

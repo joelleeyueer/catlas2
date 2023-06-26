@@ -1,0 +1,44 @@
+<app-dashboard></app-dashboard>
+
+<div class="back-navigation">
+  <button mat-button (click)="goBack()">Back</button>
+</div>
+
+<div class="requests-container">
+  <h2>Cat Requests</h2>
+  <div *ngIf="catRequests.pendingCats.length === 0">
+    <p>No more cat requests!</p>
+  </div>
+  <div class="request-card" *ngFor="let catRequest of catRequests.pendingCats">
+    <div class="request-details">
+      <p><strong>Cat ID:</strong> {{ catRequest.catId }}</p>
+      <p><strong>Username:</strong> {{ catRequest.username }}</p>
+      <p><strong>Approved:</strong> {{ catRequest.approved }}</p>
+      <p><strong>Cat Name:</strong> {{ catRequest.name }}</p>
+    </div>
+    <div class="request-actions">
+      <button mat-button (click)="approveCatRequest(catRequest.catId)">Approve</button>
+      <button mat-button (click)="rejectCatRequest(catRequest.catId)">Reject</button>
+      <a mat-button routerLink="/admin/cat/{{catRequest.catId}}">View Cat</a>
+    </div>
+  </div>
+
+  <h2>Fundraiser Requests</h2>
+  <div *ngIf="fundraiserRequests.pendingFunds.length === 0">
+    <p>No more fundraiser requests!</p>
+  </div>
+  <div class="request-card" *ngFor="let fundraiserRequest of fundraiserRequests.pendingFunds">
+    <div class="request-details">
+      <p><strong>Cat ID:</strong> {{ fundraiserRequest.catId }}</p>
+      <p><strong>Fund ID:</strong> {{ fundraiserRequest.fundId }}</p>
+      <p><strong>Username:</strong> {{ fundraiserRequest.username }}</p>
+      <p><strong>Approved:</strong> {{ fundraiserRequest.approved }}</p>
+      <p><strong>Fundraiser Title:</strong> {{ fundraiserRequest.title }}</p>
+    </div>
+    <div class="request-actions">
+      <button mat-button (click)="approveFundraiserRequest(fundraiserRequest.fundId)">Approve</button>
+      <button mat-button (click)="rejectFundraiserRequest(fundraiserRequest.fundId)">Reject</button>
+      <a mat-button routerLink="/admin/cat/{{fundraiserRequest.catId}}/fundraiser">View Fundraiser</a>
+    </div>
+  </div>
+</div>

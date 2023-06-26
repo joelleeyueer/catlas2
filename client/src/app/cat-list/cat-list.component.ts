@@ -26,6 +26,11 @@ export class CatListComponent {
   @Output()
   searchCoordinatesUpdated: EventEmitter<{ lat: number; lng: number }> = new EventEmitter();
 
+  @Output()
+  catHovered: EventEmitter<string | null> = new EventEmitter<string | null>();
+
+
+
   constructor(private fb: FormBuilder, 
               private router: Router, 
               private route: ActivatedRoute,

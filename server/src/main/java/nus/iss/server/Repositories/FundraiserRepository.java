@@ -1,5 +1,9 @@
 package nus.iss.server.Repositories;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
 
@@ -22,9 +27,14 @@ public class FundraiserRepository {
     private static final String COLLECTION_NAME = "fundraisercol";
 
     //get fundraiser by catId (max only 1 fundraiser per cat)
-    public Fundraiser getFundraiserByCatId(String catId) {
+    public Fundraiser getFundraiserByCatId(String catId, Boolean admin) {
+
         Criteria criteria = new Criteria();
-        criteria.andOperator(Criteria.where("catId").is(catId), Criteria.where("approved").is("approved"));
+        if (admin) {
+            criteria.andOperator(Criteria.where("catId").is(catId));
+        } else {
+            criteria.andOperator(Criteria.where("catId").is(catId), Criteria.where("approved").is("approved"));
+        }
 
         Query query = new Query(criteria);
         Fundraiser incomingFundraiser = mongoTemplate.findOne(query, Fundraiser.class, COLLECTION_NAME);
@@ -53,6 +63,22 @@ public class FundraiserRepository {
             return null;
         }
         return incomingFundraiser;
+    }
+
+    public List<Fundraiser> getAllPendingCatIds(){     
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("approved").is("pending"));
+
+        Query query = new Query(criteria);
+        List<Fundraiser> fundResults = mongoTemplate.find(query, Fundraiser.class, COLLECTION_NAME);
+
+        if (fundResults.isEmpty()) {
+            System.out.println("Fundraiser getAllPendingCatIds is empty");
+            return Collections.emptyList();
+
+        }
+
+        return fundResults;
     }
 
     public void approveFundraiserByFundraiserId(String fundId, String productId, String paymentLinkUrl) {

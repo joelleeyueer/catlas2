@@ -81,3 +81,41 @@ export interface Update {
     photo: File;
 }
 
+export interface AddCatForm {
+    profilePhoto: File;
+    locationAddress: string;
+    username: string;
+    name: string;
+    gender: string;
+    birthday: Date;
+    sterilization: boolean;
+    personalityTraits: string[];
+    dietLikes: string[];
+    dietDislikes: string[];
+    feedingNotes: string[];
+}
+
+export interface CatRequest {
+    catId: string;
+    username: string;
+    approved: string;
+    name: string; //cat name
+}
+
+export interface FundraiserRequest {
+    catId: string;
+    fundId: string;
+    username: string;
+    approved: string;
+    title: string; //fundraiser title
+}
+
+export interface CatRequests {
+    pendingCats: CatRequest[];
+}
+
+export interface FundraiserRequests {
+    pendingFunds: FundraiserRequest[];
+}
+
+
