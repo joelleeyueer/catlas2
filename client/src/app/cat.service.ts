@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
 import { CatInfo, CatList, Fundraiser , AddCatForm, AddFundraiserForm} from './model/model';
@@ -13,6 +13,11 @@ export class CatService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken'); // Assuming token is stored in local storage
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   getCats(address: String): Observable<CatList> {
     const url = `${this.apiURI}/search?address=${address}`;
     return this.http.get<CatList>(url);
@@ -26,7 +31,8 @@ export class CatService {
 
   getCatDetailsAdmin(id: string): Observable<CatInfo> {
     const url = `${this.apiURI}/admin/cat/${id}`;
-    return this.http.get<CatInfo>(url);
+    const headers = this.getAuthHeaders();
+    return this.http.get<CatInfo>(url, { headers });
   }
   
 
@@ -37,7 +43,8 @@ export class CatService {
 
   getCatFundraiserAdmin(id: string): Observable<any> {
     const url = `${this.apiURI}/admin/cat/${id}/fundraiser`;
-    return this.http.get<Fundraiser>(url);
+    const headers = this.getAuthHeaders();
+    return this.http.get<Fundraiser>(url, { headers });
   }
 
 
@@ -66,9 +73,13 @@ export class CatService {
     addCatForm.feedingNotes?.forEach((note: string) => {
       formData.append('feedingNotes', note);
     });
+
+    const headers = this.getAuthHeaders();
+
       
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/newcat`, formData)
+      
+      this.http.post<any>(`${this.apiURI}/newcat`, formData, { headers })
     )
     .then(response => {
         console.log('Cat added successfully');
@@ -89,9 +100,10 @@ export class CatService {
     formData.append('description', fundraiserForm.description);
     formData.append('donationGoal', fundraiserForm.donationGoal.toString());
     formData.append('deadline', fundraiserForm.deadline.toString());
+    const headers = this.getAuthHeaders();
 
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/newfundraiser`, formData)
+      this.http.post<any>(`${this.apiURI}/newfundraiser`, formData, { headers })
     )
     .then(response => {
         console.log('Fundraiser added successfully');

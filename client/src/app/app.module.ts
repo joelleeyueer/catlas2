@@ -32,9 +32,11 @@ import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 import { PendingRequestsComponent } from './pending-requests/pending-requests.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { LoginComponent } from './login/login.component';
 import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser-form.component';
-
+import { CircleMenuComponent } from './circle-menu/circle-menu.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+import { SignupFormComponent } from './signup-form/signup-form.component';
 
 @NgModule({
   declarations: [
@@ -49,9 +51,11 @@ import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser
     AddCatFormComponent,
     PendingRequestsComponent,
     SignUpComponent,
-    LoginComponent,
-    AddFundraiserFormComponent
-  ],
+    AddFundraiserFormComponent,
+    CircleMenuComponent,
+    LoginDialogComponent,
+    SignupFormComponent
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -73,7 +77,9 @@ import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser
     FlexLayoutModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatMenuModule
+
   ],
   entryComponents: [CatInfoComponent],
   providers: [],

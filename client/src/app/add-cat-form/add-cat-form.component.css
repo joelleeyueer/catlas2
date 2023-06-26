@@ -30,5 +30,14 @@
     font-size: 1.2rem;
     padding: 12px 24px;
 }
+
+.valid-button {
+    background-color: limegreen;
+    color: white;
+  }
+
+.back-navigation {
+    padding: 1.5rem 1.5rem 0 1.5rem;
+}
   
     

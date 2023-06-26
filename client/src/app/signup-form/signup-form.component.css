@@ -1,34 +1,43 @@
 .container {
-    display: flex;         /* Added */
-    flex-direction: column; /* Added */
     justify-content: center;
     align-items: center;
     padding: 50px;
+    }
+    
+.form-element {
+    margin-bottom: 10px;
 }
 
 .vertical-form {
     display: flex;
     flex-direction: column;
-    width: 100%;           /* Ensure the form takes the full width */
-    max-width: 300px;      /* But restricts it to 300px */
-    align-items: center;
+}
+
+.vertical-form-group {
+    margin-top: 10px;
 }
 
 .mat-form-field {
     width: 100%;
-    margin-bottom: 20px;
+    max-width: 300px;
 }
 
+/* .mdc-text-field__input::-webkit-calendar-picker-indicator {
+    display: block !important;
+} */
+
 .large-button {
-    width: 100%;
-    margin-top: 20px;
+    font-size: 1.2rem;
+    padding: 12px 24px;
 }
 
 .valid-button {
     background-color: limegreen;
     color: white;
-}
+  }
 
 .back-navigation {
     padding: 1.5rem 1.5rem 0 1.5rem;
 }
+  
+    

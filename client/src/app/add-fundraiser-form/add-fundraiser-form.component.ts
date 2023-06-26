@@ -36,7 +36,7 @@ export class AddFundraiserFormComponent implements OnInit{
       const addFundraiserForm: AddFundraiserForm = {
         photo: this.form.get('photo')?.value,
         catId: this.catId!,
-        username: "joel",
+        username: localStorage.getItem("username") || "anonymous",
         title: this.form.get('title')?.value,
         description: this.form.get('description')?.value,
         donationGoal: this.form.get('donationGoal')?.value,

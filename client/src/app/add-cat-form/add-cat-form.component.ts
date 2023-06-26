@@ -6,6 +6,9 @@ import { AddCatForm } from '../model/model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationService } from '../navigation.service';
 import { CatService } from '../cat.service';
+import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { AuthService } from '../auth-service.service';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -21,9 +24,13 @@ export class AddCatFormComponent implements OnInit{
 
   constructor(private fb: FormBuilder, private router: Router, 
     private route: ActivatedRoute, private catService: CatService,
-    private snackBar: MatSnackBar, private navigationService: NavigationService) {}
+    private snackBar: MatSnackBar, private navigationService: NavigationService,
+    private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.dialog.open(LoginDialogComponent);
+    }
     this.createForm();
   }
 
@@ -32,7 +39,7 @@ export class AddCatFormComponent implements OnInit{
       const addCatForm: AddCatForm = {
         profilePhoto: this.form.get('profilePhoto')?.value,
         locationAddress: this.form.get('locationAddress')?.value,
-        username: "joel",
+        username: localStorage.getItem("username") || "anonymous",
         name: this.form.get('name')?.value,
         gender: this.form.get('gender')?.value,
         birthday: this.form.get('birthday')?.value,

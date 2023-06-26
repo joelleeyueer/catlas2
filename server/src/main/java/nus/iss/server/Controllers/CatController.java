@@ -103,6 +103,7 @@ public class CatController {
                             @RequestParam("location") String location,
                             @RequestParam("datetime") String datetime,
                             @RequestParam("comments") String comments,
+                            @RequestParam("username") String username,
                             @RequestParam(value = "foodType", required = false) String foodType,
                             @RequestParam(value = "waterStatus", required = false) String waterStatus,
                             @RequestParam(value = "photo", required = false) MultipartFile file) {
@@ -116,7 +117,7 @@ public class CatController {
         }
         update.setCatId(catId);
         update.setType(typeStr);
-        update.setUsername("unknown");
+        update.setUsername(username);
         update.setLocation(location);
         update.setDatetime(LocalDateTime.parse(datetime));
         update.setComments(constructComment(comments, foodType, waterStatus));
@@ -202,6 +203,7 @@ public class CatController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "newfundraiser", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> addFundraiserRequest(@ModelAttribute AddFundraiserForm addFundraiserForm,
         @RequestPart(value = "photo") MultipartFile photo) {
 
@@ -246,7 +248,6 @@ public class CatController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
         Boolean admin = false;
         JsonObject fundraiserJson = fundraiserService.getFundraiser(id, admin);
