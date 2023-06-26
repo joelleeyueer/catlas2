@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -93,6 +94,7 @@ public class CatController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "cat/{id}/updated", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> addStatusByCatId(
                             @RequestParam("type") String type,
                             @RequestParam("catId") String catId,
@@ -153,6 +155,7 @@ public class CatController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "newcat", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> addNewCatRequest(@ModelAttribute AddCatForm addCatForm,
         @RequestPart(value = "profilePhoto") MultipartFile photo) {
 
@@ -197,6 +200,7 @@ public class CatController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
         Boolean admin = false;
         JsonObject fundraiserJson = fundraiserService.getFundraiser(id, admin);

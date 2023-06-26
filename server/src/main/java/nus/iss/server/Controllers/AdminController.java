@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +32,10 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/viewCatRequests", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> getAllPendingCat() {
         JsonObject catJson = adminService.getAllPendingCat();
         String catJsonString = catJson.toString();
@@ -47,6 +50,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/viewFundraiserRequests", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> getAllPendingFundraiser() {
         JsonObject catJson = adminService.getAllPendingFund();
         String catJsonString = catJson.toString();
@@ -61,6 +65,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/cat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> getCatByCatIdAdmin(@PathVariable("id") String id) {
         System.out.println("in getCatByCatIdAdmin");
         Boolean admin = true;
@@ -77,6 +82,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
         Boolean admin = true;
         JsonObject fundraiserJson = fundraiserService.getFundraiser(id, admin);
@@ -96,6 +102,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/admin/approveFundraiser/{fund_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> approveFundraiserRequest(@PathVariable("fund_id") String fundId) {
         Boolean isApproved = fundraiserService.approveFundraiser(fundId);
         return isApproved ? ResponseEntity.status(HttpStatus.OK).body(null) :
@@ -104,6 +111,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/admin/rejectFundraiser/{fund_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> rejectFundraiserRequest(@PathVariable("fund_id") String fundId) {
         Boolean isRejected = fundraiserService.rejectFundraiser(fundId);
         return isRejected ? ResponseEntity.status(HttpStatus.OK).body(null) :
@@ -112,6 +120,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/admin/approveCat/{cat_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> approveCatRequest(@PathVariable("cat_id") String catId) {
         Boolean isRejected = catService.approveCat(catId);
         return isRejected ? ResponseEntity.status(HttpStatus.OK).body(null) :
@@ -120,6 +129,7 @@ public class AdminController {
 
     @CrossOrigin(origins = "*")
     @PostMapping(value = "/admin/rejectCat/{cat_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> rejectCatRequest(@PathVariable("cat_id") String catId) {
         Boolean isRejected = catService.rejectCat(catId);
         return isRejected ? ResponseEntity.status(HttpStatus.OK).body(null) :
