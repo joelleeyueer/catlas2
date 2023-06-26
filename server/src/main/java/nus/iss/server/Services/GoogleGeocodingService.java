@@ -69,7 +69,6 @@ public class GoogleGeocodingService {
             return Optional.of(new SearchCoordinates(lat, lng));
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block   
             System.out.println("in catch");
             return Optional.empty();
         }
