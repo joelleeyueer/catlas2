@@ -81,6 +81,16 @@ public class FundraiserRepository {
         return fundResults;
     }
 
+    public Boolean insertPendingFundraiser(Fundraiser fundraiser) {
+        Fundraiser fundInsert = mongoTemplate.insert(fundraiser, COLLECTION_NAME);
+        if (fundInsert == null) {
+            System.out.println("insertPendingFundraiser is null");
+            return false;
+        }
+        return true;
+
+    }
+
     public void approveFundraiserByFundraiserId(String fundId, String productId, String paymentLinkUrl) {
         Query query = new Query();
         query.addCriteria(Criteria.where("fundId").is(fundId));

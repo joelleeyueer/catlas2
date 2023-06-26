@@ -117,6 +117,10 @@ export class CatInfoComponent {
   goToUpdateForm(catId: string) {
     this.router.navigate(['/cat', catId, 'update']);
   }
+
+  goToFundraiserForm(catId: string) {
+    this.router.navigate(['/cat', catId, 'createFundraiser']);
+  }
   
 
   goBack() {

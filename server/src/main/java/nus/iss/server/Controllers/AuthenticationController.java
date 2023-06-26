@@ -46,6 +46,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerNewUser(@RequestBody UserInfo userInfo) {
+        userInfo.setRoles("ROLE_USER");
         String response = loginService.addUser(userInfo);
         return ResponseEntity.ok(response);
     }

@@ -31,6 +31,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 import { PendingRequestsComponent } from './pending-requests/pending-requests.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { LoginComponent } from './login/login.component';
+import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser-form.component';
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     FundraiserComponent,
     UpdateFormComponent,
     AddCatFormComponent,
-    PendingRequestsComponent
+    PendingRequestsComponent,
+    SignUpComponent,
+    LoginComponent,
+    AddFundraiserFormComponent
   ],
   imports: [
     BrowserModule,

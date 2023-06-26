@@ -7,6 +7,7 @@ import { FundraiserComponent } from './fundraiser/fundraiser.component';
 import { UpdateFormComponent } from './update-form/update-form.component';
 import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 import { PendingRequestsComponent } from './pending-requests/pending-requests.component';
+import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser-form.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'cat/:id/fundraiser', component: FundraiserComponent },
   { path: 'cat/:id/update', component: UpdateFormComponent },
   { path: 'addcat', component: AddCatFormComponent },
-  { path: 'admin/requests', component: PendingRequestsComponent}
+  { path: 'admin/requests', component: PendingRequestsComponent},
+  { path: 'cat/:id/createFundraiser', component: AddFundraiserFormComponent }
 ];
 
 @NgModule({

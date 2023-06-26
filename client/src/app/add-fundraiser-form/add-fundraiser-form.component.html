@@ -1,0 +1,40 @@
+<app-dashboard></app-dashboard>
+<div class="back-navigation">
+  <button mat-button (click)="goBack()"> Back</button>
+</div>
+<div class="container">
+    <mat-card-header><h1>Add New Fundraiser</h1></mat-card-header>
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
+        <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Donation Goal</mat-label>
+            <input matInput formControlName="donationGoal" type="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Deadline</mat-label>
+            <input matInput type="datetime-local" formControlName="deadline">
+        </mat-form-field>
+
+        <div>
+            <mat-label>Upload Photo</mat-label>
+            <br>
+            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+            <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="photo">
+        </div>
+        
+        <br>
+        <div>
+            <button type="submit" [disabled]="!form.valid" class="large-button">Submit</button>
+        </div>
+    </form>
+</div>

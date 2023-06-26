@@ -28,7 +28,9 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.AddCatForm;
+import nus.iss.server.Model.AddFundraiserForm;
 import nus.iss.server.Model.Cat;
+import nus.iss.server.Model.Fundraiser;
 import nus.iss.server.Model.Update;
 import nus.iss.server.Services.CatSearchService;
 import nus.iss.server.Services.CatService;
@@ -199,6 +201,50 @@ public class CatController {
     }
 
     @CrossOrigin(origins = "*")
+    @PostMapping(value = "newfundraiser", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> addFundraiserRequest(@ModelAttribute AddFundraiserForm addFundraiserForm,
+        @RequestPart(value = "photo") MultipartFile photo) {
+
+        System.out.println("printing addFundraiserForm "+ addFundraiserForm);
+
+        JsonObjectBuilder resultJsonBuilder = Json.createObjectBuilder();
+        JsonObject resultJson = null;
+
+        if (photo == null){
+            resultJsonBuilder.add("error", "No photo received");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultJson.toString());
+        }
+
+        //create fundraiser object
+        Fundraiser fundraiser = new Fundraiser();
+        String concat = "fundraiser-" + getCurrentDate() + "-";
+        fundraiser.setFundId(generateUUID(concat));
+        fundraiser.setCatId(addFundraiserForm.getCatId());
+        fundraiser.setUsername(addFundraiserForm.getUsername());
+        fundraiser.setApproved("pending");
+        fundraiser.setTitle(addFundraiserForm.getTitle());
+        fundraiser.setDescription(addFundraiserForm.getDescription());
+        fundraiser.setDonationGoal(Double.parseDouble(addFundraiserForm.getDonationGoal()));
+        fundraiser.setDeadline(LocalDateTime.parse(addFundraiserForm.getDeadline()));
+        fundraiser.setDonations(new ArrayList<>());
+        fundraiser.setStripePaymentUrl("");
+        fundraiser.setStripeProductId("");
+
+        int insertStatus = fundraiserService.insertNewFundraiserRequest(fundraiser, photo);
+        if (insertStatus == 1) {
+            resultJsonBuilder.add("success", "New fundraiser request submitted successfully");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.OK).body(resultJson.toString());
+        } else {
+            resultJsonBuilder.add("error", "Error submitting fundraiser request, please try again");
+            resultJson = resultJsonBuilder.build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultJson.toString());
+        }
+       
+    }
+
+    @CrossOrigin(origins = "*")
     @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_USER','ROLE_ADMIN')")
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
@@ -289,6 +335,12 @@ public class CatController {
             return null;
         }
     }
+
+    // private LocalDateTime stringToLocalDateTime(String dateStr){
+    //     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //     LocalDateTime dateTime = LocalDateTime.parse(dateStr, formatter);
+    //     return dateTime;
+    // }
 
     ///////////////////////////
     /////HELPER FUNCTIONS//////

@@ -128,4 +128,15 @@ mat-chip {
     color: white;
 }
 
+.cat-add-fundraiser button {
+    background-color: #FFB6C1 !important;
+    font-size: 1rem;
+    padding: 1.5rem;
+    color: white;
+    margin-left: 0.5cm;
+}
 
+.cat-buttons {
+    display: flex;
+  }
+  

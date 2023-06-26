@@ -95,6 +95,17 @@ export interface AddCatForm {
     feedingNotes: string[];
 }
 
+export interface AddFundraiserForm {
+    photo: File;
+    catId: string;
+    username: string;
+    title: string;
+    description: string;
+    donationGoal: number;
+    deadline: Date;
+}
+
+
 export interface CatRequest {
     catId: string;
     username: string;

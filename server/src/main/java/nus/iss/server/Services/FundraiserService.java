@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -22,8 +25,11 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import nus.iss.server.Model.Cat;
+import nus.iss.server.Model.Coordinates;
 import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
+import nus.iss.server.Model.SearchCoordinates;
 import nus.iss.server.Repositories.FundraiserRepository;
 
 @Service
@@ -34,6 +40,9 @@ public class FundraiserService {
 
     @Autowired
     private FundraiserRepository fundraiserRepository;
+
+    @Autowired
+    private UploadToS3Service uploadToS3Service;
 
     public JsonObject getFundraiser(String catId, Boolean admin){
 
@@ -83,6 +92,33 @@ public class FundraiserService {
             return fundraiserJson;
     
         }
+
+    public int insertNewFundraiserRequest(Fundraiser fundraiser, MultipartFile photo) {
+        Boolean imageUploadSuccess = false; //if this succeeds, return 1
+        //send photo to s3, get url, insert url to profilePhoto
+        
+        try {
+            String imageUrl = uploadToS3Service.uploadSingleFile(photo);
+            fundraiser.setPhotoUrl(imageUrl);
+            imageUploadSuccess = true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //insert cat
+        if (imageUploadSuccess) {
+            Boolean isInsertCatSuccess = fundraiserRepository.insertPendingFundraiser(fundraiser);
+
+            if (isInsertCatSuccess) {
+                return 1; //inserted
+            } else {
+                return 0; //insertion failed
+            }
+        }
+
+        return 0;
+        
+    }
 
     public String getTimeRemaining(LocalDateTime deadline) {
         LocalDateTime now = LocalDateTime.now();

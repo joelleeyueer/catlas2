@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, firstValueFrom } from 'rxjs';
-import { CatInfo, CatList, Fundraiser , AddCatForm} from './model/model';
+import { CatInfo, CatList, Fundraiser , AddCatForm, AddFundraiserForm} from './model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -77,8 +77,32 @@ export class CatService {
     .catch(err => {
         console.error('Error occurred while adding cat: ' + err);
         throw err; // Re-throw the error so it can be caught by the caller
-    });
-}
+    });  
+  }
+
+  fundraiserRequest(fundraiserForm: AddFundraiserForm) {
+    const formData = new FormData();
+    formData.append('photo', fundraiserForm.photo, fundraiserForm.photo.name);
+    formData.append('catId', fundraiserForm.catId);
+    formData.append('username', fundraiserForm.username);
+    formData.append('title', fundraiserForm.title);
+    formData.append('description', fundraiserForm.description);
+    formData.append('donationGoal', fundraiserForm.donationGoal.toString());
+    formData.append('deadline', fundraiserForm.deadline.toString());
+
+    return firstValueFrom(
+      this.http.post<any>(`${this.apiURI}/newfundraiser`, formData)
+    )
+    .then(response => {
+        console.log('Fundraiser added successfully');
+        return response;
+    })
+    .catch(err => {
+        console.error('Error occurred while adding fundraiser: ' + err);
+        throw err; // Re-throw the error so it can be caught by the caller
+    }); 
+    
+  }
 
   
 }
