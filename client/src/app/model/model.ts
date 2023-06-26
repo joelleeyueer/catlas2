@@ -94,4 +94,18 @@ export interface AddCatForm {
     feedingNotes: string[];
 }
 
+export interface CatRequest {
+    catId: string;
+    username: string;
+    approved: string;
+    name: string; //cat name
+}
+
+export interface FundraiserRequest {
+    fundId: string;
+    username: string;
+    approved: string;
+    title: string; //fundraiser title
+}
+
 

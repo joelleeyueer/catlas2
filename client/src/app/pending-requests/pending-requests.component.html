@@ -1,0 +1,22 @@
+<app-dashboard></app-dashboard>
+<div class="back-navigation">
+  <button mat-button (click)="goBack()"> Back</button>
+</div>
+<div>
+    <h2>Cat Requests</h2>
+    <div *ngFor="let catRequest of catRequests">
+      <!-- Replace with actual data fields as per your requirements -->
+      <p>{{ catRequest.name }}</p>
+      <button (click)="approveCatRequest(catRequest.catId)">Approve</button>
+      <button (click)="rejectCatRequest(catRequest.catId)">Reject</button>
+    </div>
+  
+    <h2>Fundraiser Requests</h2>
+    <div *ngFor="let fundraiserRequest of fundraiserRequests">
+      <!-- Replace with actual data fields as per your requirements -->
+      <p>{{ fundraiserRequest.title }}</p>
+      <button (click)="approveFundraiserRequest(fundraiserRequest.fundId)">Approve</button>
+      <button (click)="rejectFundraiserRequest(fundraiserRequest.fundId)">Reject</button>
+    </div>
+  </div>
+  
