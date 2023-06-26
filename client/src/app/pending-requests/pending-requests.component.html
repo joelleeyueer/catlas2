@@ -6,6 +6,9 @@
 
 <div class="requests-container">
   <h2>Cat Requests</h2>
+  <div *ngIf="catRequests.pendingCats.length === 0">
+    <p>No more cat requests!</p>
+  </div>
   <div class="request-card" *ngFor="let catRequest of catRequests.pendingCats">
     <div class="request-details">
       <p><strong>Cat ID:</strong> {{ catRequest.catId }}</p>
@@ -21,6 +24,9 @@
   </div>
 
   <h2>Fundraiser Requests</h2>
+  <div *ngIf="fundraiserRequests.pendingFunds.length === 0">
+    <p>No more fundraiser requests!</p>
+  </div>
   <div class="request-card" *ngFor="let fundraiserRequest of fundraiserRequests.pendingFunds">
     <div class="request-details">
       <p><strong>Cat ID:</strong> {{ fundraiserRequest.catId }}</p>

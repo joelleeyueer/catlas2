@@ -27,9 +27,14 @@ public class FundraiserRepository {
     private static final String COLLECTION_NAME = "fundraisercol";
 
     //get fundraiser by catId (max only 1 fundraiser per cat)
-    public Fundraiser getFundraiserByCatId(String catId) {
+    public Fundraiser getFundraiserByCatId(String catId, Boolean admin) {
+
         Criteria criteria = new Criteria();
-        criteria.andOperator(Criteria.where("catId").is(catId), Criteria.where("approved").is("approved"));
+        if (admin) {
+            criteria.andOperator(Criteria.where("catId").is(catId));
+        } else {
+            criteria.andOperator(Criteria.where("catId").is(catId), Criteria.where("approved").is("approved"));
+        }
 
         Query query = new Query(criteria);
         Fundraiser incomingFundraiser = mongoTemplate.findOne(query, Fundraiser.class, COLLECTION_NAME);

@@ -35,6 +35,11 @@ export class CatService {
     return this.http.get<Fundraiser>(url);
   }
 
+  getCatFundraiserAdmin(id: string): Observable<any> {
+    const url = `${this.apiURI}/admin/cat/${id}/fundraiser`;
+    return this.http.get<Fundraiser>(url);
+  }
+
 
   addCatRequest(addCatForm: AddCatForm) {
     const formData = new FormData();

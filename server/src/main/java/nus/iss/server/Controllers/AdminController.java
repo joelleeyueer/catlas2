@@ -76,6 +76,25 @@ public class AdminController {
     }
 
     @CrossOrigin(origins = "*")
+    @GetMapping(value = "/admin/cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
+        Boolean admin = true;
+        JsonObject fundraiserJson = fundraiserService.getFundraiser(id, admin);
+        String fundraiserJsonString = fundraiserJson.toString();
+        if (fundraiserJsonString.contains("error")) {
+            if (fundraiserJsonString.contains("Fundraiser not found")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(fundraiserJsonString);
+            } else if (fundraiserJsonString.contains("Fundraiser is not active")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(fundraiserJsonString);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(fundraiserJsonString);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(fundraiserJsonString);
+
+    }
+
+    @CrossOrigin(origins = "*")
     @PostMapping(value = "/admin/approveFundraiser/{fund_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> approveFundraiserRequest(@PathVariable("fund_id") String fundId) {
         Boolean isApproved = fundraiserService.approveFundraiser(fundId);

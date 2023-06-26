@@ -198,8 +198,8 @@ public class CatController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "cat/{id}/fundraiser", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getActiveFundraiserByCatId(@PathVariable("id") String id) {
-
-        JsonObject fundraiserJson = fundraiserService.getFundraiser(id);
+        Boolean admin = false;
+        JsonObject fundraiserJson = fundraiserService.getFundraiser(id, admin);
         String fundraiserJsonString = fundraiserJson.toString();
         if (fundraiserJsonString.contains("error")) {
             if (fundraiserJsonString.contains("Fundraiser not found")) {

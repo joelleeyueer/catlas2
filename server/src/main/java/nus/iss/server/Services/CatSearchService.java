@@ -196,7 +196,7 @@ public class CatSearchService {
         JsonObject fundJson = null;
         if (fundraiserUpdate != null)  {
             //get title
-            Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId);
+            Fundraiser fundraiser = fundraiserRepository.getFundraiserByCatId(catId, admin);
             JsonObjectBuilder fundBuilder = Json.createObjectBuilder();
             fundBuilder.add("title", fundraiser.getTitle())
             .add("timeLeft", fundraiserService.getTimeRemaining(fundraiserUpdate.getDatetime()));
