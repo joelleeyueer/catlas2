@@ -121,4 +121,11 @@ mat-chip {
     margin-bottom: 2rem;
 }
 
+.cat-update-status button {
+    background-color: #3D4ED9 !important;
+    font-size: 1rem;
+    padding: 1.5rem;
+    color: white;
+}
+
 
