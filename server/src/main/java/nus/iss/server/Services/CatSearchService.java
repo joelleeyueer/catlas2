@@ -161,8 +161,10 @@ public class CatSearchService {
             fedBuilder.add("location",fedUpdate.getLocation())
                     .add("time",timeElapsed(fedUpdate.getDatetime()))
                     .add("username", fedUpdate.getUsername())
-                    .add("comments", fedUpdate.getComments())
-                    .add("photoUrls", fedUpdate.getPhotos().get(0));
+                    .add("comments", fedUpdate.getComments());
+            if (fedUpdate.getPhotos().size() > 0) {
+                    fedBuilder.add("photoUrls", fedUpdate.getPhotos().get(0));
+            }
             fedJson = fedBuilder.build();
             fedJsonArrayBuilder.add(fedJson);
         }
@@ -179,8 +181,10 @@ public class CatSearchService {
             seenBuilder.add("location",seenUpdate.getLocation())
                         .add("time",timeElapsed(seenUpdate.getDatetime()))
                         .add("username", seenUpdate.getUsername())
-                        .add("comments", seenUpdate.getComments())
-                        .add("photoUrls", seenUpdate.getPhotos().get(0));
+                        .add("comments", seenUpdate.getComments());
+            if (seenUpdate.getPhotos().size() > 0) {
+                    seenBuilder.add("photoUrls", seenUpdate.getPhotos().get(0));
+            }
             seenJson = seenBuilder.build();
             seenJsonArrayBuilder.add(seenJson);
         }

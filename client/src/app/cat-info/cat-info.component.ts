@@ -85,7 +85,7 @@ export class CatInfoComponent {
   
 
   goBack() {
-    this.router.navigate(['/']);
+    this.navigationService.goBack();
   }
 
     openPhotoUrl(url: string) {
