@@ -1,8 +1,10 @@
 package nus.iss.server.Repositories;
 
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +58,15 @@ public class CatRepository {
         return jsonObject;
     }
 
-    public Cat getCatByCatId(String id) {
-        System.out.println("in getCatByCatId");
+    public Cat getCatByCatId(String id, Boolean admin) {
+        System.out.println("in getCatByCatId. id is " + id + ", admin is " + admin);
 
         Criteria criteria = new Criteria();
-        criteria.andOperator(Criteria.where("catId").is(id), Criteria.where("approved").is("approved"));
+        if (admin) {
+            criteria.andOperator(Criteria.where("catId").is(id));
+        } else {
+            criteria.andOperator(Criteria.where("catId").is(id), Criteria.where("approved").is("approved"));
+        }
 
         Query query = new Query(criteria);
         Cat catResult = mongoTemplate.findOne(query, Cat.class, COLLECTION_NAME);
@@ -83,6 +89,22 @@ public class CatRepository {
         if (catResults.isEmpty()) {
             System.out.println("catResults is empty");
             return null;
+        }
+
+        return catResults;
+    }
+
+    public List<Cat> getAllPendingCatIds(){     
+        Criteria criteria = new Criteria();
+        criteria.andOperator(Criteria.where("approved").is("pending"));
+
+        Query query = new Query(criteria);
+        List<Cat> catResults = mongoTemplate.find(query, Cat.class, COLLECTION_NAME);
+
+        if (catResults.isEmpty()) {
+            System.out.println("Fundraiser getAllPendingCats is empty");
+            return Collections.emptyList();
+
         }
 
         return catResults;

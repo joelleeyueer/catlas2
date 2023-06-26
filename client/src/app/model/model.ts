@@ -84,6 +84,7 @@ export interface Update {
 export interface AddCatForm {
     profilePhoto: File;
     locationAddress: string;
+    username: string;
     name: string;
     gender: string;
     birthday: Date;
@@ -102,10 +103,19 @@ export interface CatRequest {
 }
 
 export interface FundraiserRequest {
+    catId: string;
     fundId: string;
     username: string;
     approved: string;
     title: string; //fundraiser title
+}
+
+export interface CatRequests {
+    pendingCats: CatRequest[];
+}
+
+export interface FundraiserRequests {
+    pendingFunds: FundraiserRequest[];
 }
 
 

@@ -27,9 +27,39 @@ export class CatInfoComponent {
       apiKey: 'AIzaSyDXy7SLzzZRQJyDba-z8DGqWXD-8xHQVhQ',
       version: "weekly",
     });
-    
 
-    const catId = this.route.snapshot.paramMap.get('id');
+    const isAdmin = this.router.url.includes('admin'); 
+    if (isAdmin) {
+      const catId = this.route.snapshot.paramMap.get('id');
+    this.catService.getCatDetailsAdmin(catId!).subscribe(
+      (response: any) => {
+        this.notFound = false;
+        this.cat = response;
+
+        loader.load().then(() => {
+          this.map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
+            center: {lat: this.cat?.frequentLocations[0]?.lat, lng: this.cat?.frequentLocations[0]?.lng},
+            zoom: 18.5,
+            mapId: 'bc32e652a4b92901'
+          });
+          this.updateMarkers();
+        });
+      },
+      error => {
+        console.log(error);
+        const errorMessage = error.error?.error || 'An error occurred';
+        // If the error message is "Cat not found", set notFound to true
+        if (errorMessage === 'Cat not found') {
+          this.notFound = true;
+        }
+        this.snackBar.open(errorMessage, 'Close', {
+          duration: 6000,
+        });
+      }
+    );
+
+    } else {
+      const catId = this.route.snapshot.paramMap.get('id');
     this.catService.getCatDetails(catId!).subscribe(
       (response: any) => {
         this.notFound = false;
@@ -56,6 +86,11 @@ export class CatInfoComponent {
         });
       }
     );
+    }
+
+    
+
+    
   }
 
   updateMarkers(): void {

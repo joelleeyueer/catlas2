@@ -11,6 +11,8 @@ import { PendingRequestsComponent } from './pending-requests/pending-requests.co
 const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'search', component: HomepageComponent },
+  { path: 'admin/cat/:id', component: CatInfoComponent },
+  { path: 'admin/cat/:id/fundraiser', component: FundraiserComponent },
   { path: 'cat/:id', component: CatInfoComponent },
   { path: 'cat/:id/fundraiser', component: FundraiserComponent },
   { path: 'cat/:id/update', component: UpdateFormComponent },

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CatRequest, FundraiserRequest } from './model/model';
+import { CatRequest, CatRequests, FundraiserRequest, FundraiserRequests } from './model/model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class RequestService {
 
   constructor(private http: HttpClient) { }
 
-  getCatRequests(): Observable<CatRequest[]> {
-    return this.http.get<CatRequest[]>(`${this.apiUrl}/viewCatRequests`);
+  getCatRequests(): Observable<CatRequests> {
+    return this.http.get<CatRequests>(`${this.apiUrl}/viewCatRequests`);
   }
 
-  getFundraiserRequests(): Observable<FundraiserRequest[]> {
-    return this.http.get<FundraiserRequest[]>(`${this.apiUrl}/viewFundraiserRequests`);
+  getFundraiserRequests(): Observable<FundraiserRequests> {
+    return this.http.get<FundraiserRequests>(`${this.apiUrl}/viewFundraiserRequests`);
   }
 
   approveCatRequest(catId: string): Observable<any> {

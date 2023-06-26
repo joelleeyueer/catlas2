@@ -32,14 +32,15 @@ export class AddCatFormComponent implements OnInit{
       const addCatForm: AddCatForm = {
         profilePhoto: this.form.get('profilePhoto')?.value,
         locationAddress: this.form.get('locationAddress')?.value,
+        username: "joel",
         name: this.form.get('name')?.value,
         gender: this.form.get('gender')?.value,
         birthday: this.form.get('birthday')?.value,
         sterilization: this.form.get('sterilization')?.value,
-        personalityTraits: this.form.get('personalityTraits')?.value,
-        dietLikes: this.form.get('dietLikes')?.value,
-        dietDislikes: this.form.get('dietDislikes')?.value,
-        feedingNotes: this.form.get('feedingNotes')?.value,
+        personalityTraits: (this.form.get('personalityTraits')?.value ?? "").split(',').map((item: string) => item.trim()),
+        dietLikes: (this.form.get('dietLikes')?.value ?? "").split(',').map((item: string) => item.trim()),
+        dietDislikes: (this.form.get('dietDislikes')?.value ?? "").split(',').map((item: string) => item.trim()),
+        feedingNotes: (this.form.get('feedingNotes')?.value ?? "").split(',').map((item: string) => item.trim()),
       };
   
       this.catService.addCatRequest(addCatForm)

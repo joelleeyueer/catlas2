@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class Cat {
     private String catId;
     private String approved;
+    private String username;
     private String profilePhoto;
     private String name;
     private String gender;

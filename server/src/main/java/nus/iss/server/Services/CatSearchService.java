@@ -142,8 +142,8 @@ public class CatSearchService {
     ///API//////
     ///////////
     // displaying one cat
-    public JsonObject getSingleCatInfo(String catId){
-        Cat cat = catRepository.getCatByCatId(catId);
+    public JsonObject getSingleCatInfo(String catId, Boolean admin){
+        Cat cat = catRepository.getCatByCatId(catId, admin);
         if (cat == null) {
             System.out.println("Cat not found");
             JsonObject errorJson = Json.createObjectBuilder()

@@ -24,6 +24,12 @@ export class CatService {
     return this.http.get<CatInfo>(url);
   }
 
+  getCatDetailsAdmin(id: string): Observable<CatInfo> {
+    const url = `${this.apiURI}/admin/cat/${id}`;
+    return this.http.get<CatInfo>(url);
+  }
+  
+
   getCatFundraiser(id: string): Observable<any> {
     const url = `${this.apiURI}/cat/${id}/fundraiser`;
     return this.http.get<Fundraiser>(url);
@@ -35,13 +41,26 @@ export class CatService {
     formData.append('profilePhoto', addCatForm.profilePhoto, addCatForm.profilePhoto.name);
     formData.append('locationAddress', addCatForm.locationAddress);
     formData.append('name', addCatForm.name);
+    formData.append('username', addCatForm.username);
     formData.append('gender', addCatForm.gender);
     formData.append('birthday', addCatForm.birthday.toString());
     formData.append('sterilization', addCatForm.sterilization.toString());
-    formData.append('personalityTraits', JSON.stringify(addCatForm.personalityTraits));
-    formData.append('dietLikes', JSON.stringify(addCatForm.dietLikes));
-    formData.append('dietDislikes', JSON.stringify(addCatForm.dietDislikes));
-    formData.append('feedingNotes', JSON.stringify(addCatForm.feedingNotes));
+
+    addCatForm.personalityTraits?.forEach((trait: string) => {
+      formData.append('personalityTraits', trait);
+    });
+  
+    addCatForm.dietLikes?.forEach((like: string) => {
+      formData.append('dietLikes', like);
+    });
+  
+    addCatForm.dietDislikes?.forEach((dislike: string) => {
+      formData.append('dietDislikes', dislike);
+    });
+  
+    addCatForm.feedingNotes?.forEach((note: string) => {
+      formData.append('feedingNotes', note);
+    });
       
     return firstValueFrom(
       this.http.post<any>(`${this.apiURI}/newcat`, formData)

@@ -78,7 +78,9 @@ public class CatController {
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/cat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getCatByCatId(@PathVariable("id") String id) {
-        JsonObject catJson = catSearchService.getSingleCatInfo(id);
+        System.out.println("in getCatByCatId");
+        Boolean admin = false;
+        JsonObject catJson = catSearchService.getSingleCatInfo(id, admin);
         String catJsonString = catJson.toString();
         // System.out.println("printing catJsonString "+ catJsonString);
         
@@ -171,6 +173,7 @@ public class CatController {
         cat.setCatId(generateUUID(concat));
         cat.setApproved("pending");
         cat.setName(addCatForm.getName());
+        cat.setUsername(addCatForm.getUsername());
         cat.setGender(addCatForm.getGender());
         cat.setBirthday(stringToDate(addCatForm.getBirthday()));
         cat.setSterilization(addCatForm.isSterilization());

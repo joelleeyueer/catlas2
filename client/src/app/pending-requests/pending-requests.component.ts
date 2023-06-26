@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CatRequest, FundraiserRequest } from '../model/model';
+import { CatRequest, CatRequests, FundraiserRequest, FundraiserRequests } from '../model/model';
 import { RequestService } from '../request.service';
 import { NavigationService } from '../navigation.service';
 
@@ -14,8 +14,8 @@ import { NavigationService } from '../navigation.service';
 })
 export class PendingRequestsComponent implements OnInit {
 
-  catRequests: CatRequest[] = [];
-  fundraiserRequests: FundraiserRequest[] = [];
+  catRequests: CatRequests = { pendingCats: []}
+  fundraiserRequests: FundraiserRequests = { pendingFunds: []}
 
   constructor(private requestService: RequestService, private navigationService: NavigationService) { }
 
@@ -26,13 +26,13 @@ export class PendingRequestsComponent implements OnInit {
 
   getCatRequests(): void {
     this.requestService.getCatRequests().subscribe(
-      (data: CatRequest[]) => this.catRequests = data
+      (data: CatRequests) => this.catRequests = data
     );
   }
 
   getFundraiserRequests(): void {
     this.requestService.getFundraiserRequests().subscribe(
-      (data: FundraiserRequest[]) => this.fundraiserRequests = data
+      (data: FundraiserRequests) => this.fundraiserRequests = data
     );
   }
 

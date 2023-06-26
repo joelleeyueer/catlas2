@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.json.JsonObject;
+import nus.iss.server.Services.AdminService;
+import nus.iss.server.Services.CatSearchService;
 import nus.iss.server.Services.CatService;
 import nus.iss.server.Services.FundraiserService;
 
@@ -17,21 +20,59 @@ import nus.iss.server.Services.FundraiserService;
 public class AdminController {
 
     @Autowired
-    FundraiserService fundraiserService;
+    private FundraiserService fundraiserService;
 
     @Autowired
-    CatService catService;
+    private CatService catService;
+
+    @Autowired
+    private CatSearchService catSearchService;
+
+    @Autowired
+    private AdminService adminService;
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/viewCatRequests", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllPendingCat() {
-        return null;
+        JsonObject catJson = adminService.getAllPendingCat();
+        String catJsonString = catJson.toString();
+
+        if (catJsonString.contains("error")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(catJsonString);
+        } else {
+            System.out.println(catJsonString);
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
+        }
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/admin/viewFundraiserRequests", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getAllPendingFundraiser() {
-        return null;
+        JsonObject catJson = adminService.getAllPendingFund();
+        String catJsonString = catJson.toString();
+
+        if (catJsonString.contains("error")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(catJsonString);
+        } else {
+            System.out.println(catJsonString);
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
+        }
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/admin/cat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getCatByCatIdAdmin(@PathVariable("id") String id) {
+        System.out.println("in getCatByCatIdAdmin");
+        Boolean admin = true;
+        JsonObject catJson = catSearchService.getSingleCatInfo(id, admin);
+        String catJsonString = catJson.toString();
+        // System.out.println("printing catJsonString "+ catJsonString);
+        
+        if (catJsonString.contains("error")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(catJsonString);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(catJsonString);
+        }       
     }
 
     @CrossOrigin(origins = "*")

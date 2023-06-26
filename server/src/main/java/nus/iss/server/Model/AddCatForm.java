@@ -16,6 +16,7 @@ public class AddCatForm {
     private MultipartFile profilePhoto;
     private String locationAddress;
     private String name;
+    private String username;
     private String gender;
     private String birthday;
     private boolean sterilization;
