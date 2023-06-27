@@ -67,6 +67,7 @@ export interface Update {
     donationGoal: number;
     deadline: string;
     timeRemaining: string;
+    stripePaymentUrl: string;
     donations: Donation[];
   }
 

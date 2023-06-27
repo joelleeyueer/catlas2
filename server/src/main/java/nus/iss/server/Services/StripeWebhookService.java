@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.LineItem;
 import com.stripe.model.LineItemCollection;
@@ -23,12 +24,13 @@ import nus.iss.server.Repositories.FundraiserRepository;
 
 @Service
 public class StripeWebhookService {
-    
+
     @Autowired
     FundraiserRepository fundraiserRepository;
 
     public void processPaymentIntent(PaymentIntent paymentIntent) {
         try {
+            Stripe.apiKey = "sk_test_51NJvHJDboqCw1KwjZvyqCIFPaRh80UdDztTtl5uhlA8IlmSegsNtFuWxQ67dfdCVDP24btyB1hFFJ6bOgaBUUfGB00rnx82QKR";
             Map<String, Object> sessionsParam = new HashMap<>();
             sessionsParam.put("payment_intent", paymentIntent.getId());
             sessionsParam.put("limit", 1);

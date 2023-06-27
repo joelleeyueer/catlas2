@@ -78,7 +78,8 @@ public class FundraiserService {
             .add("description", fundraiser.getDescription())
             .add("donationGoal", fundraiser.getDonationGoal())
             .add("deadline", fundraiser.getDeadline().toString())
-            .add("timeRemaining", getTimeRemaining(fundraiser.getDeadline()));
+            .add("timeRemaining", getTimeRemaining(fundraiser.getDeadline()))
+            .add("stripePaymentUrl", fundraiser.getStripePaymentUrl());
 
             // Build the JSON array for donations
             JsonArrayBuilder donationsArrayBuilder = Json.createArrayBuilder();

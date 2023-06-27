@@ -46,6 +46,10 @@ export class FundraiserComponent implements OnInit{
     return (totalDonation / goal) * 100;
   }
 
+  // redirectTo(stripePaymentUrl: string) {
+  //   this.router.navigateByUrl(stripePaymentUrl);
+  // }
+
   goBack() {
     this.navigationService.goBack();
   }

@@ -20,8 +20,9 @@
           <h1>${{ getTotalDonation(fundraiser.donations) }} raised out of ${{ fundraiser.donationGoal }}</h1>
           <mat-progress-bar mode="determinate" [value]="getDonationPercentage(fundraiser.donations, fundraiser.donationGoal)"></mat-progress-bar>
           <p>{{ fundraiser.timeRemaining }}</p>
-          <button mat-raised-button color="accent">Donate to fundraiser</button>
-        </mat-card-content>
+          <a href="{{fundraiser.stripePaymentUrl}}" target="_blank">
+            <button mat-raised-button color="accent">Donate to fundraiser</button>
+          </a>        </mat-card-content>
       </mat-card>
     </div>
   </div>
