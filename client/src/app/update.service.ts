@@ -8,7 +8,7 @@ import { UpdateForm } from './model/model';
 })
 export class UpdateService {
 
-  private apiURI = 'http://localhost:8080';
+  // private apiURI = 'http://localhost:8080';
 
 
   constructor(private http: HttpClient) { }
@@ -39,7 +39,7 @@ export class UpdateService {
     const headers = this.getAuthHeaders();
 
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/cat/${updateForm.catId}/updated`, formData, { headers })
+      this.http.post<any>(`/cat/${updateForm.catId}/updated`, formData, { headers })
     )
       .then(response => {
         console.log('Update created successfully');

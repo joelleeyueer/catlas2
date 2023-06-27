@@ -22,7 +22,9 @@ const routes: Routes = [
   { path: 'addcat', component: AddCatFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER', 'ROLE_ADMIN'] }},
   { path: 'admin/requests', component: PendingRequestsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
   { path: 'cat/:id/createFundraiser', component: AddFundraiserFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
-  { path: 'signup', component: SignUpComponent}
+  { path: 'signup', component: SignUpComponent},
+  { path: '**', redirectTo: '/', pathMatch: 'full' }
+
 ];
 
 @NgModule({

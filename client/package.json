@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "node setenv.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -23,6 +24,7 @@
     "@angular/router": "^15.2.0",
     "@googlemaps/js-api-loader": "^1.16.2",
     "bootstrap": "^5.3.0",
+    "dotenv": "^16.3.1",
     "ngx-google-places-autocomplete": "^2.0.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

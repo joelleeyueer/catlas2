@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NavigationService } from '../navigation.service';
 import { Loader } from '@googlemaps/js-api-loader';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class CatInfoComponent {
 
   ngOnInit(): void {
     const loader = new Loader({
-      apiKey: 'AIzaSyDXy7SLzzZRQJyDba-z8DGqWXD-8xHQVhQ',
+      apiKey: environment.googleMapsApiKey,
       version: "weekly",
     });
 

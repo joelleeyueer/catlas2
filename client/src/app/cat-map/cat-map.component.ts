@@ -2,6 +2,7 @@ import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/cor
 import { Loader } from '@googlemaps/js-api-loader';
 import { Cat } from '../model/model';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-cat-map',
@@ -41,7 +42,7 @@ export class CatMapComponent implements OnInit {
 
   initializeMap(): void {
     const loader = new Loader({
-      apiKey: 'AIzaSyDXy7SLzzZRQJyDba-z8DGqWXD-8xHQVhQ',
+      apiKey: environment.googleMapsApiKey,
       version: "weekly",
     });
 

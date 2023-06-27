@@ -9,7 +9,7 @@ import { catchError } from 'rxjs';
 })
 export class CatService {
 
-  private apiURI = 'http://localhost:8080';
+  // private apiURI = 'http://localhost:8080';
 
 
   constructor(private http: HttpClient) { }
@@ -20,30 +20,30 @@ export class CatService {
   }
 
   getCats(address: String): Observable<CatList> {
-    const url = `${this.apiURI}/search?address=${address}`;
+    const url = `/search?address=${address}`;
     return this.http.get<CatList>(url);
 
   }
 
   getCatDetails(id: string): Observable<CatInfo> {
-    const url = `${this.apiURI}/cat/${id}`;
+    const url = `/cat/${id}`;
     return this.http.get<CatInfo>(url);
   }
 
   getCatDetailsAdmin(id: string): Observable<CatInfo> {
-    const url = `${this.apiURI}/admin/cat/${id}`;
+    const url = `/admin/cat/${id}`;
     const headers = this.getAuthHeaders();
     return this.http.get<CatInfo>(url, { headers });
   }
   
 
   getCatFundraiser(id: string): Observable<any> {
-    const url = `${this.apiURI}/cat/${id}/fundraiser`;
+    const url = `/cat/${id}/fundraiser`;
     return this.http.get<Fundraiser>(url).pipe(catchError(this.handleError));
   }
 
   getCatFundraiserAdmin(id: string): Observable<any> {
-    const url = `${this.apiURI}/admin/cat/${id}/fundraiser`;
+    const url = `/admin/cat/${id}/fundraiser`;
     const headers = this.getAuthHeaders();
     return this.http.get<Fundraiser>(url, { headers }).pipe(catchError(this.handleError));
   }
@@ -92,7 +92,7 @@ export class CatService {
       
     return firstValueFrom(
       
-      this.http.post<any>(`${this.apiURI}/newcat`, formData, { headers })
+      this.http.post<any>(`/newcat`, formData, { headers })
     )
     .then(response => {
         console.log('Cat added successfully');
@@ -116,7 +116,7 @@ export class CatService {
     const headers = this.getAuthHeaders();
 
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/newfundraiser`, formData, { headers })
+      this.http.post<any>(`/newfundraiser`, formData, { headers })
     )
     .then(response => {
         console.log('Fundraiser added successfully');

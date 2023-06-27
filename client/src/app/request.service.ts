@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
 })
 export class RequestService {
 
-  apiUrl = 'http://localhost:8080/admin'; // replace with your actual API root URL
+  // apiUrl = 'http://localhost:8080/admin';
 
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); // Assuming token is stored in local storage
+    const token = localStorage.getItem('authToken'); //token in local storage
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
@@ -22,31 +22,31 @@ export class RequestService {
 
   getCatRequests(): Observable<CatRequests> {
     const headers = this.getAuthHeaders();
-    return this.http.get<CatRequests>(`${this.apiUrl}/viewCatRequests`, { headers });
+    return this.http.get<CatRequests>(`/admin/viewCatRequests`, { headers });
   }
 
   getFundraiserRequests(): Observable<FundraiserRequests> {
     const headers = this.getAuthHeaders();
-    return this.http.get<FundraiserRequests>(`${this.apiUrl}/viewFundraiserRequests`, { headers });
+    return this.http.get<FundraiserRequests>(`/admin/viewFundraiserRequests`, { headers });
   }
 
   approveCatRequest(catId: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/approveCat/${catId}`, null, { headers });
+    return this.http.post(`/admin/approveCat/${catId}`, null, { headers });
   }
 
   rejectCatRequest(catId: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/rejectCat/${catId}`, null, { headers });
+    return this.http.post(`/admin/rejectCat/${catId}`, null, { headers });
   }
 
   approveFundraiserRequest(fundId: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/approveFundraiser/${fundId}`, null, { headers });
+    return this.http.post(`/admin/approveFundraiser/${fundId}`, null, { headers });
   }
 
   rejectFundraiserRequest(fundId: string): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/rejectFundraiser/${fundId}`, null, { headers });
+    return this.http.post(`/admin/rejectFundraiser/${fundId}`, null, { headers });
   }
 }
