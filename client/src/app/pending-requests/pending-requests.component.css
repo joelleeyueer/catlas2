@@ -1,26 +1,29 @@
 .requests-container {
-    margin-top: 20px;
-  }
-  
-  .request-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .request-details {
-    flex-grow: 1;
-  }
-  
-  .request-actions {
-    margin-left: 10px;
-  }
-  
-  .request-actions button,
-  .request-actions a {
-    margin-right: 10px;
-  }
-  
+  padding: 3rem;
+}
+
+.request-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.request-details {
+  flex-grow: 1;
+}
+
+.request-actions {
+  margin-left: 10px;
+}
+
+.request-actions button,
+.request-actions a {
+  margin-right: 10px;
+}
+
+.fundraiser-requests {
+  margin-top: 3rem;
+}

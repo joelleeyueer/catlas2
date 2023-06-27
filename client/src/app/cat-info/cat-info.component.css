@@ -85,6 +85,12 @@ mat-card-header p {
     font-weight: 300;
 }
 
+.update-items p:nth-child(4) {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 300;
+}
+
 .cat-fundraiser {
     background-color: #FFDDDD;
 }
@@ -138,5 +144,8 @@ mat-chip {
 
 .cat-buttons {
     display: flex;
-  }
-  
+}
+
+.cat-update-button {
+    margin-top: 1.5rem;
+}

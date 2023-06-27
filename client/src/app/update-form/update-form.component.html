@@ -3,7 +3,7 @@
   <button mat-button (click)="goBack()"> Back</button>
 </div>
 <div class="container">
-    <mat-card-header><h1>Update Cat Status</h1></mat-card-header>
+    <h1>Update Cat Status</h1>
     <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
         <mat-form-field appearance="fill">
             <mat-label>Type</mat-label>
@@ -28,9 +28,8 @@
             <textarea matInput formControlName="comments"></textarea>
         </mat-form-field>
 
-        <div>
+        <div class="vertical-form-group">
             <mat-label>Upload Photo</mat-label>
-            <br>
             <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
             <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
         </div>

@@ -1,7 +1,4 @@
 <app-dashboard></app-dashboard>
-<div class="back-navigation">
-  <button mat-button (click)="goBack()"> Back</button>
-</div>
 <div class="container">
     <mat-card-header><h1>Add New Cat Request</h1></mat-card-header>
     <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
@@ -50,9 +47,8 @@
             <input matInput formControlName="locationAddress" matInput placeholder="Block 760 Yishun Street 81, or postal code for better results">
         </mat-form-field>
 
-        <div>
+        <div class="button-form-group">
             <mat-label>Upload Profile Photo</mat-label>
-            <br>
             <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
             <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="profilePhoto">
         </div>
@@ -60,7 +56,7 @@
         <br>
         <div>
             <button 
-      class="large-button" mat-raised-button [ngClass]="{'valid-button': form.valid}" type="submit" 
+      class="large-button" [ngClass]="{'valid-button': form.valid}" type="submit" 
       [disabled]="form.invalid">Submit
     </button>
         </div>

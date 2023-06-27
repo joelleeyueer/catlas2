@@ -3,7 +3,7 @@
   <button mat-button (click)="goBack()"> Back</button>
 </div>
 <div class="container">
-    <mat-card-header><h1>Add New Fundraiser</h1></mat-card-header>
+    <h1>Add New Fundraiser</h1>
     <form [formGroup]="form" (ngSubmit)="submitForm()" class="vertical-form">
         <mat-form-field appearance="fill">
             <mat-label>Title</mat-label>
@@ -25,9 +25,8 @@
             <input matInput type="datetime-local" formControlName="deadline">
         </mat-form-field>
 
-        <div>
+        <div class="button-form-group">
             <mat-label>Upload Photo</mat-label>
-            <br>
             <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
             <input hidden (change)="onFileSelected($event)" #fileInput type="file" id="photo">
         </div>
@@ -35,8 +34,9 @@
         <br>
         <div>
             <button 
-            class="large-button" mat-raised-button [ngClass]="{'valid-button': form.valid}" type="submit" 
+            class="large-button" [ngClass]="{'valid-button': form.valid}" type="submit" 
             [disabled]="form.invalid">Submit
-          </button>        </div>
+          </button>
+        </div>
     </form>
 </div>
