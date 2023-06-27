@@ -28,10 +28,10 @@ import com.stripe.model.PaymentIntent;
 @RestController
 public class StripeWebhookController {
 
-    @Value("sk_test_51NJvHJDboqCw1KwjZvyqCIFPaRh80UdDztTtl5uhlA8IlmSegsNtFuWxQ67dfdCVDP24btyB1hFFJ6bOgaBUUfGB00rnx82QKR")
+    @Value("${STRIPE_API_KEY}")
     private String apiKey;
     
-    @Value("whsec_159735ce366b4ee1c047ddb1d97344d4cebc17bfe6c3c861f1d33f8cdab728f1")
+    @Value("${STRIPE_WEBHOOK_SECRET}")
     private String endpointSecret;
 
     @Autowired

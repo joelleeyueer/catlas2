@@ -4,3 +4,4 @@ server/src/main/resources/application.properties
 server/src/main/resources/application.properties
 client/src/environments/environment.ts
 client/src/environments/environment.prod.ts
+server/src/main/resources/application.properties
