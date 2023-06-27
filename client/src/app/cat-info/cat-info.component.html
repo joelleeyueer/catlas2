@@ -17,9 +17,14 @@
         <h1>{{ cat?.name }}</h1>
         <h2>{{ cat?.gender }} • {{ cat?.age }} {{ cat?.sterilization ? ' • Sterilized' : '' }}</h2>
       </div>
-      <div class="cat-update-status">
-        <button mat-button (click)="goToUpdateForm(cat?.catId)">Update cat status</button>
-      </div>
+      <div class="cat-buttons">
+        <div class="cat-update-status">
+          <button mat-button (click)="goToUpdateForm(cat?.catId)">Update cat status</button>
+        </div>
+        <div class="cat-add-fundraiser">
+          <button mat-button (click)="goToFundraiserForm(cat?.catId)">Create fundraiser</button>
+        </div>
+      </div>      
       <hr>
       <h1>Latest updates</h1>
       <div class="cat-update">   

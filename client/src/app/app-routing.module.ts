@@ -7,17 +7,22 @@ import { FundraiserComponent } from './fundraiser/fundraiser.component';
 import { UpdateFormComponent } from './update-form/update-form.component';
 import { AddCatFormComponent } from './add-cat-form/add-cat-form.component';
 import { PendingRequestsComponent } from './pending-requests/pending-requests.component';
+import { AddFundraiserFormComponent } from './add-fundraiser-form/add-fundraiser-form.component';
+import { AuthGuard } from './auth-guard.service';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'search', component: HomepageComponent },
-  { path: 'admin/cat/:id', component: CatInfoComponent },
-  { path: 'admin/cat/:id/fundraiser', component: FundraiserComponent },
+  { path: 'admin/cat/:id', component: CatInfoComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }  },
+  { path: 'admin/cat/:id/fundraiser', component: FundraiserComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] } },
   { path: 'cat/:id', component: CatInfoComponent },
   { path: 'cat/:id/fundraiser', component: FundraiserComponent },
-  { path: 'cat/:id/update', component: UpdateFormComponent },
-  { path: 'addcat', component: AddCatFormComponent },
-  { path: 'admin/requests', component: PendingRequestsComponent}
+  { path: 'cat/:id/update', component: UpdateFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER', 'ROLE_ADMIN'] }},
+  { path: 'addcat', component: AddCatFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER', 'ROLE_ADMIN'] }},
+  { path: 'admin/requests', component: PendingRequestsComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_ADMIN'] }},
+  { path: 'cat/:id/createFundraiser', component: AddFundraiserFormComponent, canActivate: [AuthGuard], data: { roles: ['ROLE_USER', 'ROLE_ADMIN'] } },
+  { path: 'signup', component: SignUpComponent}
 ];
 
 @NgModule({

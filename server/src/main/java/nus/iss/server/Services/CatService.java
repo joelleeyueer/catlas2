@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import nus.iss.server.Model.Cat;
 import nus.iss.server.Model.Coordinates;
 import nus.iss.server.Model.SearchCoordinates;
+import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.CatRepository;
 import nus.iss.server.Repositories.CoordinatesRepository;
 
@@ -28,9 +29,14 @@ public class CatService {
     @Autowired
     private UploadToS3Service uploadToS3Service;
 
+    @Autowired
+    private UpdateService updateService;
+
     public Boolean approveCat(String catId) {
         try {
             catRepository.approveCatByCatId(catId);
+            
+
             return true;
 
         } catch (Exception e) {

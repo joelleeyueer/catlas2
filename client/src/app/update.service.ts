@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, firstValueFrom } from 'rxjs';
 import { UpdateForm } from './model/model';
 
@@ -13,6 +13,11 @@ export class UpdateService {
 
   constructor(private http: HttpClient) { }
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('authToken'); // Assuming token is stored in local storage
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
 
   updateCat(updateForm: UpdateForm) {
     const formData = new FormData();
@@ -21,6 +26,7 @@ export class UpdateService {
     formData.append('location', updateForm.location);
     formData.append('datetime', updateForm.datetime.toString());
     formData.append('comments', updateForm.comments);
+    formData.append('username', localStorage.getItem("username") || "anonymous",);
     if (updateForm.photo) {
       formData.append('photo', updateForm.photo, updateForm.photo.name);
     }
@@ -30,8 +36,10 @@ export class UpdateService {
       formData.append('waterStatus', updateForm.waterStatus);
     }
 
+    const headers = this.getAuthHeaders();
+
     return firstValueFrom(
-      this.http.post<any>(`${this.apiURI}/cat/${updateForm.catId}/updated`, formData)
+      this.http.post<any>(`${this.apiURI}/cat/${updateForm.catId}/updated`, formData, { headers })
     )
       .then(response => {
         console.log('Update created successfully');

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -24,7 +25,9 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
+import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.FundraiserRepository;
+import nus.iss.server.Repositories.UpdateRepository;
 
 @Service
 public class FundraiserService {
@@ -34,6 +37,12 @@ public class FundraiserService {
 
     @Autowired
     private FundraiserRepository fundraiserRepository;
+
+    @Autowired
+    private UploadToS3Service uploadToS3Service;
+
+    @Autowired
+    private UpdateRepository updateRepository;
 
     public JsonObject getFundraiser(String catId, Boolean admin){
 
@@ -48,13 +57,16 @@ public class FundraiserService {
         }
 
         //if not active, return error
-        if (!fundraiser.isActive()){
-            System.out.println("Fundraiser is not active");
-            JsonObject errorJson = Json.createObjectBuilder()
-                    .add("error", "Fundraiser is not active")
-                    .build();
-                return errorJson;
+        if (!admin){
+            if (!fundraiser.isActive()){
+                System.out.println("Fundraiser is not active");
+                JsonObject errorJson = Json.createObjectBuilder()
+                        .add("error", "Fundraiser is not active")
+                        .build();
+                    return errorJson;
+            }
         }
+        
 
         //build json object
         JsonObjectBuilder fundraiserJsonBuilder = Json.createObjectBuilder()
@@ -66,7 +78,8 @@ public class FundraiserService {
             .add("description", fundraiser.getDescription())
             .add("donationGoal", fundraiser.getDonationGoal())
             .add("deadline", fundraiser.getDeadline().toString())
-            .add("timeRemaining", getTimeRemaining(fundraiser.getDeadline()));
+            .add("timeRemaining", getTimeRemaining(fundraiser.getDeadline()))
+            .add("stripePaymentUrl", fundraiser.getStripePaymentUrl());
 
             // Build the JSON array for donations
             JsonArrayBuilder donationsArrayBuilder = Json.createArrayBuilder();
@@ -83,6 +96,33 @@ public class FundraiserService {
             return fundraiserJson;
     
         }
+
+    public int insertNewFundraiserRequest(Fundraiser fundraiser, MultipartFile photo) {
+        Boolean imageUploadSuccess = false; //if this succeeds, return 1
+        //send photo to s3, get url, insert url to profilePhoto
+        
+        try {
+            String imageUrl = uploadToS3Service.uploadSingleFile(photo);
+            fundraiser.setPhotoUrl(imageUrl);
+            imageUploadSuccess = true;
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        //insert cat
+        if (imageUploadSuccess) {
+            Boolean isInsertCatSuccess = fundraiserRepository.insertPendingFundraiser(fundraiser);
+
+            if (isInsertCatSuccess) {
+                return 1; //inserted
+            } else {
+                return 0; //insertion failed
+            }
+        }
+
+        return 0;
+        
+    }
 
     public String getTimeRemaining(LocalDateTime deadline) {
         LocalDateTime now = LocalDateTime.now();
@@ -120,6 +160,8 @@ public class FundraiserService {
 
     public Boolean approveFundraiser(String fundId) {
         Fundraiser fundToApprove = fundraiserRepository.getFundraiserByFundraiserId(fundId);
+
+        
 
         try {
             Stripe.apiKey = stripeKey;
@@ -170,6 +212,15 @@ public class FundraiserService {
             PaymentLink paymentLink = PaymentLink.create(paymentParams);
 
             fundraiserRepository.approveFundraiserByFundraiserId(fundId, product.getId(), paymentLink.getUrl());
+            //upon approving fundraiser, need to insert into updatecol
+            Update update = new Update();
+            update.setType("fundraiser");
+            update.setCatId(fundToApprove.getCatId());
+            update.setUsername(fundToApprove.getUsername());
+            update.setDatetime(fundToApprove.getDeadline());
+            update.setComments(fundToApprove.getFundId());
+
+            updateRepository.insertCatUpdate(update);
             return true;
             
         } catch (StripeException e) {

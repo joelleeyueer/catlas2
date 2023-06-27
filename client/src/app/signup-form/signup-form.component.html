@@ -1,0 +1,28 @@
+<div class="container">
+    <mat-card-header><h1>Sign Up for Catlas!</h1></mat-card-header>
+    <mat-card-content>
+        <p>Sign up to create your own fundraisers and submit cat updates!</p>
+    </mat-card-content>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="vertical-form">
+      
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="name" placeholder="Username" required>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Password" required>
+      </mat-form-field>
+    
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Email" required>
+      </mat-form-field>
+    
+      <button 
+      class="large-button" mat-raised-button [ngClass]="{'valid-button': signupForm.valid}" type="submit" 
+      [disabled]="signupForm.invalid">Sign Up
+    </button>
+        </form>
+</div>

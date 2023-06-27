@@ -59,7 +59,10 @@
         
         <br>
         <div>
-            <button type="submit" [disabled]="!form.valid" class="large-button">Submit</button>
+            <button 
+      class="large-button" mat-raised-button [ngClass]="{'valid-button': form.valid}" type="submit" 
+      [disabled]="form.invalid">Submit
+    </button>
         </div>
     </form>
 </div>

@@ -67,6 +67,7 @@ export interface Update {
     donationGoal: number;
     deadline: string;
     timeRemaining: string;
+    stripePaymentUrl: string;
     donations: Donation[];
   }
 
@@ -94,6 +95,17 @@ export interface AddCatForm {
     dietDislikes: string[];
     feedingNotes: string[];
 }
+
+export interface AddFundraiserForm {
+    photo: File;
+    catId: string;
+    username: string;
+    title: string;
+    description: string;
+    donationGoal: number;
+    deadline: Date;
+}
+
 
 export interface CatRequest {
     catId: string;

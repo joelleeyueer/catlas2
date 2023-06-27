@@ -22,9 +22,9 @@
     max-width: 300px;
 }
 
-.mdc-text-field__input::-webkit-calendar-picker-indicator {
+/* .mdc-text-field__input::-webkit-calendar-picker-indicator {
     display: block !important;
-}
+} */
 
 .large-button {
     font-size: 1.2rem;
@@ -32,7 +32,7 @@
 }
 
 .valid-button {
-    background-color: rgb(205, 50, 200);
+    background-color: limegreen;
     color: white;
   }
 
