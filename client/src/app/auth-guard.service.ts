@@ -29,7 +29,6 @@ export class AuthGuard implements CanActivate {
     const requiredRoles = next.data['roles'] as string[];
 
     if (requiredRoles && requiredRoles.length > 0 && !this.authService.hasRoles(requiredRoles)) {
-      this.router.navigate(['/']);
       return false;
     }
 

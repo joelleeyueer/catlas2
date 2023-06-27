@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, throwError } from 'rxjs';
 import { CatInfo, CatList, Fundraiser , AddCatForm, AddFundraiserForm} from './model/model';
+import { catchError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -38,14 +39,26 @@ export class CatService {
 
   getCatFundraiser(id: string): Observable<any> {
     const url = `${this.apiURI}/cat/${id}/fundraiser`;
-    return this.http.get<Fundraiser>(url);
+    return this.http.get<Fundraiser>(url).pipe(catchError(this.handleError));
   }
 
   getCatFundraiserAdmin(id: string): Observable<any> {
     const url = `${this.apiURI}/admin/cat/${id}/fundraiser`;
     const headers = this.getAuthHeaders();
-    return this.http.get<Fundraiser>(url, { headers });
+    return this.http.get<Fundraiser>(url, { headers }).pipe(catchError(this.handleError));
   }
+
+  private handleError(error: any) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+        // client-side error
+        errorMessage = `Error: ${error.error.message}`;
+    } else {
+        // server-side error
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.error.error}`;
+    }
+    return throwError(errorMessage);
+}
 
 
   addCatRequest(addCatForm: AddCatForm) {

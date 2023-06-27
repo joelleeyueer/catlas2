@@ -30,7 +30,6 @@ export class LoginDialogComponent {
         const role = username === 'admin' ? 'ROLE_ADMIN' : 'ROLE_USER';
         localStorage.setItem('roles', role);
         this.snackBar.open('Logged in successfully', 'Close', { duration: 2000 });
-        this.router.navigateByUrl('/');  // navigate to homepage after login
         this.dialogRef.close();  // close the dialog
       }, error => {
         console.error('There was an error during the login', error);

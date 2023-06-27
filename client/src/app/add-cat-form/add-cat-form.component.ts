@@ -88,10 +88,10 @@ export class AddCatFormComponent implements OnInit{
       gender: ['', Validators.required],
       birthday: ['', Validators.required],
       sterilization: [false],
-      personalityTraits: [[]],
-      dietLikes: [[]],
-      dietDislikes: [[]],
-      feedingNotes: [[]],
+      personalityTraits: [''],
+      dietLikes: [''],
+      dietDislikes: [''],
+      feedingNotes: ['']
     });
   }
   

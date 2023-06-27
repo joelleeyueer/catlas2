@@ -4,6 +4,7 @@ import { CatService } from '../cat.service';
 import { Observable } from 'rxjs';
 import { NavigationService } from '../navigation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-fundraiser',
@@ -20,10 +21,20 @@ export class FundraiserComponent implements OnInit{
     this.catId = this.route.snapshot.paramMap.get('id')!;
   }
 
-  ngOnInit(): void {
-    const isAdmin = this.router.url.includes('admin'); 
-    this.fundraiser$ = isAdmin ? this.catService.getCatFundraiserAdmin(this.catId) : this.catService.getCatFundraiser(this.catId);
-  }
+  
+    ngOnInit(): void {
+        const isAdmin = this.router.url.includes('admin'); 
+        this.fundraiser$ = (isAdmin ? this.catService.getCatFundraiserAdmin(this.catId) : this.catService.getCatFundraiser(this.catId)).pipe(
+          catchError(err => {
+            // Display the snackbar with the error message
+            this.snackBar.open(err, 'Close', {
+              duration: 5000,
+            });
+            return throwError(err);
+          })
+        );
+    }
+
   
 
   getTotalDonation(donations: {amount: number}[]) {

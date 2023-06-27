@@ -97,6 +97,7 @@ public class FundraiserRepository {
 
         Update update = new Update();
         update.set("approved", "approved");
+        update.set("active", true);
         update.set("stripeProductId", productId);
         update.set("stripePaymentUrl", paymentLinkUrl);
 

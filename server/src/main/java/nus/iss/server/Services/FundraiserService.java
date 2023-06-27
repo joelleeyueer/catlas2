@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,12 +23,11 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
-import nus.iss.server.Model.Cat;
-import nus.iss.server.Model.Coordinates;
 import nus.iss.server.Model.Donor;
 import nus.iss.server.Model.Fundraiser;
-import nus.iss.server.Model.SearchCoordinates;
+import nus.iss.server.Model.Update;
 import nus.iss.server.Repositories.FundraiserRepository;
+import nus.iss.server.Repositories.UpdateRepository;
 
 @Service
 public class FundraiserService {
@@ -43,6 +40,9 @@ public class FundraiserService {
 
     @Autowired
     private UploadToS3Service uploadToS3Service;
+
+    @Autowired
+    private UpdateRepository updateRepository;
 
     public JsonObject getFundraiser(String catId, Boolean admin){
 
@@ -57,13 +57,16 @@ public class FundraiserService {
         }
 
         //if not active, return error
-        if (!fundraiser.isActive()){
-            System.out.println("Fundraiser is not active");
-            JsonObject errorJson = Json.createObjectBuilder()
-                    .add("error", "Fundraiser is not active")
-                    .build();
-                return errorJson;
+        if (!admin){
+            if (!fundraiser.isActive()){
+                System.out.println("Fundraiser is not active");
+                JsonObject errorJson = Json.createObjectBuilder()
+                        .add("error", "Fundraiser is not active")
+                        .build();
+                    return errorJson;
+            }
         }
+        
 
         //build json object
         JsonObjectBuilder fundraiserJsonBuilder = Json.createObjectBuilder()
@@ -157,6 +160,8 @@ public class FundraiserService {
     public Boolean approveFundraiser(String fundId) {
         Fundraiser fundToApprove = fundraiserRepository.getFundraiserByFundraiserId(fundId);
 
+        
+
         try {
             Stripe.apiKey = stripeKey;
             // Create the product in stripe
@@ -206,6 +211,15 @@ public class FundraiserService {
             PaymentLink paymentLink = PaymentLink.create(paymentParams);
 
             fundraiserRepository.approveFundraiserByFundraiserId(fundId, product.getId(), paymentLink.getUrl());
+            //upon approving fundraiser, need to insert into updatecol
+            Update update = new Update();
+            update.setType("fundraiser");
+            update.setCatId(fundToApprove.getCatId());
+            update.setUsername(fundToApprove.getUsername());
+            update.setDatetime(fundToApprove.getDeadline());
+            update.setComments(fundToApprove.getFundId());
+
+            updateRepository.insertCatUpdate(update);
             return true;
             
         } catch (StripeException e) {

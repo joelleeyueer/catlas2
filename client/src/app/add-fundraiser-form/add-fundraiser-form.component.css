@@ -32,8 +32,8 @@
 }
 
 .valid-button {
-    background-color: limegreen;
-    color: white;
+    background-color: rgb(205, 50, 148);
+    color: rgba(4, 0, 0, 0.989);
   }
 
 .back-navigation {
